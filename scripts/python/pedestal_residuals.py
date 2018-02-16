@@ -100,7 +100,7 @@ class CalibStages(Tool):
         filepath = '/Volumes/gct-jason/data_checs/tf/ac_tf_tmSN0074/Pedestals.tio'
         self.reader = TargetioFileReader(input_path=filepath, **kwargs)
 
-        self.r1 = TargetioR1Calibrator(pedestal_path='/Volumes/gct-jason/data_checs/tf/ac_tf_tmSN0074/Pedestal.tcal',
+        self.r1 = TargetioR1Calibrator(pedestal_path='/Volumes/gct-jason/data_checs/tf/ac_tf_tmSN0074/Pedestals.tcal',
                                        **kwargs,
                                        )
 
