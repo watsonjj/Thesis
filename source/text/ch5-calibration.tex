@@ -1,3 +1,42 @@
 \chapter{\label{ch5-calibration}Calibration} 
 
 \minitoc
+
+\notes[inline,caption={}]{
+	\section{Plan}
+	\subsection{Topics}
+	\begin{itemize}
+		\item Pedestal subtraction
+		\item Transfer functions
+		\item Gain Matching
+		\item SPE
+		\item Flat fielding
+		\item Time correction
+		\item Future
+		\begin{itemize}
+			\item Live calibration
+		\end{itemize}
+	\end{itemize}
+	\subsection{Questions}
+	\begin{itemize}
+		\item TARGET architecture diagram, Wilkinson ADC 
+		\item How much detail about all the TF approaches do I go into?
+	\end{itemize}
+}
+
+\section{Introduction}
+
+In order to obtain meaningful and reliable results from the camera, a number of calibrations must be applied to the waveforms read. A primary objective of my DPhil is to investigate the most optimal and efficient approaches for these calibrations (in accordance with the \gls{cta} requirements described in Chapter~\ref{ch3-architecture}), and to determine if additional calibrations are required.
+
+The calibrations applied have evolved during the course of the prototyping of \glsr{chec}; the calibrations applied to \gls{chec-m} waveforms are not the same for \glsr{chec-s}. Additionally, the calibration applied for the on-sky pipeline can differ slightly to the calibration used to obtain results such as the charge resolution.
+
+In this chapter I will outline the each of the calibration steps in the general order that they are applied.
+
+
+\section{TARGET Calibration}
+
+The calibrations described in this section relate to the \glsr{target} module. As detailed in Chapter~\ref{ch2-mechanics}, the \glsr{target} \gls{asic} is responsible for the sampling and digitisation of the waveforms, and therefore 
+
+\subsection{Electronic Pedestal Subtraction}
+
+The most important, but also the simplest calibration to apply is the subtraction of the electronic pedestal
