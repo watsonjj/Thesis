@@ -1,10 +1,22 @@
+%from documentation
+%\newacronym[⟨key-val list⟩]{⟨label ⟩}{⟨abbrv ⟩}{⟨long⟩}
+%above is short version of this
+% \newglossaryentry{⟨label ⟩}{type=\acronymtype,
+% name={⟨abbrv ⟩},
+% description={⟨long⟩},
+% text={⟨abbrv ⟩},
+% first={⟨long⟩ (⟨abbrv ⟩)},
+% plural={⟨abbrv ⟩\glspluralsuffix},
+% firstplural={⟨long⟩\glspluralsuffix\space (⟨abbrv ⟩\glspluralsuffix)},
+% ⟨key-val list⟩}
 
+%\newacronym{api}{API}{Application Programming Interface }
 
 \newacronym{fwhm}{FWHM}{Full Width at Half Maximum}
 \newacronym{vhe}{VHE}{Very High Energy}
 \newacronym{psf}{PSF}{Point Spread Function}
 \newacronym[prefix={an~}]{nsb}{NSB}{Night-Sky Background}
-\newacronym{pe}{p.e.}{Photo-Electron}
+\newacronym{pe}{p.e.}{Photo-Electrons}
 \newacronym{adc}{ADC}{Analogue-to-Digital Converter}
 \newacronym{pde}{PDE}{Photon Detection Efficiency}
 \newacronym{spe}{SPE}{Single Photo-Electron}
@@ -24,11 +36,36 @@
 \newacronym[prefixfirst={the~}]{chec-s}{CHEC-S}{\gls{chec} using \glspl{sipmt} as the detector}
 \newacronym{mapmt}{MAPMT}{Multi-Anode Photomultiplier Tube}
 \newacronym{sipmt}{SiPMT}{Silicon Photomultiplier Tube}
-\newacronym{asic}{ASIC}{Application-Specific Integrated Circuit}
-\newacronym{target}{TARGET5}{TeV Array Readout with GSa/s sampling and Event Trigger(version 5)}
+\newacronym{target5}{TARGET~5}{\gls{target} (version 5)}
+\newacronym{targetc}{TARGET~C}{\gls{target} (version C)}
 \newacronym{fpga}{FPGA}{Field-Programmable Gate Array}
 \newacronym{adc2pe}{adc2pe}{conversion of \gls{adc} counts to \gls{pe}}
 \newacronym{mc}{MC}{Monte-Carlo}
 \newacronym{corsika}{CORSIKA}{COsmic Ray SImulations for KAscade}
 \newacronym{hv}{HV}{High Voltage}
 \newacronym{impact}{ImPACT}{Image Pixel-wise fit for Atmospheric Cherenkov Telescopes}
+\newacronym{fee}{FEE}{Front-End Electronics}
+\newacronym{dc}{DC}{Direct Current}
+\newacronym{ac}{AC}{Alternating Current}
+\newacronym{rmse}{RMSE}{Root-Mean-Square Error}
+
+\newglossaryentry{target}{type=\acronymtype, 
+	name={TARGET}, 
+	description={TeV Array Readout with GSa/s sampling and Event Trigger}, 
+	first={TARGET (TeV Array Readout with GSa/s sampling and Event Trigger)}
+}
+\newglossaryentry{asic}{type=\acronymtype, 
+	name={ASIC}, 
+	description={Application-Specific Integrated Circuit}, 
+	first={ASIC (Application-Specific Integrated Circuit)}
+}
+\newglossaryentry{vped}{type=\acronymtype, 
+	name={Vped}, 
+	description={Pedestal voltage input into the TARGET ASIC}, 
+	first={input pedestal voltage (Vped)}
+}
+\newglossaryentry{fits}{type=\acronymtype, 
+	name={FITS}, 
+	description={Flexible Image Transport System}, 
+	first={FITS (Flexible Image Transport System)}
+}

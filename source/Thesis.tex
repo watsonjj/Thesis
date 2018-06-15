@@ -82,8 +82,9 @@
 
 % Abbreviations:s
 \usepackage[toc,acronym,nomain]{glossaries-prefix}
-\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
-\newcommand*\glsrpl[2][]{\glsdisp[#1]{#2}{\glsentryshortpl{#2} (\glsentrylongpl{#2})}}
+%\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
+%\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
+%\newcommand*\glsrpl[2][]{\glsdisp[#1]{#2}{\glsentryshortpl{#2} (\glsentrylongpl{#2})}}
 \input{text/01-acronym}
 % Nomenclature:
 %\newglossaryentry{angelsperarea}{
@@ -104,6 +105,16 @@
 \newcommandx{\notes}[2][1=]{\todo[linecolor=gray,backgroundcolor=gray!25,bordercolor=gray,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
 
+\usepackage{listings}
+\lstset{
+	frameround=fttt,
+	language=C++,
+	numbers=left,
+	breaklines=true,
+	keywordstyle=\color{blue}\bfseries, 
+	basicstyle=\ttfamily\color{gray},
+	numberstyle=\color{black}
+}
 
 \begin{document}
 
