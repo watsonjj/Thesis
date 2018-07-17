@@ -98,8 +98,8 @@
 \renewcommand{\sectionmark}[1]{\markright{\thesection. #1}} 
 \renewcommand{\headrulewidth}{1pt}
 \fancyhead[LO]{\emph{\leftmark}} 
-\fancyhead[RE]{\emph{\rightmark}} 
-\fancyhead[RO,LE]{\emph{\thepage}}
+\fancyhead[R]{\emph{\rightmark}} 
+\fancyhead[RO,L]{\emph{\thepage}}
 
 \fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\emph{\thepage}}}
 
@@ -413,7 +413,7 @@
 \usepackage{lmodern}
 \usepackage[LGR,TS1,T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[greek,latin,english]{babel}
+\usepackage[english]{babel}
 \usepackage{csquotes}
 \hyphenpenalty=500
 \def\longs{{\fontencoding{TS1}\selectfont s}}
