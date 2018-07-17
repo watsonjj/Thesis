@@ -24,3 +24,123 @@
 		\item ?
 	\end{itemize}
 }
+
+\section{Introduction}
+
+Following the low-level calibration detailed in \ref{ch5-calibration}, the waveforms should no longer require any further corrections unique to the electronics they were produced with. The waveforms from \gls{chec} should now be in such a state that they can be processed in the same way as the waveforms from other cameras. This chapter describes the reduction performed on the waveforms in order to extract the Cherenkov shower information. With regards to the \gls{cta} data levels (Figure~\change{figure with data levels in ch3}), this concerns the steps from DL0 to DL2 \change{double check dl}.
+
+These reduction methods have been a primary component of \gls{iact} analysis since the beginning of the field, therefore much thought and development has previously been performed on these techniques. As \gls{cta} is a large consortium that essentially consists of the worldwide \gls{iact} community, the developers of the reduction approaches for previous \glspl{iact} have brought them forward to \gls{cta}. However, due to:
+\begin{enumerate}[label=(\alph*)]
+	\item \gls{cta} is to consist of the most advanced \glspl{iact} to date, with higher shower imaging resolution and multiplicity than has previously been available
+	\item the capabilities of digital signal processing has significantly increased in the past decade
+\end{enumerate}
+The opportunity for more advanced and more successful algorithms exist within \gls{cta}. Some effort has already been made in this direction, but it is an aspect that is expected to constantly evolve and improve during the lifetime of \gls{cta}. In this chapter I will attempt to provide a broad overview of the existing and in-development reduction techniques, with an especial focus on charge extraction approaches due to my involvement in developing them. \change{improve sentence}
+
+\section{Charge Extraction Methods}
+
+The most low-level reduction stage is the extraction of information from the calibrated waveforms provided by each camera individually. This procedure is very generic, allowing for the utilisation of common signal processing techniques that are not unique to Cherenkov shower analysis. The goal is to extract as much information from the pulse created by the Cherenkov shower light, while simultaneously limiting the amount of noise introduced from factors such as \gls{nsb} \change{talk about all the contributing factors (noise etc.) to waveforms in ch2}. Two quantities are extracted in this stage: the signal charge in each pixel (the sums of which is a measure of the energy within the shower), and the signal arrival time per pixel. 
+
+The total signal charge in a pixel, i.e. the total number of photo-electrons released from the \gls{pmt}'s photocathode, is proportional to the total area below the pulse corresponding to the Cherenkov photons. If the waveforms were completely free of noise, and the readout window was large enough to capture the full Cherenkov signal, a simple integration of the entire readout would be a satisfactory approach for obtaining the signal charge. However, as we do not have the luxury of perfect waveforms, more complex methods are designed. Charge extraction algorithms typically consist of two aspects: how the signal pulse is found, and how the pulse is integrated.
+
+\subsection{Peak Finding} \label{peakfinding}
+
+Two factors must be considered when finding the signal pulse of a Cherenkov shower. Firstly, the majority of camera pixels will not contain any Cherenkov signal while still containing noise. Secondly, due to the nature of Cherenkov showers (Chapter~ \change{reference where the time gradient of Cherenkov showers are described}), those pixels with Cherenkov signal will have different arrival times due to the time evolution of the Cherenkov image \change{figure of peak time?}. This time gradient across the image is especially apparent for bright showers at a large core distance from the telescope. The most successful peak finding technique is the one that best accounts for those two factors. Some simple techniques used to define a peak time from a waveform include:
+\begin{itemize}
+	\item \textbf{Local Peak Finding}: Each waveform is treated independently from the other. The maximum point in the waveform is treated as the peak/arrival time. This approach is intrinsically biased to assume every waveform contains a signal; therefore, in the absence of a Cherenkov signal, the largest noise pulse will be extracted, resulting in a higher total charge than should be obtained.
+	\item \textbf{Global Peak Finding}: The waveform from every pixel is combined into an average, from which the maximum point is treated as the peak time for every pixel. This technique is only useful if a large portion of the camera is simultaneously illuminated, such as by a laser in the case of lab commissioning and calibration runs.
+	\item \textbf{Neighbour Peak Finding}: The waveforms from the neighbouring pixels are combined into an average, from which the maximum point is treated as the peak time for the pixel-of-interest. This technique is often preferred for Cherenkov images as it has a reduced charge bias (especially if the pixel-of-interest's waveform is not included in the average); pixels with Cherenkov signal typically have neighbours that also contain Cherenkov signal at a correlated time, while the neighbours of empty pixels only contain noise, and therefore a random peak time is extracted.
+	\item \textbf{Fixed Peak Value}: Due to a reliable definition of the camera trigger and subsequent electronic chain, the position of the pulse in the waveform could consistently be known a-priori, allowing for a fixed peak time. However, this method requires a larger integration window size in order to capture the full pulse in the tail of the Cherenkov shower, which occur at a later time than the initial photons which trigger the camera, therefore resulting in a larger noise included in the signal. However, this technique usually contains the least bias, as no signal is assumed to exist.
+\end{itemize}
+
+A more complex peak finding technique is the \textit{Gradient Peak Finding} approach. This approach was designed for the VERITAS telescope \cite{Holder2005}\cite{Cogan2006}\cite{Cogan2007}, but is applicable to any \gls{iact} telescope with the ability of a dynamically choosing an integration window. \textit{Gradient Peak Finding} is a two-pass approach where the time-gradient of the Cherenkov signal across the camera's focal plane is obtained by first extracting the signal using one of the other methods, and then cleaning and parameterising the image using simple techniques described later in this chapter. This time-gradient can then be used to assume a peak time based on camera pixel position. This method provides a more unbiased estimation of the peak time of the signal at the expense of simplicity. \change{more verbose description from \cite{Cogan2006}}
+
+These peak finding methods have been described in relation to the maximum of the signal pulse, however they may instead use other characteristic positions of the pulse, such as the half-maximum time on the rising edge, or the centre of gravity of the pulse. Additionally, more advanced peak finding techniques may up-sample (possibly by zero-padding in the frequency domain via a Fourier transform) or interpolate the signal to obtain a more precise peak time \cite{Cogan2006}\cite{Cogan2007}, or even apply low-pass filters in order to remove low frequency baseline noise. The peak finding should be done in conjunction with any timing corrections (\change{reference timing calibration section}) that may be required.
+
+\change{maybe derive gradient here, and cross-correlation next, then each subsection has the full description of at least one complex algorithm}
+
+\subsection{Integration}
+
+Once the peak time has been obtained, the simplest approach to extract the signal is to define an integration window centred about this time. The size of the window needs to be large enough to capture sufficient signal from the pulse, but small enough that not too much noise (\gls{nsb}, dark counts, afterpulsing) is included within the window, thereby maximising the signal-to-noise. Additionally, the camera's pulse shape may not be symmetric, so a better signal-to-noise may be achieved by shifting the window a few samples with respect to the peak time. Typically, an integration window size on the order of \~10~ns is used, with a shift of \~3~ns. \change{update values based on results} \change{figures demonstrating the different peak finding}.
+
+Beyond the simple "boxcar" integrator method (where every sample integrated has a weight of 1), other more advanced strategies may define their own alternative approach to extract the charge. One example is the fitting of the signal pulse, wither with an analytical description of the expected pulse, or with a more unconstrained description such as a cubic spline. A second complex approach is the use of digital filters, which can be used in combination with knowledge of the pulse shape to robustly extract the signal even in the presence of high noise. Such a technique has been designed and adopted for \gls{gct}, referred to as the \textit{Cross-Correlation} method. Due to its adoption and sophistication, it is described here in more detail. 
+
+Cross-correlation is a common signal processing technique used as a measure of the similarity between two signals as a function of the displacement in time applied to one of the signals. Given a continuous function $f(t)$ defined between $0 <= t <= T$ and a second continuous function $g(t)$, the cross-correlation between the two functions ($f \star g$) is defined as 
+
+\begin{equation} \label{eq:cc1}
+(f \star g)(\tau) = \int_0^T \overline{f}(t)g(t + \tau)dt,
+\end{equation}
+
+where $\overline{f}(t)$ is the complex conjugate of $f(t)$ and $\tau$ is the time displacement (also referred to as the "lag") between the two functions \cite{wolfram-crosscorrelate}. In descriptive terms, by varying $\tau$, $g(t + \tau)$ will slide past $f(t)$. The cross-correlation for a value of $\tau_1$ is then the integral across $t$ of the product between $f(t)$ and $g(t + \tau_1)$. For a discreet function that is real-valued, such as a sampled waveform, Equation~\ref{eq:cc1} can instead be defined as
+
+\begin{equation} \label{eq:cc2}
+(f \star g)\lbrack n \rbrack = \sum_{m=0}^N f\lbrack m \rbrack g\lbrack m + n\rbrack,
+\end{equation}
+
+where $N$ is the total number of samples in the waveform and $m$ is the sample displacement. 
+
+An illustration of the \textit{cross-correlation} approach being applied on a \gls{checs} waveform is shown in Figure~\change{figure showing the cross-correlation at a few different times, and the different stages, 3 axes, maybe for a low illumination? mention I implemented \ref{eq:cc2} in Python}. The peaks in the cross-correlation result correspond to the displacements where the signals match best, and the values of the peaks correspond to an weighted integral of the entire waveform. Therefore, through utilising a template of the expected pulse shape in the absence of noise (hereafter referred to as the "reference pulse"):
+\begin{itemize}
+	\item the individual pulses in the waveform are emphasised against other background contributions, improving the ability to find the signal pulse (using the same methods detailed in section \ref{peakfinding})
+	\item the charge contribution from the signal pulse is accentuated, while the noise contributions are diminished
+\end{itemize}
+The reference pulse we use for the cross-correlation is an obtained via probing the input analogue signal on the \gls{target} module and averaged on an oscilloscope. It is then normalised such that cross-correlation between it, and the reference pulse normalised to have an integral of 1, has a maximum value of 1. This normalisation ensures that the cross-correlation result is in units of $mV*ns$, and allows an easy conversion into $mV$ for "peak-height" investigations.  An optimised implementation of cross-correlation exists in \lstinline{scipy.ndimage.correlate1d} \cite{scipy-crosscorrelate}, where the waveforms for every pixel are processed in parallel.
+
+\subsection{Adopted approaches}
+
+Some examples of approaches adopted by other telescopes are outlined below.
+
+\subsubsection{MAGIC}
+
+Members of the MAGIC telescope performed a study comparing the techniques proposed for their signal reconstruction. In \cite{Albert2008} they compare four approaches: \textit{fixed-window}, \textit{sliding-window} with amplitude-weighted time, \textit{cubic spline fit} with integral or amplitude extraction, and \textit{digital filter}. It is concluded the digital filter, which relies on knowledge of the signal shape to minimise the noise contributions, provides a charge reconstruction with acceptable bias and minimal variance, while remaining stable in the occurrence of small variations in pulse shape and position.
+
+\subsubsection{VERITAS}
+
+Similar to the aforementioned study for the MAGIC telescope, a comparison of charge extraction approaches was performed for VERITAS \cite{Holder2005}\cite{Cogan2006}\cite{Cogan2007}. Specifically, the extraction methods compared include a \textit{simple-window} using a-priori knowledge of the Cherenkov pulse time in the trace, a \textit{dynamic-window} which slides across the trace to find the Cherenkov pulse, a \textit{trace-fit} evaluator with fits the trace with two exponential functions which respectively describe the rise and fall time of the pulse, a \textit{matched-filter} which "uses a digital filter based on the assumed shape of the FADC pulse to integrate the charge" \cite{Cogan2007}, and finally an implementation of the "Gradient Peak Finding" approach described earlier in the chapter \change{should I move gradient peak finding to later, alongside the cross correlation method, as it has a nice analytical section from \cite{Cogan2006}}. At first glance, some of these approaches bear resemblance to those used by MAGIC, however there are slight differences: 
+\begin{itemize}
+	\item in the VERITAS pulse fitting technique, an attempt to describe the pulse analytically was made whereas the MAGIC approach used a more loosely defined spline
+	\item the filter used by VERITAS is a cross-correlation in Fourier space, whereas the filter used by MAGIC is generated using their knowledge of the noise auto-correlation matrix
+\end{itemize}
+
+Either as a result of these differences, or due to the difference in the instruments themselves, the \textit{matched-filter} appears to result in a worse reconstruction than one would expect from the conclusion reached by MAGIC. One might justify that this degradation of signal extraction with the \textit{matched-filter} for higher amplitudes is due to a change in pulse shape at higher amplitudes, thereby requiring a different "assumed FADC pulse shape", but it is not clear if that is what is occurring here. These studies conclude that the \textit{matched-filter} "holds promise" for reconstructing low charges, whereas while the \textit{trace-fit} performs extremely poor for the low charges (as expected), it performs the best for amplitudes > 4 photoelectrons \cite{Cogan2007}.
+
+\subsubsection{H.E.S.S.}
+
+The standard mode of charge extraction for the \gls{hess} telescopes is to integrate N samples with respect to a fixed, but regularly verified, signal time \cite{Aharonian2004}. \gls{hess} camera electronics underwent an upgrade in 2015/2016, subsequently allowing for the update of the standard extraction mode to also output time-of-maximum and time-over-threshold, and also allowed for full sample readout enabling the utilisation of more complex charge extraction techniques \cite{Klepser2017}\cite{Chalme-Calvet2015}.
+
+\subsubsection{FlashCam}
+
+The FlashCam \gls{mst} proposed for \gct{cta} utilises a custom digital filter approach in which the 4~ns-spaced samples are up-sampled and deconvolved, resulting in an approximately Gaussian pulse with a 9~ns FWHM. In the linear (non-saturated) regime, the peak of this Gaussian is directly proportional to the signal charge. \change{need reference}
+
+\subsubsection{ASTRI}
+
+Contrary to the other techniques described in this section, ASTRI 
+
+\subsection{Performance Assessment}
+
+Deciding on which charge extraction method to use is not trivial - as shown in the above discussion, different cameras may perform better with different algorithms. This is anticipated in \textit{ctapipe} (\ref{ch4-software}), where different \lstinline{ChargeExtractor}s can easily be selected at runtime depending on the camera source. 
+
+\section{Image Cleaning}
+
+\subsection{Tailcut Cleaning}
+
+\subsection{Wavelets}
+
+\section{Shower Parameterisation}
+
+\subsection{Hillas}
+
+\subsection{Model and Model++}
+
+\subsection{ImPACT}
+
+\subsection{Neural Nets}
+
+\section{$\gamma$-Hadron Separation}
+
+\section{Energy Reconstruction}
+
+\section{Direction Reconstruction}
+
+
+
+\change[inline]{advanced techniques that don't fit into these categories, machine learning, photon counting}

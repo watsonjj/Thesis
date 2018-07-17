@@ -56,6 +56,7 @@
 
 % Change this to the name of your .bib file (usually exported from a citation manager like Zotero or EndNote).
 \addbibresource{../bibtex/references.bib}
+\addbibresource{../bibtex/webpages.bib}
 
 
 % Uncomment this if you want equation numbers per section (2.3.12), instead of per chapter (2.18):
@@ -115,6 +116,10 @@
 	basicstyle=\ttfamily\color{gray},
 	numberstyle=\color{black}
 }
+
+\usepackage[most]{tcolorbox}
+\tcbset{enhanced,colback=cyan!5!white,colframe=cyan!75!black,fonttitle=\bfseries}
+
 
 \begin{document}
 
@@ -197,6 +202,7 @@
 
 %%%%% CHAPTERS
 \flushbottom
+\adjustmtc
 \include{text/ch1-intro}
 \include{text/ch2-mechanics}
 \include{text/ch3-architecture}
@@ -209,9 +215,9 @@
 
 
 %%%%% APPENDICES
-%\startappendices
-%\include{text/cha-appendix-1}
-
+\startappendices
+\include{text/a1-tf}
+\include{text/a2-extractors}
 
 %%%%% REFERENCES
 \setlength{\baselineskip}{0pt}
