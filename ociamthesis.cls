@@ -72,7 +72,7 @@
 % CRESTS
 %
 
-\def\crest{{\includegraphics{../figures/images/oxford_logo.pdf}}}
+\def\crest{{\includegraphics{figures/images/oxford_logo.pdf}}}
 
 
 %
