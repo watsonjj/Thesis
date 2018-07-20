@@ -118,8 +118,17 @@
 }
 
 \usepackage[most]{tcolorbox}
-\tcbset{enhanced,colback=cyan!5!white,colframe=cyan!75!black,fonttitle=\bfseries}
-
+%\tcbset{enhanced,colback=white,colframe=gray!75!black,fonttitle=\bfseries}
+\newtcolorbox{requirement}[2][]{
+    float=htb,
+    colback=white, 
+    colframe=gray!75!black,
+    every float=\centering,
+    lower separated=false,
+    fonttitle=\bfseries, 
+    title={#2},
+    #1
+}
 
 \begin{document}
 
@@ -203,15 +212,15 @@
 %%%%% CHAPTERS
 \flushbottom
 \adjustmtc
-\include{text/ch1-intro}
-\include{text/ch2-mechanics}
-\include{text/ch3-architecture}
-\include{text/ch4-software}
-\include{text/ch5-calibration}
-\include{text/ch6-reduction}
-\include{text/ch7-performance}
-\include{text/ch8-pipeline}
-\include{text/ch9-summary}
+% \include{text/ch1-intro}
+% \include{text/ch2-mechanics}
+ \include{text/ch3-architecture}
+% \include{text/ch4-software}
+% \include{text/ch5-calibration}
+% \include{text/ch6-reduction}
+% \include{text/ch7-performance}
+% \include{text/ch8-pipeline}
+% \include{text/ch9-summary}
 
 
 %%%%% APPENDICES
