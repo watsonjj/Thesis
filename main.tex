@@ -55,7 +55,8 @@
 \renewcommand*{\bibfont}{\raggedright\small}
 
 % Change this to the name of your .bib file (usually exported from a citation manager like Zotero or EndNote).
-\addbibresource{bibtex/Mendeley_Thesis.bib}
+\addbibresource{bibtex/articles.bib}
+\addbibresource{bibtex/internal.bib}
 \addbibresource{bibtex/webpages.bib}
 
 
@@ -117,10 +118,11 @@
 	numberstyle=\color{black}
 }
 
+\usepackage{float}
 \usepackage[most]{tcolorbox}
 %\tcbset{enhanced,colback=white,colframe=gray!75!black,fonttitle=\bfseries}
 \newtcolorbox{requirement}[2][]{
-    float=htb,
+    %float=htb,
     colback=white, 
     colframe=gray!75!black,
     every float=\centering,
