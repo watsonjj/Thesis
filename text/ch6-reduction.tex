@@ -65,17 +65,13 @@ Once the peak time has been obtained, the simplest approach to extract the signa
 Beyond the simple ``boxcar'' integrator method (where every sample integrated has a weight of 1), other more advanced strategies may define their own alternative approach to extract the charge. One example is the fitting of the signal pulse, wither with an analytical description of the expected pulse, or with a more unconstrained description such as a cubic spline. A second complex approach is the use of digital filters, which can be used in combination with knowledge of the pulse shape to robustly extract the signal even in the presence of high noise. Such a technique has been designed and adopted for \gls{gct}, referred to as the \textit{Cross-Correlation} method. Due to its adoption and sophistication, it is described here in more detail. 
 
 Cross-correlation is a common signal processing technique used as a measure of the similarity between two signals as a function of the displacement in time applied to one of the signals. Given a continuous function $f(t)$ defined between $0 \le t \le T$ and a second continuous function $g(t)$, the cross-correlation between the two functions ($f \star g$) is defined as 
-
 \begin{equation} \label{eq:cc1}
 (f \star g)(\tau) = \int_0^T \overline{f}(t)g(t + \tau)dt,
 \end{equation}
-
 where $\overline{f}(t)$ is the complex conjugate of $f(t)$ and $\tau$ is the time displacement (also referred to as the ``lag'') between the two functions \cite{wolfram-crosscorrelate}. In descriptive terms, by varying $\tau$, $g(t + \tau)$ will slide past $f(t)$. The cross-correlation for a value of $\tau_1$ is then the integral across $t$ of the product between $f(t)$ and $g(t + \tau_1)$. For a discreet function that is real-valued, such as a sampled waveform, Equation~\ref{eq:cc1} can instead be defined as
-
 \begin{equation} \label{eq:cc2}
 (f \star g)\lbrack n \rbrack = \sum_{m=0}^N f\lbrack m \rbrack g\lbrack m + n\rbrack,
 \end{equation}
-
 where $N$ is the total number of samples in the waveform and $m$ is the sample displacement. 
 
 An illustration of the \textit{cross-correlation} approach being applied on a \gls{chec-s} waveform is shown in Figure~\change{figure showing the cross-correlation at a few different times, and the different stages, 3 axes, maybe for a low illumination? mention I implemented \ref{eq:cc2} in Python}. The peaks in the cross-correlation result correspond to the displacements where the signals match best, and the values of the peaks correspond to an weighted integral of the entire waveform. Therefore, through utilising a template of the expected pulse shape in the absence of noise (hereafter referred to as the ``reference pulse''):
