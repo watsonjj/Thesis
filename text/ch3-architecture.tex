@@ -86,9 +86,41 @@ With the form in Equation~\ref{eq:charge_res2}, a perfect detector that consiste
 \section{Data Level and Flow Model}
 
 \begin{figure}
-	\centering\includegraphics[width=\textwidth]{figures/images/high_level_data_model} 
-	\caption[High-level Data Model Hierarchy]{Hierarchy of data element names including the data level, the classifications of data (based on their rate), and data elements/groups and sub-elements/groups \cite{Kosack2017}}
+  \centering\includegraphics[width=\textwidth]{figures/images/high_level_data_model} 
+	\caption[High-level Data Model Hierarchy]{Hierarchy of data element names including the data level, the classifications of data (based on their rate), and data elements/groups and sub-elements/groups \cite{Kosack2017}.}
 	\label{fig:high_level_data_model}
 \end{figure}
 
-Another aspect of the \textit{\gls{cta} Architecture} that is relevant to this work are the \textit{Data Processing Level} definitions, and the flow between them. These definitions dictate how the data obtained from the telescopes are handled within the observatory, and are important in ensuring each telescope adopts a similar processing chain to guarantee compatibility between themselves and the pipeline framework software. Figure~\ref{fig:high_level_data_model} 
+Another aspect of the \textit{\gls{cta} Architecture} that is relevant to this work are the \textit{Data Processing Level} definitions, and the flow between them. These definitions dictate how the data obtained from the telescopes are handled within the observatory, and are important in ensuring each telescope adopts a similar processing chain to guarantee compatibility between themselves and the pipeline framework software.
+
+Figure~\ref{fig:high_level_data_model} shows the full hierarchy for data specification in the observatory. The \textit{Data Processing Level} indicates the progression of the data along the processing chain, the \textit{multiplicity} indicates the scope of the data, and the \textit{classification} designates the type of the data \cite{Kosack2017}. As the primary focus of this thesis is on the individual telescopes waveform data, the rest of this section will be focussed on describing the data levels relevant to the \textit{EVT}- classification, and the processes used to transition between them. This subject is still undergoing development within \gls{cta}, but the foundations are generally accepted. A simple overview of this topic is shown in Figure~\ref{dataflow}.
+
+\begin{wrapfigure}[36]{r}{0.32\textwidth}
+  \includegraphics[width=0.32\textwidth]{figures/images/dataflow}
+  \caption{Simplified camera data flow, showing the \textit{EVT}-classified data streams (in green) and
+the processing steps between them (orange). The levels are grouped by the systems responsible for them.}\label{fig:dataflow}
+\end{wrapfigure}
+
+\textbf{R0} \textit{(raw low-level)}:
+Raw waveform data, internal to the Camera Functional Unit.
+
+\textbf{R1} \textit{(raw common)}:
+Waveform data with \textit{R1 Calibration} applied. This low-level calibration is unique to the camera, to remove the dependence on the behaviour of its specific electronics. The \gls{chec} \textit{R1 Calibration} is described in Chapter~\ref{ch5-calibration}. A selection of gain-channel is also performed for cameras with 2 channels. This level contains data which are serialised to a wire format, i.e. a block of data sent over a network in a common way between the telescopes. This data level is processed by the \textit{Online Analysis} pipeline in order to produce immediate science alerts. The \textit{R1} level therefore has its own \textit{\gls{cta} Requirements} to adhere to (including its own \textit{Charge Resolution} requirement), ensuring that the minimum standard required for the \textit{Online Analysis} and \textit{Data Volume Reduction} is met. Further (potentially slower) calibration may be applied at a later stage (\textit{DL0} to \textit{DL1a}) such that the results of the offline pipeline are of optimum quality.
+
+\textbf{DL0} \textit{(raw archived)}: Similar data to the \textit{R1} level, except serialised into files and are intended to be archived for the long-term. In order to achieve this with the excessively large data volume produced by \gls{cta}, \textit{Data Volume Reduction} must be performed to achieve 2 orders of magnitude reduction. The simplest form of reduction is known as zero-suppression, where only waveforms of pixels deemed to have signal are kept, but more advanced forms of reduction are under investigation\change{find reference}. This is one of the responsibilities of the Observation Execution System (OES).
+
+\textbf{DL1} \textit{(processed)}: The signal charge is extracted from the \textit{DL0} waveform data, and characterised in terms of its \textit{Hillas Parameters}. This process is handled by the Data Processing and Preservation System (DPPS) offline data processing pipeline, of which \textit{ctapipe} is a prototype of. Further information about \textit{ctapipe} can be found in Chapter~\ref{ch4-software}, and details about the processes in this stage are described in Chapter~\ref{ch6-reduction}.
+
+\textbf{DL2} \textit{(reconstructed)}: The \textit{DL1} products (pixel charges and \textit{Hillas Parameters}) are used to reconstruct shower parameters including energy, direction, and source particle. At this point, the \textit{TEL multiplicity} is dropped, as the information from each telescope has been combined to perform the reconstruction, and the individual telescopes are no longer relevant. The operations involved in this stage are also performed by the DPPS offline pipeline, and are described in Chapter~\ref{ch6-reduction}.
+
+\textbf{DL3} \textit{(reduced)}:
+Events are sorted into sets according to their type (e.g. gamma-ray candidates, electron candidates, selected hadron
+candidates, etc.) alongside their reconstruction parameters. Associated instrumental response characterizations and any technical data needed for
+science analysis are also included in this level.
+
+\textbf{DL4} \textit{(science)}:
+The \textit{DL3} data are read into the one of  the CTA tools within the Science User Support System (SUSS) designed to support science data analysis. Two prototype tools developed within this system are \textit{gammapy} and \textit{ctools} (Chapter~\ref{ch4-software}). These tools provide enable the construction of binned data products like spectra, sky maps, or light curves. These can be fit against models to make conclusions about the astronomical source.
+
+\textbf{DL5} \textit{(high-level)}:
+Accumulations of \textit{DL4} data to generate \gls{cta} survey sky maps or the \gls{cta}
+source catalogue.
