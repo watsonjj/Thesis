@@ -111,12 +111,34 @@
 \lstset{
 	frameround=fttt,
 	language=C++,
-	numbers=left,
 	breaklines=true,
-	keywordstyle=\color{blue}\bfseries, 
+	keywordstyle=\color{gray}\bfseries, 
 	basicstyle=\ttfamily\color{gray},
 	numberstyle=\color{black}
 }
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=8pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,           % adds a frame around the code
+tabsize=2,          % sets default tabsize to 2 spaces
+captionpos=b,           % sets the caption-position to bottom
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)},          % if you want to add a comment within your code
+xleftmargin=1.5em,
+framexleftmargin=0.1em
+}
+\newcommand{\pkg}[1]{\texttt{#1}}
+\newcommand{\cpp}{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
+\lstMakeShortInline[columns=fixed]|
 
 \usepackage{float}
 \usepackage[most]{tcolorbox}
@@ -133,11 +155,13 @@
 }
 
 \usepackage{graphicx,wrapfig,lipsum}
+\usepackage{subcaption}
 
 \newcommand{\hangpara}{
  \setlength{\parindent}{0cm} % don't indent new paragraphs
  \hangindent=0.8cm % indent all subsequent lines
 }
+
 
 \begin{document}
 
@@ -223,8 +247,8 @@
 \adjustmtc
 % \include{text/ch1-intro}
 % \include{text/ch2-mechanics}
- \include{text/ch3-architecture}
-% \include{text/ch4-software}
+% \include{text/ch3-architecture}
+ \include{text/ch4-software}
 % \include{text/ch5-calibration}
 % \include{text/ch6-reduction}
 % \include{text/ch7-performance}

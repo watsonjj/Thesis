@@ -27,6 +27,8 @@
 
 \change[inline]{Flow diagrams? See Cyril talk 18/07/06 camera calibration call}
 
+\lstset{language=Python}
+
 \section{Introduction}
 
 In order to obtain meaningful and reliable results from the camera, a number of calibrations must be applied to the waveforms read. A primary objective of my DPhil is to investigate the most optimal and efficient approaches for these calibrations (in accordance with the \gls{cta} requirements described in Chapter~\ref{ch3-architecture}), and to determine if additional calibrations are required.
@@ -53,7 +55,7 @@ There are $2^{14} = 16,384$ storage cells per channel (for \gls{chec-m}, $2^{12}
 
 \subsubsection{Generation}
 
-In order to perform the pedestal subtraction, one must first generate the lookup table of pedestal values. This can be easily obtained with a calibration run where the photosensors are disabled by turning off the \gls{hv} \change{is it HV when considering the sipms?}, and forcing the camera to trigger (with either an external pulse generator, or internally via software) to obtain a large amount of waveform data. Typically around 30,000 events provide enough samples for every storage cell, in every waveform position, to be hit at least 10 times. The samples are then collected as a running average with the dimensions $[Module, Channel, Starting Block, Blockphase+Sample\_i]$, where the $Starting Block$ is the storage block that the first sample in the waveform belongs to (see Figure~), $Blockphase$ is the cell index within the storage block that the waveform begins on, and $Sample\_i$ is the index of each sample in the waveform. This is illustrated in Figure~\change{include figure, and edit to use bp 8 and 12}, where for these two readout windows shown, the pedestal running average \lstinline{Pedestal[TM][CHANNEL][9][8:103]} and \lstinline{Pedestal[TM][CHANNEL][8][12:107]} will be contributed to respectively.
+In order to perform the pedestal subtraction, one must first generate the lookup table of pedestal values. This can be easily obtained with a calibration run where the photosensors are disabled by turning off the \gls{hv} \change{is it HV when considering the sipms?}, and forcing the camera to trigger (with either an external pulse generator, or internally via software) to obtain a large amount of waveform data. Typically around 30,000 events provide enough samples for every storage cell, in every waveform position, to be hit at least 10 times. The samples are then collected as a running average with the dimensions $[Module, Channel, Starting Block, Blockphase+Sample\_i]$, where the $Starting Block$ is the storage block that the first sample in the waveform belongs to (see Figure~), $Blockphase$ is the cell index within the storage block that the waveform begins on, and $Sample\_i$ is the index of each sample in the waveform. This is illustrated in Figure~\change{include figure, and edit to use bp 8 and 12}, where for these two readout windows shown, the pedestal running average |Pedestal[TM][CHANNEL][9][8:103]| and |Pedestal[TM][CHANNEL][8][12:107]| will be contributed to respectively.
 
 Figure~\change{A figure showing the lookup table of the pedestal, for checm due to the storage block ordering. Annotate a single repeated block} shows a visual representation of the pedestal lookup table for a single channel. \change{talk about the variation in pedestal values, and mean? Talk bout the pattern seen between blocks}
 
@@ -128,6 +130,12 @@ Assessing the performance of the Transfer Functions is a more complicated task t
 
 \notes[inline]{For ch7: Remember to talk about how the MC charge resolution provides us insight into performance with perfect Transfer Functions}
 
+\section{Laboratory Calibration}
+
+\subsection{Illumination Profile}
+
+\subsection{Camera Geometry}
+
 \section{Photosensor Calibration}
 
 The other primary component in the detector chain that requires calibration is the photosensor itself. As photosensors are a much more common instrument used in a variety of experiments, the calibration procedures typically already exist, and it is a simple case of adapting them to fit our needs.
@@ -196,6 +204,7 @@ The argument between flat-fielding according to gain response (\gls{spe} fitting
 
 \section{Other}
 
+\change[inline]{remove this section, move subsections higher}
 In addition to the calibrations mentioned thus far, there are a few less important calibrations that could improve the performance further. 
 
 \subsection{Timing Corrections}
