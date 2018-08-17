@@ -32,7 +32,7 @@ A copy of each requirement at the time of this writing is included alongside the
 \begin{requirement}{\subsection{B-TEL-1010 Charge Resolution}}
 	The required fractional Charge Resolution for Cherenkov signals in each Camera pixel for a specified background level of 0.125 photoelectrons/ns is given in the Figure below and Table attached. Charge measurements must be possible for 0-1000 photoelectron signals. The average charge resolution should be calculated for the reference Gamma-Ray Spectrum.
     
-	\centering\includegraphics[width=0.8\linewidth]{figures/images/charge_res_req}
+	\centering\includegraphics[width=0.8\linewidth]{charge_res_req}
 	\captionof{figure}{Fractional rms charge resolution $\sigma_Q/Q$ per pixel for different Cherenkov light signal amplitudes, expressed in units of photoelectrons (p.e.). All sources of fluctuations, including Poisson fluctuations in photoelectron number, must be included, The true pixel charge $Q$ is that measured in an ideal detector with the same photon-detection efficiency. }\label{fig:charge_res_req}
     
 \begin{itemize}
@@ -86,7 +86,7 @@ With the form in Equation~\ref{eq:charge_res2}, a perfect detector that consiste
 \section{Data Level and Flow Model}
 
 \begin{figure}
-  \centering\includegraphics[width=\textwidth]{figures/images/high_level_data_model} 
+  \centering\includegraphics[width=\textwidth]{high_level_data_model} 
 	\caption[High-level Data Model Hierarchy]{Hierarchy of data element names including the data level, the classifications of data (based on their rate), and data elements/groups and sub-elements/groups \cite{Kosack2017}.}
 	\label{fig:high_level_data_model}
 \end{figure}
@@ -96,7 +96,7 @@ Another aspect of the \textit{\gls{cta} Architecture} that is relevant to this w
 Figure~\ref{fig:high_level_data_model} shows the full hierarchy for data specification in the observatory. The \textit{Data Processing Level} indicates the progression of the data along the processing chain, the \textit{multiplicity} indicates the scope of the data, and the \textit{classification} designates the type of the data \cite{Kosack2017}. As the primary focus of this thesis is on the individual telescopes waveform data, the rest of this section will be focussed on describing the data levels relevant to the \textit{EVT}- classification, and the processes used to transition between them. This subject is still undergoing development within \gls{cta}, but the foundations are generally accepted. A simple overview of this topic is shown in Figure~\ref{dataflow}.
 
 \begin{wrapfigure}[36]{r}{0.32\textwidth}
-  \includegraphics[width=0.32\textwidth]{figures/images/dataflow}
+  \includegraphics[width=0.32\textwidth]{dataflow}
   \caption{Simplified camera data flow, showing the \textit{EVT}-classified data streams (in green) and
 the processing steps between them (orange). The levels are grouped by the systems responsible for them.}\label{fig:dataflow}
 \end{wrapfigure}

@@ -1,4 +1,4 @@
-\chapter{\label{ch5-calibration}Calibration} 
+ \chapter{\label{ch5-calibration}Calibration} 
 
 \minitoc
 
@@ -49,56 +49,120 @@ As the calibrations in this section are very low-level, and related to \gls{chec
 
 \subsection{Electronic Pedestal Subtraction}
 
-The most important, but also the simplest, calibration to apply is the subtraction of the electronic pedestal. Each cell in the storage array of the \gls{asic} is a unique capacitor. For a specific input \gls{vped}, each capacitor has its own resulting electronic pedestal value. As each sample of the waveform corresponds to a single storage cell, each sample therefore has a unique pedestal value to be subtracted. This is apparent in Figure~\change{Create figure showing the raw waveform and its pedestal subtracted form (no HV)} where the variation from sample-to-sample is very large. This variation is large enough that low-amplitude pulses are undetectable in the waveform (Figure~\change{Figure with low-amplitude pulse before and after pedestal subtraction, and high amplitude pulse the same, also mirrored camera image?})) and therefore it is paramount to subtract this per-sample pedestal.
+\the\textwidth
 
-There are $2^{14} = 16,384$ storage cells per channel (for \gls{chec-m}, $2^{12} = 4096$ for \gls{chec-s}\change{Make sure to mention about the difference in number of cells for checs in ch2}), therefore there are $32 (Modules) * 64 (Channels) * 16,384 (Cells)$ pedestal values to keep record of. However, there is an additional contribution to the behaviour of the pedestal - discharging a cell to read out its value will slightly discharge adjacent cells. The result of this effect is that the further along in the waveform a cell is, the lower its pedestal value will be. An extra dimension of ``position in waveform'' consequently needs to be considered. This effect is illustrated in Figure~\change{include figures}, and its affect demonstrated in Figure~.
+\begin{figure}
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=0.92\textwidth]{rawwf_10} 
+  \captionof{figure}[Raw waveform]{TARGET-C waveform as read out from CHEC-S, showing the electronic pedestal in the absence of any other input, before any calibration is applied.}
+  \label{fig:rawwf}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{pulse_raw_vs_pedestal}
+  \captionof{figure}[Comparison of pedestal-subtracted waveform with raw waveform]{CHEC-S waveform  containing a 5~p.e. pulse, before and after pedestal subtraction.}
+  \label{fig:pulse_raw_vs_pedestal}
+\end{minipage}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{r0_cherenkov_image_mirrored_cropped}
+    \caption{Raw image.}
+    \label{fig:r0_cherenkov_image_mirrored_cropped}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{r1_cherenkov_image_mirrored_cropped}
+    \caption{Pedestal-subtracted image.}
+    \label{fig:r1_cherenkov_image_mirrored_cropped}
+  \end{subfigure}
+  \centering
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{r1pe_cherenkov_image_mirrored_cropped}
+    \caption{Final calibrated image.}
+    \label{fig:r1pe_cherenkov_image_mirrored_cropped}
+  \end{subfigure}
+  \caption[Comparison of calibration stages with a Cherenkov shower image.]{The same image of a Cherenkov shower taken with CHEC-M, but at different stages of calibration. An integration window is chosen using the \textit{Neighbour Peak Finding} technique (Chapter~\ref{ch6-reduction}) on the p.e. calibrated waveforms. The same samples are then integrated for each of the calibration stages.}
+\end{figure}
+
+The most important, but also the simplest, calibration to apply is the subtraction of the electronic pedestal. Each cell in the storage array of the \gls{asic} is a unique capacitor. For a specific input \gls{vped}, each capacitor has its own resulting electronic pedestal value. As each sample of the waveform corresponds to a single storage cell, each sample therefore has a unique pedestal value to be subtracted. This is apparent in Figure~\ref{fig:rawwf} where the variation from sample-to-sample is very large. This variation is large enough that low-amplitude pulses (Figure~\ref{fig:pulse_raw_vs_pedestal}) and low-amplitude Cherenkov images (Figure~\ref{fig:r0_cherenkov_image_mirrored_cropped}) are undetectable in the camera. This variation in electronic pedestal is also apparent between pixels, and even more so between \glspl{asic}. As a result, the outlines of the \glspl{asic} are the dominating feature in camera images containing raw samples, such as Figure~\ref{fig:r0_cherenkov_image_mirrored_cropped}. With the pedestal subtraction alone, the waveforms are transformed into a state of which a moderate amount of Cherenkov shower assessment can be performed, as demonstrated in Figure~\ref{fig:r1_cherenkov_image_mirrored_cropped}.
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{cellwf_15} 
+	\caption[Storage-cell-amplitude dependence on position in the waveform.]{Average amplitude of the electronic pedestal for a single storage cell in a TARGET-C ASIC, at different positions in the waveform. Error bars indicate the standard deviation of the amplitudes. The grey dashed lines indicate the position of the block edges in the waveform for this cell. The average of the values inside each block segment equals the pedestal value stored in the lookup table for that cell, in each of those block positions.} 
+	\label{fig:cellwf}
+\end{figure}
+
+There are $2^{14} = 16,384$ storage cells per channel (for \gls{chec-m}, $2^{12} = 4096$ for \gls{chec-s}\change{Make sure to mention about the difference in number of cells for checs in ch2}), therefore naively it could be concluded that there are $32 (Modules) * 64 (Channels) * 16,384 (Cells)$ pedestal values to keep record of. However, there is an additional contribution to the behaviour of the pedestal - discharging a cell to read out its value will slightly discharge adjacent cells. The result of this effect is that the further along in the waveform a cell is, the lower its pedestal value will be. This effect is reversed with \gls{targetc}, where the later blocks of the waveform are digitised first (Figure~\ref{fig:cellwf}). Consequently, an extra dimension of ``position in waveform'' needs to be considered.
 
 \subsubsection{Generation}
 
-In order to perform the pedestal subtraction, one must first generate a lookup table of pedestal values. This can be easily obtained with a calibration run where the photosensors are disabled by turning off the \gls{hv} \change{is it HV when considering the sipms?}, and forcing the camera to trigger (with either an external pulse generator, or internally via software) to obtain a large amount of waveform data. Typically around 30,000 events provide enough samples for every storage cell, in every waveform position, to be hit at least 10 times. The samples are then collected as a running average with the dimensions $[Module, Channel, Starting Block, Blockphase+Sample\_i]$, where the $Starting Block$ is the storage block that the first sample in the waveform belongs to (see Figure~), $Blockphase$ is the cell index within the storage block that the waveform begins on, and $Sample\_i$ is the index of each sample in the waveform. This is illustrated in Figure~\change{include figure, and edit to use bp 8 and 12}, where for these two readout windows shown, the pedestal running average |Pedestal[TM][CHANNEL][9][8:103]| and |Pedestal[TM][CHANNEL][8][12:107]| will be contributed to, respectively.
-
-Figure~\change{A figure showing the lookup table of the pedestal, for checm due to the storage block ordering. Annotate a single repeated block} shows a visual representation of the pedestal lookup table for a single channel. \change{talk about the variation in pedestal values, and mean? Talk bout the pattern seen between blocks}
+In order to perform the pedestal subtraction, one must first generate a lookup table of pedestal values. This can be easily obtained with a calibration run where the voltages across the photosensor are disabled, and forcing the camera to trigger (with either an external pulse generator, or internally via software) to obtain a large amount of waveform data. Typically around 30,000 events provide enough samples for every storage cell, in every waveform position, to be hit at least 10 times. The samples are then collected as a running average with the dimensions $[Module, Channel, Starting Block, Blockphase+Sample\_i]$, where the $Starting Block$ is the storage block that the first sample in the waveform belongs to (see Figure~), $Blockphase$ is the cell index within the storage block that the waveform begins on, and $Sample\_i$ is the index of each sample in the waveform. This is illustrated in Figure~\change{include figure, and edit to use bp 8 and 12}, where for these two readout windows shown, the pedestal running average |Pedestal[TM][CHANNEL][9][8:103]| and |Pedestal[TM][CHANNEL][8][12:107]| will be contributed to, respectively.
 
 The TargetCalib library handles the pedestal lookup table generation, and stores it into a \gls{fits} file. A new pedestal file is typically generated at the start of each new dataset, as the dependencies on temperature and evolution with time are still being investigated.
 
 \subsubsection{Application}
 
-To apply the pedestal, the entry within the lookup table that corresponds to each sample is subtracted from the waveform. The result of the calibration can be seen in Figures~\change{include figures from before}. 
+To apply the pedestal, the entry within the lookup table that corresponds to each sample is subtracted from the waveform. The result of the subtraction can be seen in Figures~\ref{fig:pulse_raw_vs_pedestal}~\&~\ref{fig:r1_cherenkov_image_mirrored_cropped}. 
 
 \subsubsection{Performance}
 
 \begin{figure}
-%	\centering\includegraphics[width=\textwidth]{../figures/images/target5diagram} 
-	\caption[Spread of sample values from the residual waveforms resulting from applying the waveforms to the data used to produce them.]{} 
-	\change[inline]{Insert and update}
+	\centering
+    \includegraphics[width=\textwidth]{pedestal_hist} 
+	\caption[Spread of electronic-pedestal values before and after the pedestal subtraction.]{Spread of electronic-pedestal values before and after the pedestal subtraction for a single TARGET-C channel. The waveforms used to create the pedestal lookup table are separate to those used in these histograms.} 
 	\label{fig:pedestalresiduals}
 \end{figure}
 
-\begin{figure}
-%	\centering\includegraphics[width=\textwidth]{../figures/images/target5diagram} 
-	\caption[Same as \ref{fig:pedestalresiduals}, but split into increments of 10,000 events.]{} 
-	\change[inline]{Insert and update, Also include extra plot versus event}
-	\label{fig:pedestalresidualssplit}
-\end{figure}
-
-One quantification of this calibration's performance is the standard deviation per sample of the residual waveform from applying the pedestal subtraction to the data used to produce it. Figure~\ref{fig:pedestalresiduals} shows the spread in these values \change{quote conversion into photoelectrons, and write actual resulting performance, and talk about if its good enough}. 
-
-This quantity informs about the intrinsic spread of the pedestal values about their mean, and can also indicate at some changes in pedestal value with time. Figure~\ref{fig:pedestalresidualssplit} demonstrates an occurrence of the pedestal value changing with time, and is investigated further in Section~\ref{temperature_corrections}.
+The primary quantification of this calibration's performance is the standard deviation of electronic-pedestal samples that have had separately-created pedestal values subtracted from them. Figure~\ref{fig:pedestalresiduals} demonstrates the performance of the pedestal subtraction for a \gls{targetc} channel, achieving a residual variation of 1.6~ADC (approximately 0.5~p.e.).
 
 \subsection{Transfer Function}
 
 The other calibration related to the digitisation and readout inside the \gls{target} \gls{asic} is caused by the non-linearities in the storing and reading of charge to and from the storage cells. The components responsible for the need for this calibration are the sampling array, gain/buffer amps, and the Wilkinson \glspl{adc}, seen in Figure~\ref{fig:target5diagram}. The non-linearity of these components is propagated to the sample readout - a sample with twice the amplitude input into \gls{target} will have less than twice the amplitude when readout.
 
-To correct for this non-linearity, a look-up table is generated to convert from the sample amplitude read-out (in ADC counts), to the input sample amplitude (in mV). This look-up table is known as the Transfer Function. As one might expect, each sampling cell has its own linear response to correct for, and therefore a look-up table is typically required at-least per channel and per sampling cell, however a noticeably improved performance is observed by considering a Transfer Function per storage cell \change{need to show this, maybe in TF Investigations appendix?}.
+To correct for this non-linearity, a look-up table is generated to convert from the sample amplitude read-out (in ADC), to the input sample amplitude (in mV). This look-up table is known as the Transfer Function. As one might expect, each sampling cell has its own linear response to correct for, and therefore a look-up table is typically required at-least per channel and per sampling cell, however a noticeably improved performance is observed by considering a Transfer Function per storage cell \change{need to show this, maybe in TF Investigations appendix?}.
 
-There are two forms of Transfer Function that have been considered for \gls{chec}, distinguished by the type of input used to generate them. A \gls{dc} Transfer Function is created by applying a constant \gls{dc} input of known voltage into the module, and iterating over the full dynamic range by varying the voltage. An \gls{ac} Transfer Function is generated by inputting a pulse of a known amplitude with a shape expected from the photosensor, and iterating as with the \gls{dc} approach. During previous  investigations of the \gls{target} module, where sinusoidal signals were input into the module, a dependence on the signal frequency and input amplitude was observed that acts to further reduce the output amplitude \cite{Bechtol2012}\cite{Albert2017}. The source of this dependence was deemed to be due to the amplifiers, which cannot slew fast enough to keep up with the input
-signal if the frequency and amplitude are large. 
+There are two forms of Transfer Function that have been considered for \gls{chec}, distinguished by the type of input used to generate them. A \gls{dc} Transfer Function is created by applying a constant \gls{dc} input of known voltage into the module, and iterating over the full dynamic range by varying the voltage. An \gls{ac} Transfer Function is generated by inputting a pulse of a known amplitude with a shape expected from the photosensor, and iterating as with the \gls{dc} approach. During previous  investigations of the \gls{target} module, where sinusoidal signals were input into the module, a dependence on the signal frequency and input amplitude was observed that acts to further reduce the output amplitude \cite{Bechtol2012}\cite{Albert2017}. The source of this dependence was deemed to be due to the amplifiers, which cannot slew fast enough to keep up with the input signal if the frequency and amplitude are large. Due to the use of a pulse to generate the \gls{ac} Transfer Functions, the result inherently includes the correction required for the frequency that the pulses correspond to. 
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{generation_t5}
+    \caption{DC Transfer Function input, measured with TARGET~5.}
+    \label{fig:generation_t5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{generation_tc}
+    \caption{AC Transfer Function input, measured with TARGET~C.}
+    \label{fig:generation_tc}
+  \end{subfigure}
+  \caption[Transfer Function generation waveforms.]{Multiple average waveforms, increasing in amplitude. Each average contains 1000 waveforms from the same single channel. These waveforms cover the full dynamic range of the TARGET ASIC, and are used as inputs to generate the DC and AC Transfer Functions, respectively.}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{lookup_t5}
+    \caption{DC Transfer Function lookup table, measured with TARGET~5. Contains 64 Transfer Functions, one for each Sampling Cell.}
+    \label{fig:lookup_t5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{lookup_tc}
+    \caption{AC Transfer Function lookup table, measured with TARGET~C. Contains 4,096 Transfer Functions, one for each Storage Cell.}
+    \label{fig:lookup_tc}
+  \end{subfigure}
+  \caption[Transfer Function lookup tables.]{The Transfer Function lookup tables for a single channel.}
+\end{figure}
 
 \subsubsection{Generation (\gls{dc} Transfer Function)}
 
-During the commissioning of \gls{chec-m}, a \gls{dc} Transfer Function was used with no \gls{ac} corrections. To generate this Transfer Function the internal input pedestal voltage (Vped) setting is used to apply a \gls{dc} voltage offset of known amplitude. The full dynamic range of the module is explored by repeating the process for amplitudes between \change{quote the range}. The waveforms produced by these runs are read out, and the running average is grouped and monitored according to $[Module, Channel, Sampling Cell, Input Amplitude]$, utilising every sample in the waveform. Around 1,000 events are required to provide sufficient statistics. This produces a lookup table like the one shown in Figure~\change{insert figure}.
+During the commissioning of \gls{chec-m}, a \gls{dc} Transfer Function was used with no \gls{ac} corrections. To generate this Transfer Function the internal input pedestal voltage (Vped) setting is used to apply a \gls{dc} voltage offset of known amplitude. By repeating the process for Vped values from 500~mV to 1700~mV, in steps of 25~mV, the full dynamic range of the module is explored, covering the range -250~ADC to 3700~ADC (Figure~\ref{generation_t5}). The running averages of the ADC samples are grouped and monitored according to $[Module, Channel, Sampling~Cell, Input~Amplitude]$, utilising every sample in the waveform. Around 1,000 events are required to provide sufficient statistics.
 
-The second step in the generation is to flip the axes of this lookup table, and linearly interpolate at the ADC points defined by the user. This provides a second lookup table that can be more efficiently used to provide a calibrated mV value for the measured ADC value (Figure~\change{add figure}). This table is saved to a \gls{fits} file, ready for application.
+The second step in the generation is to linearly interpolate the running averages at the ADC points defined by the user. This provides a lookup table of mV values with dimensions $[Module, Channel, Sampling~Cell, ADC~Value]$ that can be used to provide a calibrated value for a measured ADC value. The lookup table for a single channel is illustrated in Figure~\change{add figure}. This table is saved to a \gls{fits} file, ready for application.
 
 \subsubsection{Generation (\gls{ac} Transfer Function)}
 
@@ -110,7 +174,7 @@ The second step in the generation is identical to the \gls{dc} Transfer Function
 
 \subsubsection{Application}
 
-Irrespective of the Transfer Function type, they are stored in a format which enables them to be applied identically. When calibrating a waveform, the relevant lookup table is obtained according to the channel and cell of the sample, and is linearly interpolated to provide the calibrated value in mV.
+Irrespective of the Transfer Function type, they are stored in a format which enables them to be applied identically. When calibrating an ADC sample, the relevant lookup table is obtained according to the channel and cell of the sample, and is linearly interpolated to provide the calibrated mV value for that ADC value.
 
 \subsubsection{Performance}
 
