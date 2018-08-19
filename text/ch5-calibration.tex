@@ -162,51 +162,102 @@ There are two forms of Transfer Function that have been considered for \gls{chec
 
 During the commissioning of \gls{chec-m}, a \gls{dc} Transfer Function was used with no \gls{ac} corrections. To generate this Transfer Function the internal input pedestal voltage (Vped) setting is used to apply a \gls{dc} voltage offset of known amplitude. By repeating the process for Vped values from 500~mV to 1700~mV, in steps of 25~mV, the full dynamic range of the module is explored, covering the range -250~ADC to 3700~ADC (Figure~\ref{generation_t5}). The running averages of the ADC samples are grouped and monitored according to $[Module, Channel, Sampling~Cell, Input~Amplitude]$, utilising every sample in the waveform. Around 1,000 events are required to provide sufficient statistics.
 
-The second step in the generation is to linearly interpolate the running averages at the ADC points defined by the user. This provides a lookup table of mV values with dimensions $[Module, Channel, Sampling~Cell, ADC~Value]$ that can be used to provide a calibrated value for a measured ADC value. The lookup table for a single channel is illustrated in Figure~\change{add figure}. This table is saved to a \gls{fits} file, ready for application.
+The second step in the generation is to linearly interpolate the running averages at the ADC points defined by the user. This provides a lookup table of mV values with dimensions $[Module, Channel, Sampling~Cell, ADC~Value]$ that can be used to provide a calibrated value for a measured ADC value. The lookup table for a single channel is illustrated in Figure~\ref{fig:lookup_t5}. This table is saved to a \gls{fits} file, ready for application.
 
 \subsubsection{Generation (\gls{ac} Transfer Function)}
 
 As the ability to internally set a \gls{dc} voltage with a known amplitude via the Vped was made more difficult in \gls{targetc} (see \ref{ch2-mechanics}) \change{more precise ref, and remember to mention this change}, and the ability to input a \gls{dc} voltage externally is prohibited by the \gls{ac} coupling of the module \change{remember to introduce ac coupling}, the decision was made to transition to an \gls{ac} Transfer Function that uses the expected pulse shape as an input. This approach therefore corrects for the \gls{ac} effect with the appropriate frequency. 
 	
-The full dynamic range is once again explored, by injecting pulses of a variety of amplitudes. In order to extract the values that correspond to negative amplitudes in this method, the amplitude of the input undershoot is also monitored. Only the samples that corresponds to the maximum of the input pulse (and minimum of the undershoot) has a "true" amplitude of the input amplitude. Therefore to extract the correct samples, each waveform is fitted with two Landau functions, a fair approximation to the pulse shape (Figure~\change{figure showing the fit}). Consequently, only two samples are extracted per waveform, requiring a much larger population of events (\~200,000) in order to generate a reliable running average grouped according to $[Module, Channel, Storage Cell, Input Amplitude]$. It is important to note that a Transfer Function per storage cell was adopted for \gls{targetc}, as it was found to significantly improve the residuals (see \change{appendix tf investigations} for further discussion).
+The full dynamic range is once again probed, by injecting pulses of varying amplitude. In order to extract the values that correspond to negative amplitudes in this method, the amplitude of the input undershoot is also monitored. Only the samples that correspond to the maximum of the input pulse (and minimum of the undershoot) has a ``true'' amplitude of the input amplitude. Therefore to extract the correct samples, each waveform is fitted with two Landau functions, a fair approximation to the pulse shape (Figure~\change{figure showing the fit}). Consequently, only two samples are extracted per waveform, requiring a much larger population of events (\utilde200,000) in order to generate a reliable running average grouped according to $[Module, Channel, Storage Cell, Input Amplitude]$. It is important to note that a Transfer Function per storage cell was adopted for \gls{targetc}, as it was found to significantly improve the residuals (see Appendix~\ref{a1-tf} for further discussion).
 
-The second step in the generation is identical to the \gls{dc} Transfer Function. The resulting lookup tables can be seen in Figures~\& \change{add figures}.
+The second step in the generation is identical to the \gls{dc} Transfer Function. The resulting lookup table for a single channel can be seen in Figure~\ref{fig:lookup_tc}.
 
 \subsubsection{Application}
 
-Irrespective of the Transfer Function type, they are stored in a format which enables them to be applied identically. When calibrating an ADC sample, the relevant lookup table is obtained according to the channel and cell of the sample, and is linearly interpolated to provide the calibrated mV value for that ADC value.
+Irrespective of the Transfer Function type, they are stored in a format which enables them to be applied identically. When calibrating an ADC sample, the relevant lookup table is obtained according to the channel and cell of the sample, and is linearly interpolated to provide the calibrated mV value for the specified ADC value.
 
 \subsubsection{Performance}
 
-Due to its complexity and variety of approaches, the Transfer Function is still one of the most actively discussed aspects of the \gls{chec} calibration, and is most certainly the area where the majority of improvements can be made. Some possibilities for improvement include:
+Due to its complexity and variety of approaches, the Transfer Function is still one of the most actively discussed aspects of the \gls{chec} calibration, and holds the highest potential for improvements among the different calibrations. Some possibilities for improvement include:
 \begin{itemize}
-	\item An improved sample extraction method for the \gls{ac} Transfer Function Waveform
-	\item Possibilities for a \gls{dc} approach for \gls{targetc}
-	\item Returning to the approach described in \cite{Albert2017} where the pedestal is included inside the Transfer Function
-	\item Alternatives to linear interpolation, such as Piecewise Cubic Hermite Interpolating Polynomial (PCHIP)
-	\item Exchanging the lookup table for a parametrised regression characterisation of the Transfer Function
-	\item Decision between "per storage cell" or "per sampling cell"
-	\item Inclusion of temperature corrections
+	\item An improved sample extraction method for the \gls{ac} Transfer Function Waveform,
+	\item Possibilities for a \gls{dc} approach for \gls{targetc},
+	\item Returning to the approach described in earlier \gls{target} studies where the pedestal is included inside the Transfer Function \cite{Albert2017},
+	\item Alternatives to linear interpolation, such as Piecewise Cubic Hermite Interpolating Polynomial (PCHIP),
+	\item Exchanging the lookup table for a parametrised regression characterisation of the Transfer Function (such as a high-order polynomial),
+	\item Decision between "per storage cell" or "per sampling cell",
+	\item Inclusion of temperature corrections.
 \end{itemize}
-Appendix~\change{tf investigations} provides some insight into the current progression in these active investigations.
+Appendix~\ref{a1-tf} provides some insight into the current progression in these active investigations.
 
-Assessing the performance of the Transfer Functions is a more complicated task than for the pedestals. This is largely because instead of a comparison to a null signal, we are instead comparing to an input amplitude which contains its own uncertainty, and could potentially be incorrect. So while the residuals of the Transfer Function may be small, this does not necessarily mean the calibration is accurate. Therefore the most decisive performance indicator should be one that provides an independent measurement on the ``correct'' amplitude. The most obvious scheme fitting this requirement is the charge resolution, described in \ref{ch3-architecture}. However, while it does hold the drawbacks just mentioned, investigating the residuals through the \gls{rmse} can provide insights on the Transfer Function calibrated unhindered by other components in the detector chain. Figure~\change{insert figure} demonstrates the \gls{rmse} for the presently adopted Transfer Functions for \gls{targetc}, compared to a simple calibration with a fixed conversion value $X~mv/ADC$ \change{obtain sensible value, and talk about the result a bit, non-linearity, show equation for RMSE}.
-
-\notes[inline]{For ch7: Remember to talk about how the MC charge resolution provides us insight into performance with perfect Transfer Functions}
+Assessing the performance of the Transfer Functions is a more complicated task than for the pedestals. This is largely because instead of a comparison to a null signal, we are instead comparing to an input amplitude which contains its own uncertainty, and could potentially be incorrect. So while the performance results may indicate that the residuals of the Transfer Function may be small, this does not necessarily mean the calibration is accurate. Therefore the most decisive performance indicator should be one that provides an independent measurement on the ``correct'' amplitude. The most obvious scheme fitting this requirement is the charge resolution, described in Chapter~\ref{ch3-architecture}, the results of which are also explored in Appendix~\ref{a1-tf}.
 
 \section{Laboratory Calibration}
 
-\change[inline]{Need lab description in ch2}
+\change[inline]{Move to ch2?}
 
-\section{Filter-Wheel}
+Although not directly part of the camera calibration, the calibration of the laboratory set-up is an important step in achieving an accurate photosensor calibration, covered in Section \ref{Photosensor Calibration}. A description of the laboratory set-up can be found in Chapter~\ref{ch2-mechanics}.
+
+\subsection{Filter-Wheel}
+
+The calibration of the filter-wheel was performed using a ...
+The resulting conversion 
 
 \subsection{Illumination Profile}
 
-\subsection{Camera Geometry}
+Despite the attempts made to make the illumination from the laser plus diffuser uniform, there are still non-uniformities in the light received at the camera pixels that should be corrected for in the calibration.
 
-\section{Photosensor Calibration}
+\subsubsection{Laser Profile}
 
-The other primary component in the detector chain that requires calibration is the photosensor itself. As photosensors are a much more common instrument used in a variety of experiments, the calibration procedures typically already exist, and it is a simple case of adapting them to fit our needs.
+By measuring the illumination with a single silicon photomultiplier pixel
+
+As shown in Figure~/change{add figure}, a linear gradient in laser illumination exists across the x-y plane. This was found by attaching a single silicon photomultiplier pixel to a robot arm at the same distance from the laser as the camera. By using a single pixel the amplitude measured is disentangled from the relative PDE. This pixel was then moved to an x-y position to calculate the ratio in signal amplitude, returning back to the origin to obtain a fresh value to compare to, thereby correcting for any deviations due to a change in temperature. The resulting distribution of ratios was fit with a linear gradient across the plane.
+
+\subsubsection{Camera Geometry}
+
+Due to the curved camera focal surface, each pixel is at a different distance from the light-source. The geometric correction required to compensate for the effect is is circularly symmetric, and therefore can be analytically approximated by using a two dimensional description of the camera focal surface (Figure~\change{figure of geometry}):
+
+\change[inline]{Geometric equation}
+
+Equation~\change{ref eq} results in the pixels corrections shown in Figure~\change{add figure}.
+
+The combined result of the laser profile, and geometry correction results in the illumination profile correction per pixel (Figure~\change{add figure}).
+
+\subsection{Expected Illumination}
+
+With both the Filter-Wheel transmission and the corrections of the illumination amplitude for each pixel, one can create a lookup table to obtain the expected illumination in photoelectrons for each pixel. To achieve this, we must calculate the absolute illumination for at-least one filter-wheel position. The method adopted to achieve this is to use a fit to the Single Photoelectron spectrum resulting from low-amplitude illumination of the pixels. Contained within this fit is the average illumination in photoelectrons parameter, $\lambda$. This topic is further covered in Chapter~\ref{ch5-calibration}. 
+
+By simultaneously fitting 3 illuminations, we obtain 3 values of $\lambda$ per pixel. With filter-wheel transmission on the x-axis, these values of $\lambda$ can be linearly regressed to obtain the gradient $M_\lambda$ and y-intercept $C_\lambda$ per pixel. The y-intercept represents the $\lambda$ you would get with zero filter-wheel transmission, and therefore indicates the \gls{nsb} and \gls{dcr}. The variation in $M_\lambda$ across the pixels arises from the folding of the illumination profile and the relative \gls{pde}. Therefore, the next step is to correct for the illumination profile contribution to the gradient, the result of which is solely the relative \gls{pde} (Figure~{add figure, in this chapter or results chapter?}). In order to obtain a calibration from filter-wheel transmission $T_{FW}$ to average camera illumination $\average{I}_{pe}$ the following equation is then used:
+
+\begin{equation} \label{eq:average_camera_illumination}
+\average{I}_{pe} = \average{M}_\lambda T_{FW} + \average{C}_\lambda,
+\end{equation}
+
+If we want the direct illumination in the a
+
+use equations, and subtract C later
+
+$G$ can be interpreted as the 
+
+Next, the contribution of the illumination profile discrepancies per pixel (Figure~\change{ref figure}) are removed from the gradients. The remaining variations between pixels for these gradients are solely a measure of the relative \glspl{pde}, quantified in Figure~\change{add figure, in this chapter or results chapter?}. The conversion of filter-wheel transmission to average camera illumination is obtained from the average of these gradients.
+
+... obtaining the expected illumination per pixel is important in assessing the flat fielding coefficients in such a way that they are independent of the illumination profile. Such that when the camera is moved to a different lab or onto the telescope, the same flat field coefficients are applicable.
+... we now have an expected charge axis for each pixel
+
+\section{Photosensor Calibration} \label{Photosensor Calibration}
+
+\change[inline]{dead pixels}
+
+The other primary component in the detector chain that requires calibration is the photosensor itself. As photosensors are a much more common instrument used in a variety of experiments, the calibration procedures required are already well known in the academic community. It is therefore mostly a simple case of adapting them to fit our needs.
+
+The typical procedure in Cherenkov camera waveform analysis includes extracting the signal charge from the waveform of each pixel. This procedure, and the different methods to achieve it, is described in Chapter~\ref{ch6-reduction}. The value extracted is typically in digitisation or voltage units, multiplied by time if the charge extraction is an integral over the waveform. For example, the units of the extracted charge from \gls{chec-s} using the \textit{Cross-Correlation} method is $mV ns$. Once extracted, this charge must be corrected for the relative efficiency of this pixel compared to the mean of the camera in order to achieve a uniform response (``flat-fielding''), and then converted into a counting unit that is shared among the telescopes in the array (such as photons or photoelectrons), thereby simplifying the processing of array data. This procedure is characterised in the equation: 
+
+\begin{equation} \label{eq:photosensor_calibration}
+
+
+\average{I}_{pe} = \average{M}_\lambda * T_{FW} + \average{C}_\lambda,
+\end{equation}
+
 
 However, unlike with the \gls{target} modules, where the procedures are very similar between \gls{chec-m} and \gls{chec-s}, an \gls{mapmt} is very different to a \gls{sipmt}. Therefore it is logical to deal with the calibration procedure for each of these photosensors separately.
 
