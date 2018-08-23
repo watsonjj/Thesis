@@ -1,0 +1,54 @@
+\chapter{\label{a2-spe}SPE Fitting}
+
+\minitoc
+
+\notes[inline,caption={}]{
+	\section{Plan}
+	\subsection{Topics}
+	\begin{itemize}
+		\item fit functions derivations
+        \item make clear that separate function between mapms and sipms
+        \item multifitting procedure
+        \item ^ mention in software, checlabpy - also parallelisation
+        \item require high gain/hv to see peaks
+	\end{itemize}
+	\subsection{Questions}
+	\begin{itemize}
+		\item ?
+	\end{itemize}
+}
+
+% \subsection{CHEC-M}
+
+% Photomultiplier tubes have been widely used in Gamma-ray Astronomy since the first \glspl{iact} \change{get source}, therefore the characterisation of these devices is very well understood. However, \glspl{mapmt} are a more recent evolution of the devices, and although they have the same underlying concept, they do suffer from some limitations, such as the inability to tweak the \gls{hv} on a pixel level, and the electrical crosstalk across the tightly packed pixels \change{check checm paper for other limitations}.
+
+% A common method to characterize \glspl{mapmt}, and the one we also adopted, is the use of the \gls{spe} spectrum. The primary result this spectrum provides is the per-pixel value to calibrate from the measured signal in mV (or mV*ns for integrated charge) to \gls{pe}. This conversion value is hereafter referred to as the \gls{spe} value. In order to investigate this parameter, the photosensor is illuminated with a very low light level (average illumination <1~p.e. per pixel). As the photosensor is essentially a photon counting device, the individual peaks of the photoelectrons that are produced by the photocathode can be identified in the histogram of charge amplitudes. The \gls{spe} value is therefore the average charge of the first photoelectron peak. However, the resolution of these peaks can be quite poor, especially for \glspl{mapmt}, therefore the resulting distribution is fit with a function that characterises the photosensor: \change[inline]{add equation for mapm spe fit, and reference its origin}
+
+% \change[inline]{SPE fit plots}
+
+% This SPE value is proportional to the gain of the photomultiplier, and therefore also proportional to the \gls{hv} applied across the photomultiplier. In order to extract a clear \gls{spe} spectrum, the voltage across the \glspl{mapmt} are set to the maximum value of 1100~V, thereby maximising the separation between the photoelectron and pedestal peaks.
+
+% In order to extrapolate the correct \gls{spe} value for other \gls{hv} settings, the following relation:
+
+% Can be used in combination with a logarithmic \change{double check, maybe linear regression in log space?} fit of a dataset where the amplitude is measured as a function of HV to obtain $\alpha$ per pixel. \change{include plot of relation}
+
+% \change{plots of the SPE values at different hv sets}
+
+% In order to apply this calibration, the \gls{spe} value (with units of $mV*ns*p.e.^{-1}$) per pixel is multiplied by the charge extracted per pixel. \change[inline]{show a waveform with this factor applied, maybe also the spectrum}
+
+% \subsection{CHEC-S}
+
+% In the transition to \glspl{sipmt}, the calibration procedure for the photosensors was revised to better utilise the upgraded functionality of \gls{chec-s}. 
+
+
+
+% \subsubsection{SPE Calibration}
+
+% The second step in the \gls{chec-s} photosensor calibration differs according to the purpose of the dataset being calibrated. In order to completely characterise the camera, and produce the Charge Resolution results, the per-pixel \gls{spe} value must be obtained, and used to produce the absolute charge in a waveform (the complete Charge Resolution procedure can be found in Chapter~\ref{ch8-pipeline}).
+
+% The function that characterises the \gls{spe} distribution of an \gls{sipmt} is not wildly different to that of an \gls{mapmt}, but does include the significant contribution of the optical crosstalk:
+% \change[inline]{write function}
+
+% The other significant difference in the \gls{spe} distribution of an \gls{sipmt} is the improved resolution of the peaks. Typically when an \gls{sipmt} is illuminated at \change{illumination}, peaks from \change{range of peaks} can be identified. Figure~\change{obtain spe figure of sipm on its own} shows the \gls{spe} spectrum for the model of \gls{sipmt} we have installed into the camera. However, due to the inclusion of the other electronics in the camera, this improved resolution is considerately suppressed, but is still significantly better than observed with \gls{chec-m}\change{reference chec-m figure}.
+
+% Figure~\change{insert figure} shows the \gls{spe} spectrum and fit for a pixel in our camera. The resulting parameters are \change[inline]{talk about the spe fit parameters, and show some histograms}
