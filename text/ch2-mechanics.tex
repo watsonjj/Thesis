@@ -28,12 +28,26 @@
 
 \section{Introduction}
 
+\change[inline,caption={}]{
+	\begin{itemize}
+		\item number of pixels
+        \item number of modules
+        \item number of pixels per module
+        \item number of cells
+        \item pixel gaps
+        \item module gaps
+	\end{itemize}
+}
+
 
 \section{CHEC-M}
 
 \change[inline]{schematic illustration of electronics}
 
 \subsection{Multi-Anode Photomultiplier Tubes}
+
+\change[inline]{connection between gain and hv}
+\change[inline]{table of parameters}
 
 \subsection{Front-End Electronics}
 
@@ -53,15 +67,21 @@
 
 \subsubsection{DACQ Boards}
 
-\subsection{Peripherals\change{?}}
-
-\subsubsection{LED Flashers}
-
-\subsubsection{Chiller}
-
 \section{CHEC-S}
 
 \subsection{Silicon Photomultipliers}
+
+\change[inline]{connection between gain and bias voltage}
+\change[inline]{table of parameters}
+
+% \change[inline,caption={}]{
+% 	\begin{itemize}
+% 		\item V_b bias voltage
+%         \item V_br breakdown voltage
+%         \item V_over Overvoltage
+%         \item PED does not change with temperature, but the breakdown voltage does, making it seem like the PDE changes
+% 	\end{itemize}
+% }
 
 \subsection{TARGET-C}
 
@@ -69,10 +89,113 @@
 
 \change{name of TARGET-C FPGA?}
 
+\section{External Components} \label{section:external_components}
+
+\subsection{LED Flashers}
+
+% Although not technically a part of the waveform processing chain, the LED flashers have an important role in the calibration pipeline, especially for the final operation of the \gls{chec} cameras in \gls{cta}. Their purpose is to allow us to perform in situ calibration, by uniformly illuminating the camera via reflection in the secondary mirror. However to achieve this, we must characterize and calibrate the LEDs such that we accurately know the illumination they are providing. \change[inline]{include some results on the LED calibration, and also mention their temperature dependence.}
+
+\subsection{Chiller}
+
 \section{Future}
 
-\section{Lab Set-Up}
+\section{Laboratory Set-Up}
+
+\section{Laboratory Calibration} \label{section:lab-calib}
+
+In order to obtain reliable knowledge on the average illumination incident on the camera in our laboratory, we must calibrate the laser and filter wheel combination. This is of paramount importance for performing the camera flat-field calibration, and for obtaining a laboratory charge resolution result. There are four stages required to achieve a calibration from filter-wheel position to expected charge in each pixel:
+\begin{enumerate}
+\item Measuring the relationship between filter-wheel position and light transmissivity.
+\item Measuring the relative amount of light each pixel receives due to its position on the focal surface.
+\item Measuring an absolute illumination in photoelectrons for at-least one filter-wheel position.
+\end{enumerate}
+From the combination of these results, we are able to obtain a conversion from filter-wheel position to expected number of photoelectrons in each pixel.
+
+\subsection{Filter Wheel}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{fw_position_justus} 
+	\caption[Filter-wheel Position Calibration]{Logarithm of transmission versus position for the filter wheel. The relationship is fit with a straight line.}
+	\label{fig:fw_position}
+\end{figure}
+
+Using a single reference silicon photomultiplier pixel connected to an oscilloscope, centred on the camera focal plane, the ratio between the pulse area with and without the neutral-density filter was calculated for different filter-wheel positions (i.e. different filter levels). The filter-wheel positions 100 to 3025 are utilised to cover the full dynamic range of the camera, within which the transmission is expected to increase logarithmically with position. With the transmission axis in log-space, the relationship between filter-wheel position and transmission is obtained using a linear regression of the data points (Figure~\ref{fig:fw_position}), which can be extrapolated to the lower values of filter-wheel position. Only the positions 1525 to 2950 are shown in this calibration, due to the signal at lower positions being too small to reliably measure with the combination of approach and reference \gls{sipmt}. Future repeats of this calibration will use a different sensor or additional methods in order to explore the full range of filter-wheel position.
+
+\subsection{Illumination Profile} \label{section:illumination_profile}
+
+There exists two contributions to the relative amount of light each pixel receives, depending on the position of the pixel.
+
+\subsubsection{Laser Profile}
+
+\begin{figure}
+	\centering
+    %\includegraphics[width=\textwidth]{fw_position_justus} 
+	\caption[Lab laser profile]{Spatial profile of the laser illumination along a flat plane in front of the camera, measured with a single reference \gls{sipmt} pixel attached to a robot arm. \change[inline]{Show value in each position, and then gradient fit?}.}
+	\label{fig:light_profile}
+\end{figure}
+
+Despite attempts to homogenise the illumination from the laser plus diffuser, there are still non-uniformities in the light received at the camera pixels that should be corrected for in the calibration. As shown in Figure~\ref{fig:light_profile}, a linear gradient in laser illumination exists across the x-y plane. This was found by attaching a single silicon photomultiplier pixel to a robot arm at the same distance from the laser as the camera. By using a single pixel the amplitude measured is disentangled from the relative PDE. This pixel was then moved to an x-y position to calculate the ratio in signal amplitude, returning back to the origin to obtain a fresh value to compare to, thereby correcting for any deviations due to a change in temperature. The resulting distribution of ratios was fit with a linear gradient across the plane.
+
+\subsubsection{Camera Geometry}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=0.75\textwidth]{geometry} 
+	\caption[Camera geometry correction schematic]{Two-dimensional geometry schematic of the laboratory set-up for uniform camera illumination, used to calculate the reduction in light level for each pixel depending on its distance from the camera centre.}
+	\label{fig:geometry}
+\end{figure}
+
+Due to the spherical camera focal surface, each pixel is at a different distance $d_z$ from the light-source, and therefore receives a different amount of light depending on its distance $x$ from the camera centre. Furthermore, the ``viewing area'' $A_V$ of the pixel from the light-source reduces with distance from the camera centre as the tangent to the pixels approximately align with the tangent to the curved camera focal surface, creating the ``viewing angle'' $\beta$ between the tangent and direction to the light-source. The combined geometric correction to the light intensity required to compensate for these effects is circularly symmetric, and therefore can be analytically approximated by using a two dimensional description of the camera, with a circular focal surface:
+
+\begin{equation} \label{eq:geom_distance1}
+d_1 = r - d_2 = r - \sqrt{r^2 + x^2},
+\end{equation}
+\begin{equation} \label{eq:geom_distance2}
+d_z = \sqrt{x^2 + (d_c + d_1)^2} = \sqrt{x^2 + (d_c + r - \sqrt{r^2 + x^2})^2}.
+\end{equation}
+\begin{equation} \label{eq:viewing_area1}
+\beta = \theta + \alpha = \sin^{-1}{\frac{x}{d_z}} + \sin^{-1}{\frac{x}{r}},
+\end{equation}
+\begin{equation} \label{eq:viewing_area2}
+\frac{A_V}{A_P} = \cos{\beta},
+\end{equation}
+\begin{equation} \label{eq:geom_correction}
+\frac{I_x}{I_c} = \frac{d_z^2}{d_c^2} \times \cos{\beta},
+\end{equation}
+where $A_P$ is the pixel area, $I_x$ is the intensity measured at the position of the pixel, $I_c$ is the intensity measured at the centre of the camera, and the remaining distances and angles are shown in Figure~\ref{fig:geometry}.
+
+The resulting geometry corrections to the intensity for each pixel, arising from Equation\ref{eq:geom_correction}, can be seen in Figure~\change{add figure}. 
+
+The final illumination profile correction, combining both the laser profile and camera geometry, can be seen in Figure~\change{add figure}.
+
+\section{Absolute Illumination} \label{section:absolute_illumination}
+
+The method adopted to obtain a value for the absolute illumination is to use a fit to the Single Photoelectron spectrum resulting from low-amplitude illumination of the pixels. Contained within this fit is the average illumination parameter, $\lambda$. This topic is further covered in Chapter~\ref{ch5-calibration}. 
+
+By simultaneously fitting 3 illuminations, we obtain 3 values of $\lambda$ per pixel. With the 3 filter-wheel transmissions (corresponding to the 3 illuminations) on the x-axis, these values of $\lambda$ can be linearly regressed to obtain the gradient $M_\lambda$ and y-intercept $C_\lambda$ per pixel. The y-intercept represents the $\lambda$ you would get with zero filter-wheel transmission, and therefore indicates the \gls{nsb} and \gls{dcr}. The variation in $M_\lambda$ across the pixels arises from the folding of the illumination profile and the relative \gls{pde}. Therefore, the next step is to correct for the illumination profile contribution to the gradient, the result of which is solely the relative \gls{pde} (Figure~{add figure, in this chapter or results chapter?}). The calibration from filter-wheel transmission $T_\text{FW}$ to average camera illumination $\average{I}_{pe}$ is then:
+
+\begin{equation} \label{eq:average_camera_illumination}
+\average{I}_{pe} = \average{M}_\lambda T_\text{FW} + \average{C}_\lambda,
+\end{equation}
+
+\subsection{Expected Charge}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{lab_tfpoly_fw_calibration} 
+	\caption[Calibration from Filter-Wheel Transmission to Expected ]{Relationship between filter-wheel transmission and expected charge in photoelectrons resulting from the filter-wheel calibration. The black line shows the conversion for a theoretical pixel exactly positioned at the camera centre. The blue segment shows the range for the actual pixels in the camera, with the consideration of illumination profile included.}
+	\label{fig:fw_calibration}
+\end{figure}
+
+As we correct for the \gls{nsb} in the extracted signal value (Section~\ref{section:photosensor_calib}), the \gls{nsb} contribution to Equation~\ref{eq:average_camera_illumination} ($\average{C}_\lambda$) is subtracted to give us the charge we expect when illuminating the camera with a filter-wheel transmission $T_\text{FW}$, for a theoretical pixel perfectly positioned at the camera centre. To obtain the expected charge for each true camera pixel ${Q_\text{Exp}}_\text{pix}$, this relation must be folded with the illumination profile correction factor $F_\text{pix}$ to give:
+\begin{equation} \label{eq:average_camera_illumination}
+{Q_\text{Exp}}_\text{pix} = \average{M}_\lambda T_\text{FW}F_\text{pix}.
+\end{equation}
+Figure~\ref{fig:fw_calibration} shows the relation between filter-wheel transmission and the expected charge for the camera pixels.
 
 \section{Readout Characteristics}
 
 \change{define ADC}
+
+\change{monitoring information}

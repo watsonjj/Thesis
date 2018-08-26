@@ -97,7 +97,7 @@ The most important, but also the simplest, calibration to apply is the subtracti
 	\label{fig:cellwf}
 \end{figure}
 
-There are $2^{14} = 16,384$ storage cells per channel (for \gls{chec-m}, $2^{12} = 4096$ for \gls{chec-s}\change{Make sure to mention about the difference in number of cells for checs in ch2}), therefore naively it could be concluded that there are $32 (Modules) * 64 (Channels) * 16,384 (Cells)$ pedestal values to keep record of. However, there is an additional contribution to the behaviour of the pedestal - discharging a cell to read out its value will slightly discharge adjacent cells. The result of this effect is that the further along in the waveform a cell is, the lower its pedestal value will be. This effect is reversed with \gls{targetc}, where the later blocks of the waveform are digitised first (Figure~\ref{fig:cellwf}). Consequently, an extra dimension of ``position in waveform'' needs to be considered.
+There are $2^{14} = 16,384$ storage cells per channel (for \gls{chec-m}, $2^{12} = 4096$ for \gls{chec-s}\change{Make sure to mention about the difference in number of cells for checs in ch2}), therefore naively it could be concluded that there are $32 (Modules) * 64 (Channels) * 16,384 (Cells)$ pedestal values to keep record of. However, an additional characteristic of the \gls{target} \gls{asic} is that the pedestal amplitude depends on the position in the waveform. This occurs as the blocks are not entirely decoupled; the discharge of one block affects adjacent blocks. This effect is apparent in Figure~\ref{fig:cellwf}, where the pedestal amplitude of a single cell changes depending on the position of its parent block in the waveform. Consequently, an extra dimension of ``position in waveform'' needs to be considered in the waveform lookup table.
 
 \subsubsection{Generation}
 
@@ -140,7 +140,7 @@ There are two forms of Transfer Function that have been considered for \gls{chec
     \caption{AC Transfer Function input, measured with TARGET~C.}
     \label{fig:generation_tc}
   \end{subfigure}
-  \caption[Transfer Function generation waveforms.]{Multiple average waveforms, increasing in amplitude. Each average contains 1000 waveforms from the same single channel. These waveforms cover the full dynamic range of the TARGET ASIC, and are used as inputs to generate the DC and AC Transfer Functions, respectively.}
+  \caption[Transfer Function generation waveforms.]{Multiple average waveforms, increasing in amplitude. Each average contains 1000 waveforms from the same single channel. These waveforms cover the full dynamic range of the TARGET ASIC, and are used as inputs to generate the DC and AC Transfer Functions, respectively. The saturation behaviour of the TARGET C ASIC can be seen in the high amplitude waveforms in (b).}
 \end{figure}
 
 \begin{figure}
@@ -166,7 +166,7 @@ The second step in the generation is to linearly interpolate the running average
 
 \subsubsection{Generation (\gls{ac} Transfer Function)}
 
-As the ability to internally set a \gls{dc} voltage with a known amplitude via the Vped was made more difficult in \gls{targetc} (see \ref{ch2-mechanics}) \change{more precise ref, and remember to mention this change}, and the ability to input a \gls{dc} voltage externally is prohibited by the \gls{ac} coupling of the module \change{remember to introduce ac coupling}, the decision was made to transition to an \gls{ac} Transfer Function that uses the expected pulse shape as an input. This approach therefore corrects for the \gls{ac} effect with the appropriate frequency. 
+As the ability to internally set a \gls{dc} voltage with a known amplitude via the Vped was removed in \gls{targetc} (see \ref{ch2-mechanics}) \change{more precise ref, and remember to mention this change}, and the ability to input a \gls{dc} voltage externally is prohibited by the \gls{ac} coupling of the module \change{remember to introduce ac coupling}, the decision was made to transition to an \gls{ac} Transfer Function that uses the expected pulse shape as an input. This approach therefore corrects for the \gls{ac} effect with the appropriate frequency. 
 	
 The full dynamic range is once again probed, by injecting pulses of varying amplitude. In order to extract the values that correspond to negative amplitudes in this method, the amplitude of the input undershoot is also monitored. Only the samples that correspond to the maximum of the input pulse (and minimum of the undershoot) has a ``true'' amplitude of the input amplitude. Therefore to extract the correct samples, each waveform is fitted with two Landau functions, a fair approximation to the pulse shape (Figure~\change{figure showing the fit}). Consequently, only two samples are extracted per waveform, requiring a much larger population of events (\utilde200,000) in order to generate a reliable running average grouped according to $[Module, Channel, Storage Cell, Input Amplitude]$. It is important to note that a Transfer Function per storage cell was adopted for \gls{targetc}, as it was found to significantly improve the residuals (see Appendix~\ref{a1-tf} for further discussion).
 
@@ -192,168 +192,111 @@ Appendix~\ref{a1-tf} provides some insight into the current progression in these
 
 Assessing the performance of the Transfer Functions is a more complicated task than for the pedestals. This is largely because instead of a comparison to a null signal, we are instead comparing to an input amplitude which contains its own uncertainty, and could potentially be incorrect. So while the performance results may indicate that the residuals of the Transfer Function may be small, this does not necessarily mean the calibration is accurate. Therefore the most decisive performance indicator should be one that provides an independent measurement on the ``correct'' amplitude. The most obvious scheme fitting this requirement is the charge resolution, described in Chapter~\ref{ch3-architecture}, the results of which are also explored in Appendix~\ref{a1-tf}.
 
-\section{Laboratory Calibration}
+\section{Photosensor Calibration} \label{section:photosensor_calib}
 
-\change[inline]{Move to ch2?}
+The other primary component in the detector chain that requires calibration is the photosensor itself. As photosensors are a much more common instrument used in a variety of experiments, the calibration procedures required are already well known in the academic community. It is therefore mostly a simple case of adapting existing approaches to fit our requirements.
 
-Although not directly part of the camera calibration, the calibration of the laboratory set-up is an important step in achieving an accurate photosensor calibration, covered in Section \ref{Photosensor Calibration}. A description of the laboratory set-up can be found in Chapter~\ref{ch2-mechanics}.
-
-\subsection{Filter-Wheel}
-
-The calibration of the filter-wheel was performed using a ...
-The resulting conversion 
-
-\subsection{Illumination Profile}
-
-Despite the attempts made to make the illumination from the laser plus diffuser uniform, there are still non-uniformities in the light received at the camera pixels that should be corrected for in the calibration.
-
-\subsubsection{Laser Profile}
-
-By measuring the illumination with a single silicon photomultiplier pixel
-
-As shown in Figure~/change{add figure}, a linear gradient in laser illumination exists across the x-y plane. This was found by attaching a single silicon photomultiplier pixel to a robot arm at the same distance from the laser as the camera. By using a single pixel the amplitude measured is disentangled from the relative PDE. This pixel was then moved to an x-y position to calculate the ratio in signal amplitude, returning back to the origin to obtain a fresh value to compare to, thereby correcting for any deviations due to a change in temperature. The resulting distribution of ratios was fit with a linear gradient across the plane.
-
-\subsubsection{Camera Geometry}
-
-Due to the curved camera focal surface, each pixel is at a different distance from the light-source. The geometric correction required to compensate for the effect is is circularly symmetric, and therefore can be analytically approximated by using a two dimensional description of the camera focal surface (Figure~\change{figure of geometry}):
-
-\change[inline]{Geometric equation}
-
-Equation~\change{ref eq} results in the pixels corrections shown in Figure~\change{add figure}.
-
-The combined result of the laser profile, and geometry correction results in the illumination profile correction per pixel (Figure~\change{add figure}).
-
-\subsection{Expected Illumination}
-
-With both the Filter-Wheel transmission and the corrections of the illumination amplitude for each pixel, one can create a lookup table to obtain the expected illumination in photoelectrons for each pixel. To achieve this, we must calculate the absolute illumination for at-least one filter-wheel position. The method adopted to achieve this is to use a fit to the Single Photoelectron spectrum resulting from low-amplitude illumination of the pixels. Contained within this fit is the average illumination in photoelectrons parameter, $\lambda$. This topic is further covered in Chapter~\ref{ch5-calibration}. 
-
-By simultaneously fitting 3 illuminations, we obtain 3 values of $\lambda$ per pixel. With filter-wheel transmission on the x-axis, these values of $\lambda$ can be linearly regressed to obtain the gradient $M_\lambda$ and y-intercept $C_\lambda$ per pixel. The y-intercept represents the $\lambda$ you would get with zero filter-wheel transmission, and therefore indicates the \gls{nsb} and \gls{dcr}. The variation in $M_\lambda$ across the pixels arises from the folding of the illumination profile and the relative \gls{pde}. Therefore, the next step is to correct for the illumination profile contribution to the gradient, the result of which is solely the relative \gls{pde} (Figure~{add figure, in this chapter or results chapter?}). In order to obtain a calibration from filter-wheel transmission $T_{FW}$ to average camera illumination $\average{I}_{pe}$ the following equation is then used:
-
-\begin{equation} \label{eq:average_camera_illumination}
-\average{I}_{pe} = \average{M}_\lambda T_{FW} + \average{C}_\lambda,
-\end{equation}
-
-If we want the direct illumination in the a
-
-use equations, and subtract C later
-
-$G$ can be interpreted as the 
-
-Next, the contribution of the illumination profile discrepancies per pixel (Figure~\change{ref figure}) are removed from the gradients. The remaining variations between pixels for these gradients are solely a measure of the relative \glspl{pde}, quantified in Figure~\change{add figure, in this chapter or results chapter?}. The conversion of filter-wheel transmission to average camera illumination is obtained from the average of these gradients.
-
-... obtaining the expected illumination per pixel is important in assessing the flat fielding coefficients in such a way that they are independent of the illumination profile. Such that when the camera is moved to a different lab or onto the telescope, the same flat field coefficients are applicable.
-... we now have an expected charge axis for each pixel
-
-\section{Photosensor Calibration} \label{Photosensor Calibration}
-
-\change[inline]{dead pixels}
-
-The other primary component in the detector chain that requires calibration is the photosensor itself. As photosensors are a much more common instrument used in a variety of experiments, the calibration procedures required are already well known in the academic community. It is therefore mostly a simple case of adapting them to fit our needs.
-
-The typical procedure in Cherenkov camera waveform analysis includes extracting the signal charge from the waveform of each pixel. This procedure, and the different methods to achieve it, is described in Chapter~\ref{ch6-reduction}. The value extracted is typically in digitisation or voltage units, multiplied by time if the charge extraction is an integral over the waveform. For example, the units of the extracted charge from \gls{chec-s} using the \textit{Cross-Correlation} method is $mV ns$. Once extracted, this charge must be corrected for the relative efficiency of this pixel compared to the mean of the camera in order to achieve a uniform response (``flat-fielding''), and then converted into a counting unit that is shared among the telescopes in the array (such as photons or photoelectrons), thereby simplifying the processing of array data. This procedure is characterised in the equation: 
-
+The typical procedure in Cherenkov camera waveform analysis includes extracting the signal charge from the waveform of each pixel. This procedure, and the different methods to achieve it, is described in Chapter~\ref{ch6-reduction}. The value extracted is typically in digitisation counts or units of voltage, multiplied by time if the charge extraction is an integral over the waveform. For example, the units of the extracted charge from \gls{chec-s} using the \textit{Cross-Correlation} method is $mV ns$. Once extracted, this charge must be corrected for the relative efficiency of its pixel compared to the mean of the camera in order to achieve a uniform response (``flat-fielding''), and then converted into a counting unit that is common among the telescopes in the array (such as photons or photoelectrons), thereby simplifying the processing of array data \cite{Aharonian2004}. This procedure is characterised in the equation: 
 \begin{equation} \label{eq:photosensor_calibration}
+I_i = \frac{{A_Q}_i - {A_0}_i}{\gamma_{Q}} \times {\gamma_{FF}}_i,
+\end{equation}
+where 
+\begin{itemize}
+\item ${A_Q}_i$ is the charge extracted in units of $mV ns$ for pixel $i$, proportional to the number of photoelectrons,
+\item ${A_0}_i$ is the baseline in the absence of a signal for pixel $i$. It should be obtained using the same charge extraction approach used for the signal,
+\item $\gamma_{Q}$ is the nominal conversion value from $mV ns$ to photoelectrons/photons for the entire camera,
+\item ${\gamma_{FF}}_i$ is the flat-field coefficient for the pixel $i$,
+\item and $I_i$ is the resulting calibrated signal in photoelectrons/photons.
+\end{itemize}
 
+In the final calibration design of \gls{cta}, ${A_0}_i$ is intended to be supplied by the telescope alongside the waveforms at regular intervals. The regular updating of this value ensures that any changes to the baseline due to \gls{nsb} or temperature variations (which can also increase \gls{dcr}) are accounted for. However, this parameter is set to zero for the content of this thesis, and is not investigated. Instead, a less effective but simpler baseline subtraction is performed by monitoring the running average of the first 16 samples of the past 50 waveforms for each pixel. This running average is subtracted from each waveform before charge extraction. The remainder of this section will describe how to obtain the other calibration values, $\gamma_{Q}$ and ${\gamma_{FF}}_i$, and the other procedures related to the photosensor calibration.
 
-\average{I}_{pe} = \average{M}_\lambda * T_{FW} + \average{C}_\lambda,
+\subsection{Gain Matching}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{before_after_gm} 
+	\caption[Gain-Matching Residuals]{Comparison between the spread in the average signal amplitude per pixel before and after gain matching, for a dataset with approximately 50~p.e. average illumination. Every pixel in the camera is included.} 
+	\label{fig:before_after_gm}
+\end{figure}
+
+The flat-field coefficients, ${\gamma_{FF}}_i$, provide an offline compensation for a variety of photosensor parameters which alter the signal response in the waveform, described in Tables~x\&y\change{create table in mechanics chapter that list each parameter for the photosensor, with descriptions and specify if it changes with voltage, temperature, and how it affects signal}. However, as seen in the table, many of these parameters have a dependence on the voltages across the photosensor, which is a controllable value. With the \gls{chec-m} \glspl{mapmt} it is only possible to change the voltage value for an entire module, whereas with the \gls{chec-s} \glspl{sipmt} the voltages can be configured per superpixel (group of four pixels)\change{mention superpixels in ch3}. Therefore, voltage values can be selected before data-taking that result in a more uniform signal response across the photosensor. This is referred as ``Gain Matching'', however the name is slightly misleading, as it is the signal that is being matched, not the gain. It is performed by specifying the amplitude (in mV) that every pixel should be matched to, and then performing the following iterative procedure:
+\begin{enumerate}
+	\item The camera is uniformly illuminated with approximately 50~p.e..
+	\item The waveforms are readout, calibrated, and averaged per superpixel/module (excluding any dead pixels).
+    \item The peak amplitudes of the average waveforms are extracted.
+    \item Each module/superpixel is categorised as being above or below the requested amplitude
+    \item Depending on their category, voltage setting is increased or reduced by steps of 5 (in units of DAC value), such that it increments closer to the requested amplitude. If the amplitude has been overstepped in the previous measurement, a smaller step value is used. The minimum DAC step value available is 1, which corresponds to $\frac{10}{256}$~V. If the amplitude is not responding to changes in voltage, the pixel is classified as ``dead'', and excluded from the average waveforms.
+    \item The new voltage settings are applied and the process is repeated.
+\end{enumerate}
+
+In the future, this iterative technique will be replaced with a set of lookup tables for different requested amplitudes. These lookup tables will contain the final voltage settings resulting from this iterative technique. Additionally in the future, the requested signal will not be specified in terms of peak amplitude, but in terms of the \textit{Cross Correlation} charge extraction approach. The improvement in signal response for \gls{chec-s} as a result of the gain matching is shown in Figure~\ref{fig:before_after_gm}, where a response spread reduction of 22\% is achieved.
+
+Tables~x\&y\change{update} also show a dependence on temperature for some of the photosensor parameters. The additional benefit of the gain matching is these temperature dependences can also be accounted for, by using the monitored temperature value per module and a lookup table of the appropriate corrections to the voltages, such that a constant signal response is kept across the camera. This particular in-situ calibration has not yet been implemented, but is intended for the future.
+
+\change[inline]{plot with gain vs temperature? maybe some initial results from Yuki}
+
+\subsection{SPE Fitting}
+
+Due to the photon-counting nature of \glspl{mapmt} and \glspl{sipmt}, when the signal extracted from a pixel, illuminated with a low light-level (\utilde1~p.e.), is accumulated into a histogram, the resulting spectra (Figure~\change{figure of both checm and checs spectra}) show peaks at regular intervals corresponding to the baseline (zeroth peak), 1~p.e. (first peak), 2~p.e. (second peak), etc. These spectra are referred to as ``\gls{spe} Spectra''. The physical processes that result in these spectra are well understood for \glspl{mapmt} and \glspl{sipmt}, and therefore analytical formulae \change{check consistency in spelling} exist describing the spectra. When these formulae are fit to the histogram, they can be used to extract certain parameters of the photosensor, including the average incident illumination $\lambda$, in units of photoelectrons. As $\lambda$ provides an absolute illumination value, it allows for the full calibration of expected charge for each filter-wheel position, for each pixel (Section~\ref{section:expected_charge}). This is the first step required in obtaining the flat-field coefficients. For more details on this fitting procedure, and the formulae used to describe the \gls{spe} spectra, refer to Appendix~\ref{a2-spe}.
+
+\subsection{Flat-Field Coefficients}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{flat_fielding} 
+	\caption[Flat-field calibration]{The average measured charge per illumination for a single pixel. The orange points are used for a linear regression through the origin in order to determine the flat-field coefficients for each pixel.} 
+	\label{fig:flat_fielding}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{ff_values_cropped} 
+	\caption[Flat-field Coefficients]{Camera image of the flat-field coefficient value, ${\gamma_{FF}}_i$, per pixel. Pixels that have been designated ``dead'' or misbehaving are outlined in red, and exist beyond the colour-scale range.}
+	\label{fig:ff_values}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{before_after_ff} 
+	\caption[Flat-field Residuals]{Comparison between the spread in the average signal amplitude per pixel before (blue) and after (orange) the flat-fielding calibration. The charges are extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of 47.7~p.e.. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels is considered, i.e. they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera is included in the histograms.}
+	\label{fig:before_after_ff}
+\end{figure}
+
+Once the ``expected charge'' dependence on filter-wheel position/transmission is characterised (Section~\ref{section:expected_charge}), we can calculate the coefficients, ${\gamma_M}_i$, required to convert the average extracted charge (in $mV ns$) into the charge we expect (in photoelectrons/photons). The application of these coefficients to the extracted charge has two effects:
+\begin{itemize}
+\item The signal response between pixels is homogenised - the same average amount of charge will be extracted for any pixel illuminated with an average of N photons.
+\item The signal response is converted into the common telescope-array units of photoelectrons or photons.
+\end{itemize}
+Therefore:
+\begin{equation} \label{eq:ff}
+{\gamma_M}_i = \frac{\gamma_Q}{{\gamma_{FF}}_i}.
 \end{equation}
 
+To obtain ${\gamma_M}_i$ per pixel $i$ in the lab, datasets with around 50~p.e. expected charge per pixel are produced. For each pixel, the average extracted charge (in $mV ns$) is linearly regressed, while forcing the fit through the origin. This regression is shown for a single pixel in Figure~\ref{fig:flat_fielding}. The resulting gradient of the regression is equal to ${\gamma_M}_i$, which can now be combined with Equations~\ref{eq:photosensor_calibration}~\&~\ref{eq:ff} to obtain the calibrated extracted charge. The value of $\gamma_Q$ obtained for \gls{chec-s} is 32.56~mVns/p.e., and the spread of $\gamma_{FF}$ across the camera is shown in Figure~\ref{fig:ff_values}. The resulting residual spread in signal response between pixels at an average camera illumination of 47.7 p.e. is shown in Figure~\ref{fig:before_after_ff}. The final variation in signal response between pixels at this illumination is 0.5\% \change{update when using the lab illumination profile}. The variation in signal responses at other illuminations is shown in Figure~\change{add figure}.
 
-However, unlike with the \gls{target} modules, where the procedures are very similar between \gls{chec-m} and \gls{chec-s}, an \gls{mapmt} is very different to a \gls{sipmt}. Therefore it is logical to deal with the calibration procedure for each of these photosensors separately.
+As the flat-field coefficients have been calculated in a manner in which they are unfolded from the illumination profile (by calculating the expected charge individually for each pixel), they are applicable to any environment the camera is used in. Any deviations that are observed in the signal between pixels are then due to the illumination profile present in the environment, and not due to the characteristics of the photosensor. Once on telescope, the flat-field coefficients are intended to be routinely updated using the reflection of the LED flashers (Section~\ref{section:peripherals}) in the secondary mirror. This will calibration will require an updated illumination profile in order to be performed.
 
-\subsection{CHEC-M}
+\subsection{Dead Pixels}
 
-Photomultiplier tubes have been widely used in Gamma-ray Astronomy since the first \glspl{iact} \change{get source}, therefore the characterisation of these devices is very well understood. However, \glspl{mapmt} are a more recent evolution of the devices, and although they have the same underlying concept, they do suffer from some limitations, such as the inability to tweak the \gls{hv} on a pixel level, and the electrical crosstalk across the tightly packed pixels \change{check checm paper for other limitations}.
+It can be seen from Figure~\ref{fig:ff_values} that some of the photosensor pixels contain either no signal or an odd signal, resulting in an extreme flat-field coefficient. This is likely due to damage to the pixel during handling, or due to water ingress. However, the 4 pixels constitute to 0.2\% of the camera, therefore the camera is still well within the \requirementref{B-TEL-1295 Pixel Availability} \gls{cta} requirement. These pixels are excluded from any calculations involving multiple pixels, including the expected-charge calibration and the camera charge-resolution. 
 
-A common method to characterize \glspl{mapmt}, and the one we also adopted, is the use of the \gls{spe} spectrum. The primary result this spectrum provides is the per-pixel value to calibrate from the measured signal in mV (or mV*ns for integrated charge) to \gls{pe}. This conversion value is hereafter referred to as the \gls{spe} value. In order to investigate this parameter, the photosensor is illuminated with a very low light level (average illumination <1~p.e. per pixel). As the photosensor is essentially a photon counting device, the individual peaks of the photoelectrons that are produced by the photocathode can be identified in the histogram of charge amplitudes. The \gls{spe} value is therefore the average charge of the first photoelectron peak. However, the resolution of these peaks can be quite poor, especially for \glspl{mapmt}, therefore the resulting distribution is fit with a function that characterises the photosensor: \change[inline]{add equation for mapm spe fit, and reference its origin}
+\section{Saturation Recovery}
 
-\change[inline]{SPE fit plots}
+As evident in Figure~\ref{fig:flat_fielding}, high illumination (greater than \utilde200~p.e.) measurements are affected by saturation of the detector. The saturation seen is due to the \gls{target} \gls{asic}, which saturates before the photosensor itself. However, while the height of the pulse will increase no further, the excess charge causes the pulse to extend further (Figure~\ref{fig:generation_tc}). Therefore it is possible to perform a simple correction for the saturation recovery by utilising this waveform behaviour. A simple attempt at saturation recovery is shown in Figure~\change{add figure}, where the waveform is integrated in a window that starts just before the pulse maximum, and extends to the end of the waveform. This results in an extracted charge that continues to increase with illumination, apart in the region immediately after saturation. More investigation is required for this calibration.
 
-This SPE value is proportional to the gain of the photomultiplier, and therefore also proportional to the \gls{hv} applied across the photomultiplier. In order to extract a clear \gls{spe} spectrum, the voltage across the \glspl{mapmt} are set to the maximum value of 1100~V, thereby maximising the separation between the photoelectron and pedestal peaks.
-
-In order to extrapolate the correct \gls{spe} value for other \gls{hv} settings, the following relation:
-
-Can be used in combination with a logarithmic \change{double check, maybe linear regression in log space?} fit of a dataset where the amplitude is measured as a function of HV to obtain $\alpha$ per pixel. \change{include plot of relation}
-
-\change{plots of the SPE values at different hv sets}
-
-In order to apply this calibration, the \gls{spe} value (with units of $mV*ns*p.e.^{-1}$) per pixel is multiplied by the charge extracted per pixel. \change[inline]{show a waveform with this factor applied, maybe also the spectrum}
-
-\subsection{CHEC-S}
-
-In the transition to \glspl{sipmt}, the calibration procedure for the photosensors was revised to better utilise the upgraded functionality of \gls{chec-s}. 
-
-\subsubsection{Gain Matching}
-
-Firstly, the voltages across the photosensors are now configurable per superpixel (group of 4 pixels) \change{mention superpixels in ch3} as opposed to per module. This allows the voltage to be fine-tuned to produce an identical gain response on a per superpixel level.
-
-The procedure for this is illustrated in Figure~\change{gain matching figure}:
-\begin{itemize}
-	\item The camera is illuminated with approximately 50~p.e.
-	\item The waveforms are readout and averaged per superpixel (excluding any dead pixels)
-	\item The next voltage settings are calculated such that they will reduce the spread in the pulse height of the averaged waveforms
-	\item The new voltage setting are applied, and the process is repeated
-\end{itemize}
-This iterating approach reduces the gain spread between pixels from \change{values} (Figure~\change{add final comparison figure})
-
-\change[inline]{need a note here or in ch2 about how other parameters of an sipmt change with hv}
-
-The additional benefit of this calibration is that changes in temperature, which would normally affect the gain, can be accounted for by changing the \gls{hv}, therefore maintaining a constant gain response across the camera. This particular in-situ calibration has not yet been implemented, but is intended for the future.
-
-\change[inline]{plot with gain vs temperature?}
-
-\subsubsection{SPE Calibration}
-
-The second step in the \gls{chec-s} photosensor calibration differs according to the purpose of the dataset being calibrated. In order to completely characterise the camera, and produce the Charge Resolution results, the per-pixel \gls{spe} value must be obtained, and used to produce the absolute charge in a waveform (the complete Charge Resolution procedure can be found in Chapter~\ref{ch8-pipeline}).
-
-The function that characterises the \gls{spe} distribution of an \gls{sipmt} is not wildly different to that of an \gls{mapmt}, but does include the significant contribution of the optical crosstalk:
-\change[inline]{write function}
-
-The other significant difference in the \gls{spe} distribution of an \gls{sipmt} is the improved resolution of the peaks. Typically when an \gls{sipmt} is illuminated at \change{illumination}, peaks from \change{range of peaks} can be identified. Figure~\change{obtain spe figure of sipm on its own} shows the \gls{spe} spectrum for the model of \gls{sipmt} we have installed into the camera. However, due to the inclusion of the other electronics in the camera, this improved resolution is considerately suppressed, but is still significantly better than observed with \gls{chec-m}\change{reference chec-m figure}.
-
-Figure~\change{insert figure} shows the \gls{spe} spectrum and fit for a pixel in our camera. The resulting parameters are \change[inline]{talk about the spe fit parameters, and show some histograms}
-
-\subsubsection{Flat-Fielding}
-
-Alternatively, in the default data-taking mode of on-sky Cherenkov images, the flat-fielding approach will be used. This exists as a software extension to the gain-matching to further unify the response across the camera. With an illumination of approximately 50 p.e. (as with the gain matching), the coefficients are extracted such that the charge measured in each pixel is the same (after accounting for the difference in illumination between pixels due to the beam profile and curved geometry of the focal plane). These coefficients differ in those obtained via the \gls{spe} method as they include the relative \gls{pde} between pixels in the correction. 
-
-The argument between flat-fielding according to gain response (\gls{spe} fitting) or according to illumination response (method we are adopting) is a common one among \glspl{iact} \change{find references where HESS/MAGIC differ in their approach}, and is also a current topic among the different \gls{cta} telescopes. The reason we have chosen to adopt the latter is it reduces the pixel-to-pixel variations in their response to being illuminated, which is important for Cherenkov shower images. The measured charge in each pixel will not be exactly representative of the number of photoelectrons, but instead it will be representative of the number of photons. However, in order to keep the charge extracted in relatable units, a single nominal $mV*ns*p.e.^{-1}$ conversion value will be applied to the entire camera.
-
-\change[inline]{needs some demonstration of its impact, some plots for example, that continue on from the gain matching plots}
-
-\section{Other}
-
-\change[inline]{remove this section, move subsections higher}
-In addition to the calibrations mentioned thus far, there are a few less important calibrations that could improve the performance further. 
-
-\subsection{Timing Corrections}
+\section{Timing Corrections}
 
 Due to the routing of the electronics in the front-end, the electrical signal path is slightly different per channel, causing a small difference in apparent arrival of the pulse in the waveform. The relative arrival time per pixel can be seen in Figure~\change{add camera image showing relative time}. 
 
-Not only does this need to be taken into consideration when investigating the timing performance, it also can have a significant impact on the charge extraction, which typically relies on other pixels (neighbouring or entire camera, see Chapter~\ref{ch6-reduction}) sharing an compatible pulse time. The effect of a 1~ns incorrectly extracted charge (when the peak finding is done using the waveforms from all pixels) can have the impact on the charge resolution shown in Figure~\change{show impact of an incorrect time extraction on charge resolution, maybe of just TM?}
-
-The first approach in correcting for this effect is to shift the charge extraction by the timing correction. However, current charge extraction methods do not operate on time scales smaller than the waveform binning, therefore approaches on how to adapt those methods for corrections below that scale are being discussed.
-
-\subsection{\label{temperature_corrections}Temperature Corrections}
-
-Temperature is most likely the most prominent factor in changing the calibration values on short scales, and has been mentioned in almost every approach. Investigations into exactly how these parameters change with temperature are ongoing, but examples can be seen in:
-\begin{itemize}
-	\item Figure~\change[inline]{Pedestal ramp}
-	\item Figure~\change[inline]{TF Variation with temp}
-	\item Figure~\change[inline]{Gain variation with temp}
-\end{itemize}
-In the future we intend to have a calibration pipeline that is independent of these temperature effects. For the photosensors this is very simple, as the voltage across them can be altered to account for the temperature changes. For the \gls{target} modules, this may require an additional lookup table, or an extra dimension to the existing tables.
-
-\subsection{LED Flashers}
-
-Although not technically a part of the waveform processing chain, the LED flashers have an important role in the calibration pipeline, especially for the final operation of the \gls{chec} cameras in \gls{cta}. Their purpose is to allow us to perform in situ calibration, by uniformly illuminating the camera via reflection in the secondary mirror. However to achieve this, we must characterize and calibrate the LEDs such that we accurately know the illumination they are providing. \change[inline]{include some results on the LED calibration, and also mention their temperature dependence.}
+Not only does this need to be taken into consideration when investigating the timing performance, it also can have a significant impact on the charge extraction, which typically relies on other pixels (neighbouring or entire camera, see Chapter~\ref{ch6-reduction}) sharing a compatible pulse time. The effect of a 1~ns incorrectly extracted charge (when the peak finding is done using the waveforms from all pixels) can have the impact on the charge resolution shown in Figure~\change{show impact of an incorrect time extraction on charge resolution, maybe of just TM?}. Discussions are ongoing on how to best include the timing corrections in the charge extraction.
 
 \section{Future}
 
 During the long development of \gls{chec}, the calibration procedure has evolved a lot, and multiple iterations have occurred to either:
 \begin{itemize}
-	\item accommodate the changes required in the upgrades of hardware (such as from \gls{target5} to \gls{targetc})
-	\item simplify the calibration to save on resources
-	\item or account for additional factors, thereby improving the calibration (such as the \gls{ac} contribution to the Transfer Functions)
+	\item accommodate the changes required in the upgrades of hardware (such as from \gls{target5} to \gls{targetc}),
+	\item simplify the calibration to save on computing resources,
+	\item or account for additional factors, thereby improving the calibration (such as the \gls{ac} contribution to the Transfer Functions).
 \end{itemize}
 Therefore, while each iteration improves in one aspect, it may be at the expense of the others. As a result, the \gls{target} calibration procedure described in this chapter appears quite complicated compared to the approaches detailed in \cite{Bechtol2012} and \cite{Albert2017}. The primary next step in the calibration development for \gls{chec} is therefore to review the procedure used, with the aim to produce an approach that is simpler, includes aspects such as temperature dependence, and meets the requirements and processing rates required by \gls{cta}.
