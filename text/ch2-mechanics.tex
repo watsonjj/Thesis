@@ -120,7 +120,34 @@ From the combination of these results, we are able to obtain a conversion from f
 	\label{fig:fw_position}
 \end{figure}
 
-Using a single reference silicon photomultiplier pixel connected to an oscilloscope, centred on the camera focal plane, the ratio between the pulse area with and without the neutral-density filter was calculated for different filter-wheel positions (i.e. different filter levels). The filter-wheel positions 100 to 3025 are utilised to cover the full dynamic range of the camera, within which the transmission is expected to increase logarithmically with position. With the transmission axis in log-space, the relationship between filter-wheel position and transmission is obtained using a linear regression of the data points (Figure~\ref{fig:fw_position}), which can be extrapolated to the lower values of filter-wheel position. Only the positions 1525 to 2950 are shown in this calibration, due to the signal at lower positions being too small to reliably measure with the combination of approach and reference \gls{sipmt}. Future repeats of this calibration will use a different sensor or additional methods in order to explore the full range of filter-wheel position.
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{measured_versus_transmission} 
+	\caption[Measured charge versus transmission]{Average charge across all CHEC-S pixels versus filter-wheel transmission. Three differently-gain-matched datasets are shown (50~ADC, 100~ADC, 200~ADC). Each gain matching results in a different bias voltage across the photosensor, and therefore a different gain, optical crosstalk, and PDE. Features shared between the datasets at a transmission value can only be due to errors in the filter-wheel calibration. Two clear features are highlighted by the vertical grey lines. Features shared at a measured charge value are due to shared properties in the Transfer Function (such as saturation).}
+	\label{fig:measured_versus_transmission}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{fw_correction} 
+	\caption[Secondary filter-wheel calibration]{The measured charges from Figure~\ref{fig:measured_versus_transmission} converted into an ``effective transmission'', providing a filter-wheel calibration that is corrected for artefacts resulting from the first stage of calibration.}
+	\label{fig:fw_correction}
+\end{figure}
+
+The calibration of the filter wheel is performed in two stages.
+
+\subsubsection{Reference SiPMT}
+Using a single reference silicon photomultiplier pixel connected to an oscilloscope, centred on the camera focal plane, the ratio between the signal with and without the neutral-density filter was calculated for different filter-wheel positions (i.e. different attenuations). As the dynamic range of the reference \gls{sipmt} is limited, in order to cover the full range of filters attenuations three approaches were utilised:
+\begin{enumerate}
+\item \textbf{Low-range} - Average illumination obtained from \gls{spe} spectrum, with a pre-amplifier attached to the \gls{sipmt}.
+\item \textbf{Mid-range} - Average pulse area, with a pre-amplifier attached to the \gls{sipmt}.
+\item \textbf{High-range} - Average pulse area, with no pre-amplifier attached.
+\end{enumerate}
+The overlapping values from each method are used to stitch the datasets together. The resulting points, shown in Figure~\ref{fig:fw_position}, are used as a lookup table for the conversion from filter-wheel position to transmission.
+
+\subsubsection{Corrections}
+
+When looking at the average measured charge across the camera as a function of transmission, for three datasets where each has different bias voltages applied to the photosensors, features that share an position the X axis can only occur from artefacts of the previous filter-wheel calibration. Figure~\ref{fig:measured_versus_transmission} indicates some of the artefacts which are easy to see. By converting the measured charge into an ``effective transmission'' using the relation in Figure~\ref{fig:measured_versus_transmission}, and plotting against filter-wheel position, one can obtain a fit to be used as the new filter-wheel calibration (Figure~\ref{fig:fw_correction}).
 
 \subsection{Illumination Profile} \label{section:illumination_profile}
 
