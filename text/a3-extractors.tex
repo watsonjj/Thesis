@@ -51,34 +51,6 @@ In Chapter~\ref{ch6-reduction}, the different algorithms for extracting charge f
   \label{fig:rmse_noc}
 \end{figure}
 
-\begin{figure}
-  \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{camp1nsb5}
-    \caption{1~p.e. illumination, 5~MHz noise.}
-    \label{fig:camp1nsb5}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{camp1nsb125}
-    \caption{1~p.e. illumination, 125~MHz noise.}
-    \label{fig:camp1nsb125}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{camp50nsb5}
-    \caption{50~p.e. illumination, 5~MHz noise.}
-    \label{fig:camp50nsb5}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{camp50nsb125}
-    \caption{50~p.e. illumination, 125~MHz noise.}
-    \label{fig:camp50nsb125}
-  \end{subfigure}
-  \caption[Optimal integration window parameters, with window correction.]{Similar to Figure~\ref{fig:rmse_noc}, but with the extracted charges corrected for the integration window size.}
-  \label{fig:rmse_c}
-\end{figure}
-
 As an alternative to the \textit{Cross Correlation} integration approach, one may instead use a simple integration window, defined by the number of samples inside the ``window width'', and the number of samples the window is ``shifted'' by from the peak time. In order to perform investigations using the performance of the integration window approach, one must first find the optimal values for the width and shift of the window when extracting charge from a \gls{chec-s} waveform. This exercise was performed using a Monte Carlo simulation of the lab set-up, where the camera was uniformly illuminated. As the pulse time is consistent in simulations of this nature, it allows the investigation to be solely on the integration approach, avoiding the interference from peak finding.
 
 As explained in Chapter~\ref{ch6-reduction}, the optimal integration window parameters are noise dependant; a larger integration window is likely to include more noise (\gls{nsb} and \gls{dcr}). It also stands to reason that at higher signal illuminations, the impact of noise on the charge extraction is diminished. In Figure~\ref{fig:rmse_noc} the \gls{rmse} as a function of integration window parameters is shown for different amplitudes and noise values. The \gls{rmse} is calculated using Equation~\label{eq:charge_res}, where the true charge is the direct value measured by the photosensor, extracted from the Monte Carlo file. No attempt was made to correct for the signal outside of the integration window range for the results in Figure~\ref{fig:rmse_noc}. As a result, the conflict between a large window size to contain the full signal, and a small window to minimise noise is evident. In conclusion, an integration window width of 8 samples and a shift of 3 samples appears to be optimal for all cases, apart from the low-amplitude high-noise case (Figure~\ref{fig:amp1nsb125}), where a smaller window of 4 samples is preferred, with a shift of 1 sample. 
@@ -86,7 +58,7 @@ As explained in Chapter~\ref{ch6-reduction}, the optimal integration window para
 If we instead
 
 
-
+\change[inline]{Same discriminator used for different NSB}
 
 
 
