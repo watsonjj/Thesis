@@ -199,7 +199,12 @@ where $A_P$ is the pixel area, $I_x$ is the intensity measured at the position o
 
 The resulting geometry corrections to the intensity for each pixel, arising from Equation\ref{eq:geom_correction}, can be seen in Figure~\change{add figure}. 
 
-The final illumination profile correction, combining both the laser profile and camera geometry, is shown in Figure~\change{add figure}.
+The final illumination profile correction, combining both the laser profile and camera geometry, is shown in Figure~\change{add figure}. The description used for this calibration is only an approximation to the lab set-up. The following factors cause deviations from this model:
+\begin{itemize}
+\item The pixels are not precisely aligned on the spherical focal surface; the pixel angle is fixed to its module's angle. The modules are aligned on the spherical focal surface.
+\item The light source is not point-like. It produces a diffuse emission, which likely reflects along the walls of the box.
+\end{itemize}
+A future study could further improve on the models used for the illumination correction.
 
 \section{Absolute Illumination} \label{section:absolute_illumination}
 
