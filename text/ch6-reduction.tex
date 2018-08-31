@@ -27,14 +27,26 @@
 
 \section{Introduction}
 
-Following the low-level calibration detailed in \ref{ch5-calibration}, the waveforms should no longer require any further corrections unique to the electronics they were produced with. The waveforms from \gls{chec} should now be in such a state that they can be processed in the same way as the waveforms from other cameras. This chapter describes the reduction performed on the waveforms in order to extract the Cherenkov shower information. With regards to the \gls{cta} data levels (Figure~\change{figure with data levels in ch3}), this concerns the steps from DL0 to DL2 \change{double check dl}.
+Following the low-level calibration detailed in \ref{ch5-calibration}, the waveforms from each \gls{cta} camera exist in a common state, with no remaining dependencies on the electronics they were produced with. Methods for retrieving information about the Cherenkov shower have been a primary component of the Imaging Atmospheric Cherenkov Technique since its inception, and early techniques such as those used in the first observation of TeV Gamma rays from the Crab nebula  
 
-These reduction methods have been a primary component of \gls{iact} analysis since the beginning of the field, therefore much thought and development has previously been performed on these techniques. As \gls{cta} is a large consortium that essentially consists of the worldwide \gls{iact} community, the developers of the reduction approaches for previous \glspl{iact} have brought them forward to \gls{cta}. However, due to:
+
+This chapter describes the proceeding reduction performed on the waveforms in order to extract the Cherenkov shower information. With regards to the \gls{cta} data levels (Figure~\ref{fig:dataflow}), this concerns the steps from \textit{DL0} to \textit{DL2}.
+
+With the waveforms calibrated into a generic form, reduction techniques that have 
+
+As the reduction of detector data to obtain information about the Cherenkov shower has been the primary component to the Imaging Atmospheric Cherenkov Technique since the first detections of the Crab Nebula
+
+
+is the retrieval of 
+
+Methods for retrieving information from the Cherenkov shower have been a primary component of the Imaging Atmospheric Cherenkov Technique since its inception, and early techniques such as those used in the first observation of TeV gamma rays from the Crab nebula  
+
+With the waveforms calibrated into a generic form, the techniques developed by previous \glspl{iact} are applicable. As \gls{cta} is a large consortium that essentially consists of the worldwide \gls{iact} community, the developers of the reduction approaches for previous \glspl{iact} have brought them forward to \gls{cta}. However, due to:
 \begin{enumerate}[label=(\alph*)]
-	\item \gls{cta} is to consist of the most advanced \glspl{iact} to date, with higher shower imaging resolution and multiplicity than has previously been available
-	\item the capabilities of digital signal processing has significantly increased in the past decade
+	\item \gls{cta} is to consist of the most advanced \glspl{iact} to date, with higher shower imaging resolution and telescope multiplicity than has previously been available,
+	\item the capabilities of digital signal processing has significantly increased in the past decade,
 \end{enumerate}
-The opportunity for more advanced and more successful algorithms exist within \gls{cta}. Some effort has already been made in this direction, but it is an aspect that is expected to constantly evolve and improve during the lifetime of \gls{cta}. In this chapter I will attempt to provide a broad overview of the existing and in-development reduction techniques, with an especial focus on charge extraction approaches due to my involvement in developing them. \change{improve sentence}
+the opportunity for more advanced and more successful algorithms exists for \gls{cta}. Some effort has already been made in this direction, but it is an aspect that is expected to constantly evolve and improve during the lifetime of \gls{cta}. In this chapter I will attempt to provide a broad overview of the existing and in-development reduction techniques, with an especial focus on charge extraction approaches due to my involvement in developing them. \change{improve sentence}
 
 \section{Charge Extraction Methods}
 
