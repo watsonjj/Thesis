@@ -104,19 +104,11 @@ The standard mode of charge extraction for the \gls{hess} telescopes is to integ
 
 \subsubsection{ASTRI}
 
-Contrary to the other techniques described in this section, ASTRI took the alternative direction of a hardware-implemented charge extraction, utilising their \gls{citiroc} \gls{asic}. The pulse from their \gls{sipm} is amplified and shaped (with both a high-gain and low-gain channel) with a constant shaping time of \SI{37.5}{ns}. The maximum of the shaped peak-height is then converted into an integrated charge, achieving less than \SI{1}{\percent} introduced systematic error.
-
-The pulse from their \gls{sipm} is slow-shaped 
-
-The \gls{fee} adopted for the ASTRI telescope prototype utilise the 
-
-is the Cherenkov Imaging Telescope Integrated Read Out Chip (CITIROC [16]), INAF design intellectual property
-
-Using their CITIROC \gls{asci}
+Contrary to the other techniques described in this section, \gls{astri} took the alternative direction of a hardware-implemented charge extraction, utilising their \gls{citiroc} \gls{asic}. The pulse from their \gls{sipmt} is amplified and shaped (with both a high-gain and low-gain channel) with a constant shaping time of \SI{37.5}{ns}. The maximum of the shaped peak-height is then converted into an integrated charge, achieving no more than \SI{1}{\percent} introduced systematic error \cite{Impiombato2017}. However, while this charge-extraction technique is optimised for the \gls{astri} electronics, it removes the flexibility of being able to dynamically select a charge-extraction technique within the software, and adopting new software-based techniques that may be designed in the future.
 
 \subsection{Performance Assessment}
 
-Deciding on which charge extraction method to use is not trivial - as shown in the above discussion, different cameras may perform better with different algorithms. This is anticipated in \textit{ctapipe} (\ref{ch4-software}), where different \lstinline{ChargeExtractor}s can easily be selected at runtime depending on the camera source.
+Deciding on which charge extraction method to use is not trivial - as shown in the above discussion, different cameras may perform better with different algorithms. This is anticipated in \pkg{ctapipe} (\ref{ch4-software}), where different |ChargeExtractors| can easily be selected at runtime depending on the camera source.
 
 The assessment technique typically used for charge extractors in the context of \gls{cta} is the Charge Resolution (Section~\ref{section:cr}). A performance assessment of charge extraction techniques for \gls{chec-s} can be found in Appendix~\ref{a3-extractors}.
 
