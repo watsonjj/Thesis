@@ -290,7 +290,7 @@ Figure~\ref{fig:ff_values} shows that some of the photosensor pixels contained e
 
 As evident in Figure~\ref{fig:flat_fielding}, high illumination (greater than \utilde\SI{200}{\pe}) measurements are affected by saturation of the detector. The saturation shown is due to the \gls{target} \gls{asic}, which saturates before the photosensor. However, while the height of the pulse increased no further, the excess charge caused the pulse to extend further (Figure~\ref{fig:generation_tc}). Therefore, it could be possible to perform a simple correction for the saturation recovery by utilising this waveform behaviour. A simple, initial investigation into saturation recovery is shown in Figure~\ref{fig:saturation_recovery}, where the waveform was integrated in a window that started just before the pulse maximum, and extended to the end of the waveform. This resulted in an extracted charge that continued to increase with illumination, apart from in the region immediately after saturation. More investigation is required for this calibration.
 
-\section{Timing Corrections}
+\section{Timing Corrections} \label{section:timing_corrections}
 
 Due to the routing of the electronics in the front-end, the electrical signal path is slightly different per channel, causing a small difference in apparent arrival of the pulse in the waveform. The relative arrival time per pixel can be seen in Figure~\change{add camera image showing relative time}. 
 
