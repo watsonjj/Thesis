@@ -114,9 +114,16 @@ The assessment technique typically used for charge extractors in the context of 
 
 \section{Next Steps}
 
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{hillas} 
+	\caption[Hillas Parametrisation Schematic.]{Schematic of the \textit{Hillas Parametrisation} of the .}
+	\label{fig:hillas}
+\end{figure}
+
 The resulting images of the extracted signal per triggered telescope is only the first stage of many to retrieve the properties of the Cherenkov-shower progenitor particle: direction, energy, and class. The direction is necessary to retrieve in order to obtain the source's position and spatial morphology. The energy is desired for studies of the source's spectrum. The class of the progenitor particle (gamma-ray, electron, or cosmic-ray hadron) is required in order to identify the gamma-rays among the cosmic-ray background. All the information required to obtain these progenitor particle properties is contained within the image of extracted charge.
 
-Pixels containing signal from the Cherenkov shower are identified an image cleaning method such as the tailcuts approach: any pixels above a certain signal threshold are kept, and any neighbouring pixels that are above a lower signal threshold are also kept. The thresholds are optimised per telescope using Monte Carlo simulations. The resulting pixels are then parametrised in terms of their second moments. This parametrisation is a predominant \gls{iact} analysis technique that has been utilised in the majority of \gls{iact} experiments. It was first formalised by \textcite{} and has subsequently been known as the Hillas parametrisation. This technique utilises the elliptical shape of the gamma-induced shower images, and provides values for the centre of gravity of the ellipse, its primary axis position and orientation, its width, and its length (Figure~\change{hillas parameterisation figure}.
+Pixels containing signal from the Cherenkov shower are identified by an image cleaning method such as the tailcuts approach: any pixels above a certain signal threshold are kept, and any neighbouring pixels that are above a lower signal threshold are also kept. The thresholds are optimised per telescope using Monte Carlo simulations. The resulting pixels are then parametrised in terms of their second moments. This parametrisation is a predominant \gls{iact} analysis technique that has been utilised in the majority of \gls{iact} experiments. It was first formalised by \textcite{Hillas1985a} and has subsequently been known as the \textit{Hillas Parametrisation}. This technique exploits the elliptical shape of the gamma-induced shower images, and provides values for the centre of gravity of the ellipse, its primary axis position and orientation, its width, and its length (Figure~\change{hillas parameterisation figure}. The \pkg{ctapipe} implementation of the \textit{Hillas Parametrisation} is defined by \textcite{Reynolds1993}.
 
 Using a two-pass selection cut on the images
 
