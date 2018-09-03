@@ -1,4 +1,4 @@
-\chapter{\label{ch6-reduction}Pipeline Reduction} 
+\chapter{\label{ch6-reduction}Waveform Reduction} 
 
 \minitoc
 
@@ -27,18 +27,18 @@
 
 \section{Introduction}
 
-Methods for retrieving information about the Cherenkov shower have been a primary component of the Imaging Atmospheric Cherenkov Technique since its inception. Early techniques such as those used in the first observation of TeV Gamma rays from the Crab nebula \cite{Weekes1989} are still utilised in modern \glspl{iact}. These techniques are also applicable in \gls{cta}, and as \gls{cta} is a large consortium that consists of the worldwide \gls{iact} community, the developers of the reduction approaches for previous \glspl{iact} have brought them forward to \gls{cta}. However, due to:
+Methods for retrieving information about the Cherenkov shower have been a primary component of the Imaging Atmospheric Cherenkov Technique since its inception. Early techniques such as those used in the first observation of TeV Gamma rays from the Crab nebula \cite{Weekes1989} are still utilised in modern \glspl{iact}. These techniques are also applicable to \gls{cta} telescopes, and as \gls{cta} is a large consortium which consists of the worldwide \gls{iact} community, the developers of the reduction approaches for previous \glspl{iact} have brought them forward to \gls{cta}. However, due to:
 \begin{enumerate}[label=(\alph*)]
 	\item \gls{cta} is to consist of the most advanced \glspl{iact} to date, with higher shower imaging resolution and telescope multiplicity than has previously been available,
 	\item the capabilities of digital signal processing has significantly increased in the past decade,
 \end{enumerate}
-the opportunity for more advanced and more successful algorithms exists for \gls{cta}. Some effort has already been made in this direction, but it is an aspect that is expected to constantly evolve and improve during the lifetime of \gls{cta}. In this chapter I will attempt to provide an overview of the existing and in-development reduction techniques utilised to extract the Cherenkov shower information. With regards to the \gls{cta} data levels (Figure~\ref{fig:dataflow}), this concerns the steps from \textit{DL0} to \textit{DL2}. Particular focus is given to the charge extraction approaches due to my involvement in developing them.
+the opportunity for more advanced and more successful algorithms exists for \gls{cta}. Some effort has already been made in this direction, but it is an aspect that is expected to constantly evolve and improve during the lifetime of \gls{cta}. In this chapter I will provide an overview of the existing and in-development reduction techniques utilised to extract the Cherenkov shower signal from the waveforms, and my involvement in designing a charge-extraction technique for \gls{chec-s}. With regards to the \gls{cta} data levels (Figure~\ref{fig:dataflow}), this chapter is mostly concerned with the step from \textit{DL0} to \textit{DL1}.
 
 \section{Charge Extraction Methods}
 
-The most low-level reduction stage is the extraction of signal from the calibrated waveforms provided by each camera individually. Following the low-level calibration detailed in \ref{ch5-calibration}, the waveforms from each \gls{cta} camera exist in a common state, with no remaining dependencies on the electronics they were produced with. Therefore, the extraction techniques are typically applicable to all \gls{cta} cameras. 
+The immediate step after the waveform calibration is the extraction of signal from the waveforms provided by each camera individually. As a result of the low-level calibration detailed in \ref{ch5-calibration}, the waveforms from each \gls{cta} camera exist in a common state, with no remaining dependencies on the electronics they were produced with. Therefore, the extraction techniques are typically applicable to all \gls{cta} cameras. 
 
-The extraction of signal from a waveform is a very generic problem, allowing for the utilisation of common signal processing techniques that are not unique to Cherenkov shower analysis. The goal is to extract as much signal from the pulse created by the Cherenkov shower light, while simultaneously limiting the inclusion of noise factors\change{reference where noise talked about, talk about all the contributing factors (noise etc.) to waveforms in ch2}. Two quantities are extracted in this stage: the signal charge in each pixel (the sums of which is a measure of the energy within the shower), and the signal arrival time per pixel. 
+The extraction of signal from a waveform is a very generic problem, allowing for the utilisation of common signal processing techniques that are not unique to Cherenkov shower analysis. The goal is to extract as much signal from the pulse created by the Cherenkov shower light, while simultaneously limiting the inclusion of noise factors\change{reference where noise talked about, talk about all the contributing factors (noise etc.) to waveforms in ch2}. Two quantities are extracted in this stage: the signal charge in each pixel, and the signal arrival time per pixel. 
 
 The total signal charge in a pixel, i.e. the total number of photo-electrons released from the \gls{pmt}'s photocathode, is proportional to the total area below the pulse corresponding to the Cherenkov photons. If the waveforms were completely free of noise, and the readout window was large enough to capture the full Cherenkov signal, a simple integration of the entire readout would be a satisfactory approach for obtaining the signal charge. However, as we do not have the luxury of perfect waveforms, more complex methods are designed. Charge extraction algorithms typically consist of two aspects: how the signal pulse is found, and how the pulse is integrated.
 
@@ -104,7 +104,7 @@ The standard mode of charge extraction for the \gls{hess} telescopes is to integ
 
 \subsubsection{ASTRI}
 
-Contrary to the other techniques described in this section, \gls{astri} took the alternative direction of a hardware-implemented charge extraction, utilising their \gls{citiroc} \gls{asic}. The pulse from their \gls{sipmt} is amplified and shaped (with both a high-gain and low-gain channel) with a constant shaping time of \SI{37.5}{ns}. The maximum of the shaped peak-height is then converted into an integrated charge, achieving no more than \SI{1}{\percent} introduced systematic error \cite{Impiombato2017}. However, while this charge-extraction technique is optimised for the \gls{astri} electronics, it removes the flexibility of being able to dynamically select a charge-extraction technique within the software, and adopting new software-based techniques that may be designed in the future.
+Contrary to the other techniques described in this section, \gls{astri} took the alternative direction of a hardware-implemented charge extraction, utilising their \gls{citiroc} \gls{asic}. The pulse from their \gls{sipmt} is amplified and shaped (with both a high-gain and low-gain channel) with a constant shaping time of \SI{37.5}{ns}. The maximum of the shaped peak-height is then converted into an integrated charge, achieving no more than \SI{1}{\percent} introduced systematic error \cite{Impiombato2017}. The \textit{DL0} and \textit{DL1} formats are therefore identical in \gls{astri}'s case as the charge-extracted value is provided in place of waveforms. However, while this charge-extraction technique is optimised for the \gls{astri} electronics, it removes the flexibility of being able to dynamically select a charge-extraction technique within the software, and adopting new software-based techniques that may be designed in the future.
 
 \subsection{Performance Assessment}
 
@@ -112,7 +112,57 @@ Deciding on which charge extraction method to use is not trivial - as shown in t
 
 The assessment technique typically used for charge extractors in the context of \gls{cta} is the Charge Resolution (Section~\ref{section:cr}). A performance assessment of charge extraction techniques for \gls{chec-s} can be found in Appendix~\ref{a3-extractors}.
 
+\section{Next Steps}
+
+The resulting images of the extracted signal per triggered telescope is only the first stage of many to retrieve the properties of the Cherenkov-shower progenitor particle: direction, energy, and class. The direction is necessary to retrieve in order to obtain the source's position and spatial morphology. The energy is desired for studies of the source's spectrum. The class of the progenitor particle (gamma-ray, electron, or cosmic-ray hadron) is required in order to identify the gamma-rays among the cosmic-ray background. All the information required to obtain these progenitor particle properties is contained within the image of extracted charge.
+
+Pixels containing signal from the Cherenkov shower are identified an image cleaning method such as the tailcuts approach: any pixels above a certain signal threshold are kept, and any neighbouring pixels that are above a lower signal threshold are also kept. The thresholds are optimised per telescope using Monte Carlo simulations. The resulting pixels are then parametrised in terms of their second moments. This parametrisation is a predominant \gls{iact} analysis technique that has been utilised in the majority of \gls{iact} experiments. It was first formalised by \textcite{} and has subsequently been known as the Hillas parametrisation. This technique utilises the elliptical shape of the gamma-induced shower images, and provides values for the centre of gravity of the ellipse, its primary axis position and orientation, its width, and its length (Figure~\change{hillas parameterisation figure}.
+
+Using a two-pass selection cut on the images
+
+As shown in Figure~\ref{}
+
+
+
+\begin{itemize}
+\item The primary axis of the ellipse in the Cherenkov shower image represents the major axis of the Cherenkov shower. Therefore, the location of the source can be found along the primary axis of the ellipse. 
+\item The total amount of signal detected from the Cherenkov shower (image \textit{size}) is a direct measure of the total energy released as Cherenkov light, and therefore is a direct measure of the progenitor particle's energy (Section~\change{section in introduction where it is shown that the majority of energy of the gamma-ray is release as cherenkov light}. However, the intensity of light received from the showers is inversely proportional to the distance squared. With knowledge of the distance to the shower core combined with 
+
+Therefore, the combination of shower impact distance and image \textit{size} provide an estimation of the particle's energy.
+\item 
+\end{itemize}
+
+
+
+direction is obtained from the primary axis of the 
+
+As explained in Section 2.1.3, the major axis of the ellipse represents the
+shower axis of the extended air shower. In particular, one side of the major
+axis points towards the location of the source.
+
+The extraction of this information is much more reliable through the use of the stereoscopic combination of the images from telescopes which detected the Cherenkov shower. However, while the problem of degeneracy in obtaining the location of the source with a single telescope is a difficult problem to overcome, it is not an impossible one.
+
+
+Reconstruction of showers with a single telescope is more difficult; 
+
+The ability to reconstruct showers with single telescopes is hampered by
+the inherent degeneracy in determining which side of the camera field of view (FOV) the shower originated in. In a single telescope analysis, the source location is assumed to lie along the primary image axis, and the distance to it from the image centroid can be calculated according to Lessard et al. (2001). Use
+
+As the focus of this thesis is on the low-level performance of the \gls{gct} cameras, an extended overview of the next stages involved shower reconstruction is not included. However, a brief description of the simple approaches used in the immediate next steps are supplied as context for the results described in \ref{ch8-pipeline}. For a full overview of the next stages in Cherenkov shower reduction, refer to the following publications \change{add publications, perhaps in list?}.
+
+With knowledge of the the 
+
+The purpose of the reduction of \gls{iact} waveforms is to recovery 
+
+Resulting from the extraction of signal from the waveforms, an image of the Cherenkov shower for each of the triggered telescopes is obtained. The purpose of these images is to 
+
+
+The sum of the charge in each pixel containing a part of the shower is a measure of the total energy released as Cherenkov radiation, which, as explained in Chapter~\ref{ch1-intro}, is a measure of the energy of the shower progenitor particle (cosmic or gamma-ray) \change{make sure to talk about this in introduction. maybe use a more direct reference than just the chapter}. The primary image axis is a measure of the direction of the Cherenkov shower
+
+
 \section{Image Cleaning} \label{section:image_cleaning}
+
+Once a charge per pixel is obtained, the next stage in reduction is to select the pixels which contain signal from the Cherenkov shower, in order to ease the parametrisation. 
 
 \subsection{Tailcut Cleaning}
 
