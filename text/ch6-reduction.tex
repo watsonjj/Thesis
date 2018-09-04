@@ -117,80 +117,47 @@ The assessment technique typically used for charge extractors in the context of 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{hillas} 
-	\caption[Hillas Parametrisation Schematic.]{Schematic of the \textit{Hillas Parametrisation} of the .}
+	\caption[Hillas Parametrisation Schematic.]{Schematic of the \textit{Hillas Parameters} used to describe the Cherenkov shower image ellipse.}
 	\label{fig:hillas}
 \end{figure}
 
-The resulting images of the extracted signal per triggered telescope is only the first stage of many to retrieve the properties of the Cherenkov-shower progenitor particle: direction, energy, and class. The direction is necessary to retrieve in order to obtain the source's position and spatial morphology. The energy is desired for studies of the source's spectrum. The class of the progenitor particle (gamma-ray, electron, or cosmic-ray hadron) is required in order to identify the gamma-rays among the cosmic-ray background. All the information required to obtain these progenitor particle properties is contained within the image of extracted charge.
+\begin{figure}
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=0.92\textwidth]{source_location} 
+  \captionof{figure}[Shower source location reconstruction.]{Reconstruction of the source location on the sky for the shower, achieved by superimposing the different views of the showers from different telescopes.}
+  \label{fig:source_location}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{core_location}
+  \captionof{figure}[Shower core location reconstruction.]{Reconstruction of the location of the shower core on the ground, achieved by combining the primary image axes at the relative telescope separations.}
+  \label{fig:core_location}
+\end{minipage}
+\end{figure}
 
-Pixels containing signal from the Cherenkov shower are identified by an image cleaning method such as the tailcuts approach: any pixels above a certain signal threshold are kept, and any neighbouring pixels that are above a lower signal threshold are also kept. The thresholds are optimised per telescope using Monte Carlo simulations. The resulting pixels are then parametrised in terms of their second moments. This parametrisation is a predominant \gls{iact} analysis technique that has been utilised in the majority of \gls{iact} experiments. It was first formalised by \textcite{Hillas1985a} and has subsequently been known as the \textit{Hillas Parametrisation}. This technique exploits the elliptical shape of the gamma-induced shower images, and provides values for the centre of gravity of the ellipse, its primary axis position and orientation, its width, and its length (Figure~\change{hillas parameterisation figure}. The \pkg{ctapipe} implementation of the \textit{Hillas Parametrisation} is defined by \textcite{Reynolds1993}.
+The resulting images of the extracted signal per triggered telescope is only the first stage of many to retrieve the properties of the Cherenkov-shower progenitor particle: direction, energy, and class. The direction is necessary to retrieve in order to obtain the source's position and spatial morphology. The energy is desired for studies of the source's spectrum. The class of the progenitor particle (gamma-ray, electron, or cosmic-ray hadron) is required in order to identify the gamma-rays among the cosmic-ray background. All the information required to obtain these progenitor particle properties is contained within the image of extracted charge. As the focus of this thesis is on the low-level performance of the \gls{gct} cameras, this section will only include a brief overview of the simplest methods used in shower reconstruction. This information is supplied as context for the results described in \ref{ch8-pipeline}.
 
-Using a two-pass selection cut on the images
+\subsection{Image Parametrisation}
 
-As shown in Figure~\ref{}
+Pixels containing signal from the Cherenkov shower are identified by an image cleaning method such as the tailcuts approach: any pixels above a certain signal threshold are kept, and any neighbouring pixels that are above a lower signal threshold are also kept. The thresholds are optimised per telescope using Monte Carlo simulations. The resulting pixels are then parametrised in terms of their second moments. This parametrisation is a predominant \gls{iact} analysis technique that has been utilised in the majority of \gls{iact} experiments. It was first formalised by \textcite{Hillas1985a} and has subsequently been known as the \textit{Hillas Parametrisation}. This technique exploits the elliptical shape of the gamma-induced shower images, and provides values for the centre of gravity of the ellipse, its primary axis position and orientation, its width, and its length (Figures~\ref{fig:hillas}). The \pkg{ctapipe} implementation of the \textit{Hillas Parametrisation} is defined by \textcite{Reynolds1993}.
 
+\subsection{Direction Reconstruction}
 
+Through utilising the primary image axis that results from the \textit{Hillas Parametrisation}, the positional information about the shower can be obtained \cite{Daum1997,Cogan2006,Dickinson2010}. By superimposing the ellipses from different telescopes onto a single image (Figure~\ref{source_location}), the stereoscopic combination allows for the source position of the shower to be retrieved with simple geometry. This is used to retrieve a gamma-ray's astrophysical-source position on the sky \change{perhaps refer to where it is explained that the two are the same, from introduction...}. If, instead, the primary image axes are combined with the relative positional view of the telescopes (Figure~\ref{fig:core_location}, the core location of the shower in terms of ground coordinates may be obtained. For obtaining the intersections of the axes in both applications, the weighted-mean-direction of the intersections is typically calculated \cite{Eschbach2016,Bernlohr2013a}. While the extraction of the directional information is much more reliable through the use of the stereoscopic combination of the images, it is not impossible to estimate the direction of the source when only a single telescope is available. The primary challenge when performing this operation with a single telescope is the degeneracy in determining which direction along the primary image axis the source exists in. This is overcome with the \textit{disp} method developed by \textcite{Lessard2001}.
 
-\begin{itemize}
-\item The primary axis of the ellipse in the Cherenkov shower image represents the major axis of the Cherenkov shower. Therefore, the location of the source can be found along the primary axis of the ellipse. 
-\item The total amount of signal detected from the Cherenkov shower (image \textit{size}) is a direct measure of the total energy released as Cherenkov light, and therefore is a direct measure of the progenitor particle's energy (Section~\change{section in introduction where it is shown that the majority of energy of the gamma-ray is release as cherenkov light}. However, the intensity of light received from the showers is inversely proportional to the distance squared. With knowledge of the distance to the shower core combined with 
+\subsection{Energy Reconstruction}
 
-Therefore, the combination of shower impact distance and image \textit{size} provide an estimation of the particle's energy.
-\item 
-\end{itemize}
+As aptly described by \textcite[][p.~16]{Dickinson2010}, ``determining of the energy of the progenitor of a particular air shower relies on a form of electromagnetic calorimetry''. Once the distance from the telescopes to the shower is known (from the core position), it can be coupled with the \textit{image size} (the total amount of integrated signal obtained from the Cherenkov shower) to obtain total energy released as Cherenkov light \cite{Cogan2006,Bernlohr2013a}. This is a direct measure of the energy of the shower progenitor particle (Section~\change{section in introduction where it is shown that the majority of energy of the gamma-ray is released as Cherenkov light}).
 
+\subsection{\textgamma-Hadron Discrimination}
 
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{gamma_hadron_discrimination} 
+	\caption[Discriminating between images of gamma-ray and hadron induced showers.]{Example of the differences in the distributions of \textit{Hillas Parameters} between simulated \textgamma-ray-induced showers (dark) and real hadronic-induced showers (light) for the Whipple \SI{10}{m} reflector \cite{Fegan1999a}.}
+	\label{fig:gamma_hadron_discrimination}
+\end{figure}
 
-direction is obtained from the primary axis of the 
-
-As explained in Section 2.1.3, the major axis of the ellipse represents the
-shower axis of the extended air shower. In particular, one side of the major
-axis points towards the location of the source.
-
-The extraction of this information is much more reliable through the use of the stereoscopic combination of the images from telescopes which detected the Cherenkov shower. However, while the problem of degeneracy in obtaining the location of the source with a single telescope is a difficult problem to overcome, it is not an impossible one.
-
-
-Reconstruction of showers with a single telescope is more difficult; 
-
-The ability to reconstruct showers with single telescopes is hampered by
-the inherent degeneracy in determining which side of the camera field of view (FOV) the shower originated in. In a single telescope analysis, the source location is assumed to lie along the primary image axis, and the distance to it from the image centroid can be calculated according to Lessard et al. (2001). Use
-
-As the focus of this thesis is on the low-level performance of the \gls{gct} cameras, an extended overview of the next stages involved shower reconstruction is not included. However, a brief description of the simple approaches used in the immediate next steps are supplied as context for the results described in \ref{ch8-pipeline}. For a full overview of the next stages in Cherenkov shower reduction, refer to the following publications \change{add publications, perhaps in list?}.
-
-With knowledge of the the 
-
-The purpose of the reduction of \gls{iact} waveforms is to recovery 
-
-Resulting from the extraction of signal from the waveforms, an image of the Cherenkov shower for each of the triggered telescopes is obtained. The purpose of these images is to 
-
-
-The sum of the charge in each pixel containing a part of the shower is a measure of the total energy released as Cherenkov radiation, which, as explained in Chapter~\ref{ch1-intro}, is a measure of the energy of the shower progenitor particle (cosmic or gamma-ray) \change{make sure to talk about this in introduction. maybe use a more direct reference than just the chapter}. The primary image axis is a measure of the direction of the Cherenkov shower
-
-
-\section{Image Cleaning} \label{section:image_cleaning}
-
-Once a charge per pixel is obtained, the next stage in reduction is to select the pixels which contain signal from the Cherenkov shower, in order to ease the parametrisation. 
-
-\subsection{Tailcut Cleaning}
-
-\subsection{Wavelets}
-
-\section{Shower Parameterisation}
-
-\subsection{Hillas}
-
-\subsection{Model and Model++}
-
-\subsection{ImPACT}
-
-\subsection{Neural Nets}
-
-\section{$\gamma$-Hadron Separation}
-
-\section{Energy Reconstruction}
-
-\section{Direction Reconstruction}
-
-
-
-\change[inline]{advanced techniques that don't fit into these categories, machine learning, photon counting}
+The differences between the image morphology of gamma-ray and hadronic showers is described in \ref{ch1-intro}\change{describe differences in images in intro, and show perfect examples with MC of CHECS. Lessard gives precise information about the differences}. These differences are quantified and encapsulated by the \textit{Hillas Parameters}, where gamma-rays exist within a narrow range of the parameters, while cosmic-rays typically exhibit a broader spectrum of parameter values, as illustrated in Figure~\ref{fig:gamma_hadron_discrimination}. By creating an acceptance range for the \textit{Hillas Parameters}, the hadronic background can be excluded in a very simple way \cite{Dickinson2010,Fegan1999a,Hillas1996a}.
