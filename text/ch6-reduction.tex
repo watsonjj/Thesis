@@ -13,6 +13,13 @@ the opportunity for more advanced and more successful algorithms exists for \gls
 
 \section{Charge Extraction Methods}
 
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{annotated_wf_3pe} 
+	\caption[Annotated waveform.]{A waveform from CHEC-S lab data, illuminated by the laser with the filter wheels set to give an average expected charge of \SI{3}{\pe}. The signal pulse is shown at the centre of the waveform, while other pulses from noise contributions NSB or Dark Counts are }
+	\label{fig:annotated_wf_3pe}
+\end{figure}
+
 The immediate step after the waveform calibration is the extraction of signal (also sometimes referred to as charge) from the waveforms provided by each camera. As a result of the low-level calibration detailed in \ref{ch5-calibration}, the waveforms from each \gls{cta} camera exist in a common state, with no remaining dependencies on the electronics they were produced by. Therefore, the extraction techniques are typically applicable to all \gls{cta} cameras. 
 
 The extraction of signal from a waveform is a very generic problem, allowing for the utilisation of common signal processing techniques that are not unique to Cherenkov shower analysis. The goal is to extract the majority of signal from the pulse created by the Cherenkov shower light, while simultaneously limiting the inclusion of noise factors\change{figure of waveform that annotates the signal pulse, the nsb/dcr pulse, and the electronic noise, here or in ch2?}\change{reference where noise talked about, talk about all the contributing factors (noise etc.) to waveforms in ch2}. Two quantities are extracted in this stage: the signal charge in each pixel, and the signal arrival time per pixel. 
