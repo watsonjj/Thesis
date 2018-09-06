@@ -25,13 +25,13 @@ This chapter provides an outline of the software packages used in the pipeline f
 
 \section{TARGET Libraries}
 
-A collection of libraries have been created to operate, readout, and calibrate the cameras containing \gls{target} modules (\gls{chec} and the \gls{sct} camera), and are therefore known as the ``TARGET Libraries''. These low-level libraries are wrote in \cpp as they prioritise efficiency over flexibility. To enable the use of these libraries from the Python packages used in waveform reduction, a Python wrapper for these libraries is automatically generated during compilation by \gls{swig}\footnote{http://www.swig.org/}.
+A collection of libraries have been created to operate, readout, and calibrate the cameras containing \gls{target} modules (\gls{chec} and the \gls{sct} camera), and are therefore known as the ``TARGET Libraries''. These low-level libraries are wrote in \cpp~as\final{check spaces afer cpp macro} they prioritise efficiency over flexibility. To enable the use of these libraries from the Python packages used in waveform reduction, a Python wrapper for these libraries is automatically generated during compilation by \gls{swig}\footnote{http://www.swig.org/}.
 
 These libraries are presently stored on the \gls{cta}-SVN version control server, and installation instructions can be found at \url{https://forge.in2p3.fr/projects/gct/wiki/Installing_CHEC_Software}, provided you have permissions to the \gls{gct} Redmine.
 
 \subsection{\pkg{TargetDriver}}
 
-In order to operate, or ``drive'', the \gls{target} modules, the \pkg{TargetDriver} library is required. This \cpp library configures the TARGET modules, and listens for the UDP packets containing the waveform data.
+In order to operate, or ``drive'', the \gls{target} modules, the \pkg{TargetDriver} library is required. This \cpp~library configures the TARGET modules, and listens for the UDP packets containing the waveform data.
 
 \subsection{\pkg{TargetIO}}
 
@@ -51,9 +51,9 @@ In order to operate, or ``drive'', the \gls{target} modules, the \pkg{TargetDriv
   \label{fig:tio}
 \end{figure}
 
-The file format used to store waveforms from \gls{target} modules is a custom \gls{fits} format defined by \pkg{TargetIO}, hereby referred to as the \gls{tio} format. This library is always used to read and write waveform and header (information such as observation time) data to the \gls{tio} file. \gls{tio} files can either contain \textit{R0} (uncalibrated)  or \textit{R1} (low-level calibrated) waveform data. Each sample in a waveform is stored to file as an unsigned 16-bit integer. The raw waveform digital counts measured by the camera are serialised in an unsigned 12-bit integer format, and the data packets received from the \gls{target} \gls{fpga} are 8-bit in size, therefore the first 4 bits of a waveform sample inside an \textit{R0} \gls{tio} file are not used. When storing calibrated waveforms, the post-calibration floating-point sample is scaled and offset to fit the full 16-bit unsigned integer. These scale and offset values are stored in the file header and automatically applied to convert the sample back into floating-point format when read. Figure~\ref{fig:tio} demonstrates the data-flow processes involving the \gls{tio} files.
+The file format used to store waveforms from \gls{target} modules is a custom \gls{fits} format defined by \pkg{TargetIO}, hereby referred to as the \gls{tio} format. This library is always used to read and write waveform and header (information such as observation time) data to and from the \gls{tio} file. \gls{tio} files can either contain \textit{R0} (uncalibrated)  or \textit{R1} (low-level calibrated) waveform data. Each sample in a waveform is stored to file as an unsigned 16-bit integer. The raw waveform digital counts measured by the camera are serialised in an unsigned 12-bit integer format, and the data packets received from the \gls{target} \gls{fpga} are 8-bit in size, therefore the first 4 bits of a waveform sample inside an \textit{R0} \gls{tio} file are not used. When storing calibrated waveforms, the post-calibration floating-point sample is scaled and offset to fit the full 16-bit unsigned integer. These scale and offset values are stored in the file header and automatically applied to convert the sample back into floating-point format when read. Figure~\ref{fig:tio} demonstrates the data-flow processes involving the \gls{tio} files.
 
-To ensure the full efficiency of the \cpp library is exploited via the Python wrapper, I contributed the |WaveformArrayReader| class, which, when passed a contiguous block of memory (such as a \lstset{language=Python}|numpy.array|), promptly fills the array with the entire camera's waveform data for that event. For example, to read an \textit{R1} \gls{tio} file from Python:
+To ensure the full efficiency of the \cpp~library is exploited via the Python wrapper, I contributed the |WaveformArrayReader| class, which, when passed a contiguous block of memory (such as a \lstset{language=Python}|numpy.array|), promptly fills the array with the entire camera's waveform data for that event. For example, to read an \textit{R1} \gls{tio} file from Python:
 
 \begin{lstlisting}[language=Python]
 import numpy as np
@@ -76,9 +76,7 @@ reader.GetR1Event(event_index, waveforms, first_cell_ids)
 
 \subsection{\pkg{TargetCalib}}
 
-To correct for the effects of the \gls{target} electronics on the waveforms, \pkg{TargetCalib} was built. I have led the development of this package since its early development. The calibrations performed by this library are detailed in Chapter~\ref{ch5-calibration}. This package has also been adopted by \gls{sct} recently.
-
-The main classes in the library include:
+To correct for the effects of the \gls{target} electronics on the waveforms, \pkg{TargetCalib} was built. I have led the development of this package since its early development. The calibrations performed by this library are detailed in Chapter~\ref{ch5-calibration}. This package has also been adopted by \gls{sct} recently. The main classes in the library include:
 
 \lstset{language=C++}
 \begin{description}
@@ -99,9 +97,13 @@ Tools used to process the waveforms in order to either characterise the camera o
 \item [\textbf{NumPy\footnotemark}] \footnotetext{http://www.numpy.org/} Enables the efficient processing of numerical data. This is accomplished using their powerful N-dimensional array object known as a |numpy.array|. At the lowest level, a |numpy.array| is a contiguous block of memory much like a C array. However, NumPy defines many statistical methods which utilise optimised low-level C and Fortran operations to process the contained data in the most efficient way possible, often performing better than handwritten C or Fortran.
 \end{description}
 
-Different reduction packages may be designed with different purposes, but each can potentially import methods from another, which is especially possible when developing in Python. Many other \gls{cta} groups have also adopted Python for their waveform reduction software, but it is not a standard across \gls{cta}.
+Different reduction packages may be designed with different purposes, but each can potentially import methods from another, which is especially simple to do when developing in Python. Although many other \gls{cta} groups have also adopted Python for their waveform reduction software, it is not a standard across \gls{cta}.
 
 \subsection{\pkg{ctapipe}}
+
+Waveform data from each \gls{cta} telescope must be processed and combined using standardised approaches, such that the data at each processing stage is compatible with the next, and the resulting reduced data and shower reconstruction is of good quality. This was the motivation for the design of the \textit{Data Processing Level} architecture (Section~\ref{section:data_levels}). The most reliable way to ensure this architecture is adhered to was to create a single data processing pipeline to transform \textit{DL0} waveforms into \textit{DL3} reduced shower parameters. The primary prototype for this purpose that has been developed among members of the \gls{cta} Consortium is \pkg{ctapipe}.
+
+
 
 \subsection{\pkg{CHECLabPy}}
 
