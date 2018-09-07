@@ -115,7 +115,7 @@ Also included within the \pkg{sim\_telarray} package is the \pkg{light\_emission
 Tools used to process the waveforms in order to either characterise the camera or progress down the data-level chain (Figure~\ref{fig:dataflow}) are often referred to as ``reduction tools''. Within the \gls{chec} group we utilise Python for all of our waveform reduction. We made this choice due to its high popularity for data science and signal processing and its extensive library of statistical and numerical packages. The most important examples of these packages include:
 
 \begin{description}
-\item [\pkg{NumPy\footnotemark}] \footnotetext{\url{http://www.numpy.org/}} Enables the efficient processing of numerical data. This is accomplished using their powerful N-dimensional array object known as a |numpy.array|. At the lowest level, a |numpy.array| is a contiguous block of memory much like an array in C. However, NumPy defines many statistical methods which utilise optimised low-level C and Fortran operations to process the contained data in the most efficient way possible, often performing better than handwritten C or Fortran.
+\item [\pkg{NumPy\footnotemark}] \footnotetext{\url{http://www.numpy.org/}} Enables the efficient processing of numerical data. This is accomplished using their powerful N-dimensional array object known as a |numpy.array| \cite{VanderWalt2011}. At the lowest level, a |numpy.array| is a contiguous block of memory much like an array in C. However, NumPy defines many statistical methods which utilise optimised low-level C and Fortran operations to process the contained data in the most efficient way possible, often performing better than handwritten C or Fortran.
 \item [\pkg{SciPy\footnotemark}] \footnotetext{\url{https://www.scipy.org/}} Expands on the operations one can perform on the |numpy.array| object, providing an extensive amount of functionality useful for scientific computing, including statistical operations, interpolation, and signal processing.
 \item [\pkg{Astropy\footnotemark}] \footnotetext{\url{http://www.astropy.org/}} Developed by the astronomy community to consolidate various common astronomy procedures into a single package. 
 \item [\pkg{Pandas\footnotemark}] \footnotetext{\url{https://pandas.pydata.org/}} Provides high-performance, easy-to-use, table-like data structures known as a |pandas.DataFrame|. Each column in the table can be processed as a |numpy.array|.
@@ -205,7 +205,7 @@ To meet these needs, I created the \pkg{CHECLabPy} Python package. This operates
 
 \section{Science Tools}
 
-Although not used in within this thesis, the science tools are important components to the \gls{cta} processing pipeline that are worthy of mention in this chapter. They will be provided to the scientific community, along with the \textit{DL3} data, by the \gls{suss} to support the science data analysis. This is an important aspect of the ``open-observatory'' operation of \gls{cta}.  As previous \gls{iact} experiments all built their own analysis tools, there exists no common tools within gamma-ray astronomy. Therefore, two independently-developed tools have been proposed for this purpose: \pkg{Gammapy} and \pkg{CTOOLS}. Both packages intend to improve on the sharing-of-tools aspect of gamma-ray astronomy, through enabling the analysis of observational data from other experiments, and encouraging the standardisation of the data format used (\gls{fits}). Although the tools were developed to perform very similar operations, such as the construction of binned data products (including spectra, sky maps, and light curves) they have opposing design philosophies.
+Although not used in within this thesis, the science tools are important components to the \gls{cta} processing pipeline that are worthy of mention in this chapter. They will be provided to the scientific community, along with the \textit{DL3} data, by the \gls{suss} to support the science data analysis. This is an important aspect of the ``open-observatory'' operation of \gls{cta}.  As previous \gls{iact} experiments all built their own analysis tools, there exists no common tools within gamma-ray astronomy. Therefore, two independently-developed tools have been proposed for this purpose: \pkg{Gammapy} and \pkg{ctools}. Both packages intend to improve on the sharing-of-tools aspect of gamma-ray astronomy, through enabling the analysis of observational data from other experiments, and encouraging the standardisation of the data format used (\gls{fits}). Although the tools were developed to perform very similar operations, such as the construction of binned data products (including spectra, sky maps, and light curves) they have opposing design philosophies.
 
 \subsection{\pkg{Gammapy}}
 \vspace{-0.7em}
@@ -224,9 +224,19 @@ A Gammapy high-level analysis typically consists of \cite[][p. 4]{Deil2017}:
 \item derivation of a catalog of excess peaks (or a source catalog).
 \end{itemize}
 
-\subsection{\pkg{CTOOLS}}
+\subsection{\pkg{ctools}}
 \vspace{-0.7em}
 \noindent \hspace{\parindent} {\tiny URL: \url{https://github.com/cta-chec/CHECLabPy} \par}
 \noindent \hspace{\parindent} {\tiny Version: ??\change{add version} \par}
 
-\noindent 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{ctools}
+  \caption[Overview of \pkg{ctools}.]{Overview of the contents of the \pkg{ctools} package \cite{Knodlseder2016}.}
+  \label{fig:ctools}
+\end{figure}
+
+\noindent Conversely, the design philosophy of \pkg{ctools} is to strictly minimise dependencies as much as possible. The only dependency of \pkg{ctools} is the adjacently developed \pkg{GammaLib} \cpp~shared library, which contains ``all the classes, support functions, and some global variables that are needed to analyse gamma-ray event data'' \cite[][p. 2]{Knodlseder2016}. The advantage of this design lies in the complete independence from the maintenance of other libraries. If a dependency is no longer maintained in the future, many problems can arise in the form of incompatibilities, such as with operating systems or the updates inside the software package itself. However, the disadvantage of this design is the larger initial development effort, and reimplementation of common methods from scratch.
+
+Much like other science analysis frameworks in high-energy astronomy, \pkg{ctools} is the collection of tools that each perform a single, well-defined analysis step. These tools are written in \cpp, but can also be called directly from Python via the \pkg{SWIG}-generated interface. An overview of the \pkg{ctools} package is shown in Figure~\ref{fig:ctools}.
+
