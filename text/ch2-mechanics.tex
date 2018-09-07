@@ -169,9 +169,9 @@ Despite attempts to homogenise the illumination from the laser-diffuser combinat
 
 \begin{figure}
 	\centering
-    \includegraphics[width=0.75\textwidth]{geometry} 
+    \includegraphics[width=0.75\textwidth]{laser_geometry} 
 	\caption[Camera geometry correction schematic]{Two-dimensional geometry schematic of the laboratory set-up for uniform camera illumination, used to calculate the reduction in light level for each pixel depending on its distance from the camera centre.}
-	\label{fig:geometry}
+	\label{fig:laser_geometry}
 \end{figure}
 
 \change[inline]{Talk about how this is an approximation - modules are fixed along focal plane, light-source is somewhat between pointlike and at infinity, quote percentage that difference makes}
@@ -195,7 +195,7 @@ d_z = \sqrt{x^2 + (d_c + d_1)^2} = \sqrt{x^2 + (d_c + r - \sqrt{r^2 - x^2})^2}.
 \begin{equation} \label{eq:geom_correction}
 \frac{I_x}{I_c} = \frac{d_z^2}{d_c^2} \times \cos{\beta},
 \end{equation}
-where $A_P$ is the pixel area, $I_x$ is the intensity measured at the position of the pixel, $I_c$ is the intensity measured at the centre of the camera, and the remaining distances and angles are shown in Figure~\ref{fig:geometry}.
+where $A_P$ is the pixel area, $I_x$ is the intensity measured at the position of the pixel, $I_c$ is the intensity measured at the centre of the camera, and the remaining distances and angles are shown in Figure~\ref{fig:laser_geometry}.
 
 The resulting geometry corrections to the intensity for each pixel, arising from Equation\ref{eq:geom_correction}, can be seen in Figure~\change{add figure}. 
 
