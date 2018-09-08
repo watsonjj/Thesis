@@ -103,7 +103,7 @@
 
 \section{Laboratory Calibration} \label{section:lab-calib}
 
-In order to obtain reliable knowledge on the average illumination incident on the camera in our laboratory, it was necessary to calibrate the laser and filter wheel combination. This was of paramount importance for performing the camera flat-field calibration, and for obtaining a laboratory charge resolution result. There exists three stages required to achieve a calibration from filter-wheel position to expected charge in each pixel:
+In order to obtain reliable knowledge on the average illumination incident on the camera in our laboratory, it was necessary to calibrate the laser and filter wheel combination. This was of paramount importance for performing the camera flat-field calibration, and for obtaining a laboratory charge resolution result. There exists three stages required to achieve a calibration from filter-wheel position to average expected charge in each pixel:
 \begin{enumerate}
 \item Measuring the relationship between filter-wheel position and light transmissivity.
 \item Measuring the relative amount of light each pixel receives due to its position on the focal surface.
@@ -216,20 +216,20 @@ By simultaneously fitting three illuminations, we obtained three values of $\lam
 \average{I}_{pe} = \average{M}_\lambda T_\text{FW} + \average{C}_\lambda,
 \end{equation}
 
-\subsection{Expected Charge}
+\subsection{Average Expected Charge}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{lab_tfpoly_fw_calibration} 
-	\caption[Calibration from Filter-Wheel Transmission to Expected ]{Relationship between filter-wheel transmission and expected charge in photoelectrons resulting from the filter-wheel calibration. The black line shows the conversion for a theoretical pixel exactly positioned at the camera centre. The blue segment shows the range for the actual pixels in the camera, with the consideration of illumination profile included.}
+	\caption[Calibration from Filter-Wheel Transmission to Expected ]{Relationship between filter-wheel transmission and average expected charge in photoelectrons resulting from the filter-wheel calibration. The black line shows the conversion for a theoretical pixel exactly positioned at the camera centre. The blue segment shows the range for the actual pixels in the camera, with the consideration of illumination profile included.}
 	\label{fig:fw_calibration}
 \end{figure}
 
-As we corrected for the \gls{nsb} in the extracted signal value (Section~\ref{section:photosensor_calib}), the \gls{nsb} contribution to Equation~\ref{eq:average_camera_illumination} ($\average{C}_\lambda$) is subtracted to give us the charge we expect when illuminating the camera with a filter-wheel transmission $T_\text{FW}$, for a theoretical pixel perfectly positioned at the camera centre. To obtain the expected charge for each true camera pixel ${Q_\text{Exp}}_\text{pix}$, this relation must be folded with the illumination profile correction factor $F_\text{pix}$ to give:
+As we corrected for the \gls{nsb} in the extracted signal value (Section~\ref{section:photosensor_calib}), the \gls{nsb} contribution to Equation~\ref{eq:average_camera_illumination} ($\average{C}_\lambda$) is subtracted to give us the charge we expect when illuminating the camera with a filter-wheel transmission $T_\text{FW}$, for a theoretical pixel perfectly positioned at the camera centre. To obtain the average expected charge for each true camera pixel ${Q_\text{Exp}}_\text{pix}$, this relation must be folded with the illumination profile correction factor $F_\text{pix}$ to give:
 \begin{equation} \label{eq:average_camera_illumination}
 {Q_\text{Exp}}_\text{pix} = \average{M}_\lambda T_\text{FW}F_\text{pix}.
 \end{equation}
-Figure~\ref{fig:fw_calibration} shows the relation between filter-wheel transmission and the expected charge for the camera pixels.
+Figure~\ref{fig:fw_calibration} shows the relation between filter-wheel transmission and the average expected charge for the camera pixels.
 
 \section{Readout Characteristics} \label{section:readout_characteristics}
 

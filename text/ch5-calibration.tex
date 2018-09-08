@@ -181,7 +181,7 @@ Irrespective of the Transfer Function type, the lookup tables are stored in a fo
 
 \subsubsection{Performance}
 
-Due to its complexity and variety of approaches, the Transfer Function is still one of the most actively discussed aspects of the \gls{chec} calibration, and holds the highest potential for improvements among the different calibrations. Some possibilities for improvement include:
+Due to its complexity and variety of approaches, the Transfer Function is still one of the most actively discussed aspects of the \gls{chec} calibration. Some possibilities for improvement include:
 \begin{itemize}
 	\item An improved sample extraction method for the \gls{ac} Transfer Function Waveform,
 	\item The possibility for a \gls{dc} approach for \gls{targetc},
@@ -193,7 +193,7 @@ Due to its complexity and variety of approaches, the Transfer Function is still 
 \end{itemize}
 Appendix~\ref{a1-tf} provides some insight into the current progression in these active investigations.
 
-Assessing the performance of the Transfer Functions is a more complicated task than for the pedestals. We are no longer comparing to a null signal, and instead comparing to an input amplitude which contains its own uncertainty, and could potentially be incorrect. So while the performance results may indicate that the residuals of the Transfer Function are small, this does not necessarily mean the calibration is accurate. Therefore, the most decisive performance indicator should be one that provides an independent measurement on the ``correct'' amplitude. The most obvious scheme fitting this requirement is the charge resolution, described in Chapter~\ref{ch3-architecture}, the results of which are explored in Appendix~\ref{a1-tf}.
+Assessing the performance of the Transfer Functions is a more complicated task than for the pedestals. We are no longer comparing to a null signal, and instead comparing to an input amplitude which contains its own uncertainty, and could potentially be incorrect. So while the performance results may indicate that the residuals of the Transfer Function are small, this does not necessarily mean the calibration is accurate. Therefore, the most decisive performance indicator should be one that provides an independent measurement on the ``correct'' amplitude. The most obvious scheme fitting this requirement is the \textit{Charge Resolution}, described in Chapter~\ref{ch3-architecture}, the results of which are explored in Appendix~\ref{a1-tf}.
 
 \section{Photosensor Calibration} \label{section:photosensor_calib}
 
@@ -244,36 +244,43 @@ Tables~x\&y\otherch{update} also show a dependence on temperature for some of th
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{spe_checm_checs} 
-	\caption[Comparison of SPE spectra between CHEC-M and CHEC-S.]{Comparison of SPE spectra between CHEC-M and CHEC-S, along with their corresponding fit function.} 
+	\caption[Comparison of SPE spectra between CHEC-M and CHEC-S.]{Comparison of SPE spectra between CHEC-M and CHEC-S for a single pixel, along with their corresponding fit function.} 
 	\label{fig:spe_checm_checs}
 \end{figure}
 
-Due to the photon-counting nature of \glspl{mapmt} and \glspl{sipmt}, when the signal extracted from a pixel, illuminated with a low light-level (\utilde\SI{1}{\pe}), is accumulated into a histogram, the resulting spectra (Figure~\ref{fig:spe_checm_checs}) show peaks at regular intervals corresponding to the baseline (zeroth peak), \SI{1}{\pe} (first peak), \SI{2}{\pe} (second peak), etc. Due to the much-lower excess noise of avalanche multiplication in \glspl{sipmt} (\SI{10}{\percent} smaller that \glspl{mapmt}, see Chapter~\otherch{performance chapter, table quoting differences in extracted value}), the individual photoelectron peaks are more distinguishable. These spectra are referred to as ``\gls{spe} Spectra''. The physical processes that result in these spectra are well understood for \glspl{mapmt} and \glspl{sipmt}, and therefore analytical formulae \final{check consistency in spelling} exist describing the spectra. When these formulae are fit to the histogram, they can be used to extract certain parameters of the photosensor, including the average incident illumination $\lambda$, in units of photoelectrons. As $\lambda$ provides an absolute illumination value, it allows for the full calibration of expected charge for each filter-wheel position, for each pixel (Section~\ref{section:expected_charge}). This is the first step required in obtaining the flat-field coefficients. For more details on this fitting procedure, and the formulae used to describe the \gls{spe} spectra, refer to Appendix~\ref{a2-spe}.
+Due to the photon-counting nature of \glspl{mapmt} and \glspl{sipmt}, when the signal extracted from a pixel, illuminated with a low light-level (\utilde\SI{1}{\pe}), is accumulated into a histogram, the resulting spectra (Figure~\ref{fig:spe_checm_checs}) show peaks at regular intervals corresponding to the baseline (zeroth peak), \SI{1}{\pe} (first peak), \SI{2}{\pe} (second peak), etc. Due to the much-lower excess noise of avalanche multiplication in \glspl{sipmt} (\SI{10}{\percent} smaller that \glspl{mapmt}, see Chapter~\otherch{performance chapter, table quoting differences in extracted value}), the individual photoelectron peaks are more distinguishable. These spectra are referred to as ``\gls{spe} Spectra''. The physical processes that result in these spectra are well understood for \glspl{mapmt} and \glspl{sipmt}, and therefore analytical formulae \final{check consistency in spelling} exist describing the spectra. When these formulae are fit to the histogram, they can be used to extract certain parameters of the photosensor, including the average incident illumination $\lambda$, in units of photoelectrons. As $\lambda$ provides an absolute illumination value, it allows for the full calibration of average expected charge for each filter-wheel position, for each pixel (Section~\ref{section:expected_charge}). This is the first step required in obtaining the flat-field coefficients. For more details on this fitting procedure, and the formulae used to describe the \gls{spe} spectra, refer to Appendix~\ref{a2-spe}.
 
 \subsection{Flat-Field Coefficients}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{flat_fielding} 
 	\caption[Flat-field calibration]{The average measured charge per illumination for a single pixel. The orange points were used for a linear regression through the origin in order to determine the flat-field coefficients for each pixel.} 
 	\label{fig:flat_fielding}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{ff_values_cropped} 
 	\caption[Flat-field Coefficients]{Camera image of the flat-field coefficient value, ${\gamma_{FF}}_i$, per pixel. Pixels that were designated ``dead'' or misbehaving are outlined in red, and exist beyond the colour-scale range.}
 	\label{fig:ff_values}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{before_after_ff} 
-	\caption[Flat-field Residuals]{Comparison between the spread in the average signal amplitude per pixel before (blue) and after (orange) the flat-fielding calibration. The charges were extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of \SI{47.7}{\pe}. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels was considered, i.e. they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera was included in the histograms.}
+	\caption[Flat-field Residuals]{Comparison between the spread in the average signal amplitude per pixel before (blue) and after (orange) the flat-fielding calibration. The charges were extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of \SI{47.7}{\pe}. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels was considered, i.e. they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera, excluding the dead pixels, was included in the histograms.}
 	\label{fig:before_after_ff}
 \end{figure}
 
-Once the ``expected charge'' dependence on filter-wheel position/transmission is characterised (Section~\ref{section:expected_charge}), we can calculate the coefficients, ${\gamma_M}_i$, required to convert the average extracted charge (in \si{mV ns}) into the charge we expect (in photoelectrons/photons). The application of these coefficients to the extracted charge has two effects:
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=\textwidth]{before_after_ff_all} 
+	\caption[Flat-field residuals versus average expected charge.]{Similar to the standard deviations of Figure~\ref{fig:before_after_ff}, but for the full dynamic range of the camera, and normalised by the mean charge at each average expected charge.}
+	\label{fig:before_after_ff_all}
+\end{figure}
+
+Once the ``average expected charge'' dependence on filter-wheel position/transmission is characterised (Section~\ref{section:expected_charge}), we can calculate the coefficients, ${\gamma_M}_i$, required to convert the average extracted charge (in \si{mV ns}) into the charge we expect (in photoelectrons/photons). The application of these coefficients to the extracted charge has two effects:
 \begin{itemize}
 \item The signal response between pixels is homogenised - the same average amount of charge will be extracted for any pixel illuminated with an average of N photons.
 \item The signal response is converted into the common telescope-array units of photoelectrons or photons.
@@ -283,9 +290,9 @@ Therefore:
 {\gamma_M}_i = \frac{\gamma_Q}{{\gamma_{FF}}_i}.
 \end{equation}
 
-To obtain ${\gamma_M}_i$ per pixel $i$ in the lab, datasets with around \SI{50}{\pe} expected charge per pixel were produced. For each pixel, the average extracted charge (in \si{mV ns}) was linearly regressed, while forcing the fit through the origin. This regression is shown for a single pixel in Figure~\ref{fig:flat_fielding}. The resulting gradient of the regression is equal to ${\gamma_M}_i$, which was combined with Equations~\ref{eq:photosensor_calibration}~\&~\ref{eq:ff} to obtain the calibrated extracted charge. The value of $\gamma_Q$ obtained for \gls{chec-s} was \SI{32.56}{mVns/\pe}\final{update with latest}, and the spread of $\gamma_{FF}$ across the camera is shown in Figure~\ref{fig:ff_values}. The resulting residual spread in signal response between pixels at an average camera illumination of \SI{47.7}{\pe} is shown in Figure~\ref{fig:before_after_ff}. The final variation in signal response between pixels at this illumination was measured to be 0.5\%.
+To obtain ${\gamma_M}_i$ per pixel $i$ in the lab, datasets with around \SI{50}{\pe} average expected charge per pixel were produced. For each pixel, the average extracted charge (in \si{mV ns}) was linearly regressed, while forcing the fit through the origin. This regression is shown for a single pixel in Figure~\ref{fig:flat_fielding}. The resulting gradient of the regression is equal to ${\gamma_M}_i$, which was combined with Equations~\ref{eq:photosensor_calibration}~\&~\ref{eq:ff} to obtain the calibrated extracted charge. The value of $\gamma_Q$ obtained for \gls{chec-s} was \SI{32.56}{mVns/\pe}\final{update with latest}, and the spread of $\gamma_{FF}$ across the camera is shown in Figure~\ref{fig:ff_values}. The resulting residual spread in signal response between pixels at an average camera illumination of \SI{47.7}{\pe} is shown in Figure~\ref{fig:before_after_ff}. The final variation in signal response between pixels at this illumination was measured to be \si{0.5}{\percent}. Figure~\ref{fig:before_after_ff_all} shows the spread of average charge between pixels for the full illumination dynamic range, which remains below \si{8.5}{\percent} for the unsaturated regions.
 
-As the flat-field coefficients have been calculated in a manner in which they are unfolded from the illumination profile (by calculating the expected charge individually for each pixel), they are applicable to any environment the camera is used in. Any deviations that are measured in the signal between pixels are then due to the illumination profile present in the environment, and not due to the characteristics of the photosensor. Once the camera is on the telescope, the flat-field coefficients are intended to be routinely updated using the reflection of the LED flashers (Section~\ref{section:led_flashers}) in the secondary mirror. This calibration will require an updated illumination profile in order to be performed.
+As the flat-field coefficients have been calculated in a manner in which they are unfolded from the illumination profile (by calculating the average expected charge individually for each pixel), they are applicable to any environment the camera is used in. Any deviations that are measured in the signal between pixels are then due to the illumination profile present in the environment, and not due to the characteristics of the photosensor. Once the camera is on the telescope, the flat-field coefficients are intended to be routinely updated using the reflection of the LED flashers (Section~\ref{section:led_flashers}) in the secondary mirror. This calibration will require an updated illumination profile in order to be performed.
 
 \subsection{Dead Pixels}
 
@@ -306,7 +313,7 @@ As evident in Figure~\ref{fig:flat_fielding}, high illumination (greater than \u
 
 Due to the routing of the electronics in the front-end, the electrical signal path is slightly different per channel, causing a small difference in apparent arrival of the pulse in the waveform. The relative arrival time per pixel can be seen in Figure~\change{add camera image showing relative time}. 
 
-Not only does this need to be taken into consideration when investigating the timing performance, it also can have a significant impact on the charge extraction performance. This is because the charge extraction approaches typically rely on other pixels (neighbouring or entire camera, see Chapter~\ref{ch6-reduction}) sharing a compatible pulse time. A charge extraction routine that incorrectly extracts the charge by \SI{1}{ns} can have the impact on the charge resolution shown in Figure~\change{show impact of an incorrect time extraction on charge resolution, maybe of just TM?}. Discussions are ongoing on how to best include the timing corrections in the charge extraction.
+Not only does this need to be taken into consideration when investigating the timing performance, it also can have a significant impact on the charge extraction performance. This is because the charge extraction approaches typically rely on other pixels (neighbouring or entire camera, see Chapter~\ref{ch6-reduction}) sharing a compatible pulse time. A charge extraction routine that incorrectly extracts the charge by \SI{1}{ns} can have the impact on the \textit{Charge Resolution} shown in Figure~\change{show impact of an incorrect time extraction on \textit{Charge Resolution}, maybe of just TM?}. Discussions are ongoing on how to best include the timing corrections in the charge extraction.
 
 \section{Future}
 
@@ -316,4 +323,4 @@ During the long development of \gls{chec}, the calibration procedure has evolved
 	\item Simplify the calibration to save on computing resources.
 	\item Account for additional factors, thereby improving the calibration (such as the \gls{ac} contribution to the Transfer Functions).
 \end{itemize}
-Therefore, while each iteration improves in one aspect, it may be at the expense of the others. As a result, the \gls{target} calibration procedure described in this chapter appears quite complicated compared to the approaches detailed by \textcite{Albert2017} and \textcite{Bechtol2012}. The next step in the calibration development for \gls{chec} is therefore to review the procedure used, with the aim of producing an approach that is simpler, includes aspects such as temperature dependence, and meets the requirements and processing rates required by \gls{cta}.
+Therefore, while each iteration improves in one aspect, it may be at the expense of the others. As a result, the \gls{target} calibration procedure described in this chapter appears quite complicated compared to the approaches detailed by \textcite{Bechtol2012} and \textcite{Albert2017}. The next step in the calibration development for \gls{chec} is therefore to review the procedure used, with the aim of producing an approach that is simpler, includes aspects such as temperature dependence, and meets the requirements and processing rates required by \gls{cta}.
