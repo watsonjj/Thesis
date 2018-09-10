@@ -209,28 +209,30 @@ A future study could further improve on the models used for the illumination cor
 \subsection{Absolute Illumination} \label{section:absolute_illumination}
 
 \begin{figure}
-	\centering
-    \includegraphics[width=0.75\textwidth]{laser_geometry} 
-	\caption[Camera geometry correction schematic]{Two-dimensional geometry schematic of the laboratory set-up for uniform camera illumination, used to calculate the reduction in light level for each pixel depending on its distance from the camera centre.}
-	\label{fig:laser_geometry}
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=0.92\textwidth]{fw_calibration_fit} 
+  \captionof{figure}[Obtaining relationship between filter-wheel transmission and average illumination.]{Example of the linear regression to obtain the relationship between filter-wheel transmission and average illumination in photoelectrons ($\lambda$), for 5 pixels.}
+  \label{fig:fw_calibration_fit}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{fw_calibration}
+  \captionof{figure}[Calibration from filter-wheel transmission to expected charge]{Relationship between filter-wheel transmission and average expected charge in photoelectrons resulting from the filter-wheel calibration. The black line shows the conversion for a theoretical pixel exactly positioned at the camera centre.}
+  \label{fig:fw_calibration}
+\end{minipage}
 \end{figure}
 
 The method adopted to obtain a value for the absolute illumination was to use a fit to the Single Photoelectron spectrum resulting from low-amplitude illumination of the pixels. Contained within this fit is the average illumination parameter, $\lambda$. This topic is further covered in Chapter~\ref{ch5-calibration}. 
 
-By simultaneously fitting three illuminations, we obtained three values of $\lambda$ per pixel. With the three filter-wheel transmissions (corresponding to the three illuminations) on the x-axis, these values of $\lambda$ were linearly regressed (weighted by the 1\sigma parabolic error of the fit) to obtain the gradient $M_\lambda$ and y-intercept $C_\lambda$ per pixel. This linear regression is shown in Figure~\ref{} The y-intercept represents the $\lambda$ one would get with zero filter-wheel transmission, and therefore indicates the \gls{nsb} and \gls{dcr}. The variation in $M_\lambda$ across the pixels arises from the folding of the illumination profile and the relative \gls{pde}. Therefore, the next step was to correct for the illumination profile contribution to the gradient. The resulting spread of $M_\lambda$ is solely from the relative \gls{pde} (Figure~\change{add figure, in this chapter or results chapter?}). The calibration from filter-wheel transmission $T_\text{FW}$ to the average illumination across the whole camera $\average{I}_{pe}$ is then obtained by taking the averages of the linear regression coefficients:
+By simultaneously fitting three illuminations, we obtained three values of $\lambda$ per pixel. With the three filter-wheel transmissions (corresponding to the three illuminations) on the x-axis, these values of $\lambda$ were linearly regressed (weighted by the 1\sigma parabolic error of the fit) to obtain the gradient $M_\lambda$ and y-intercept $C_\lambda$ per pixel. This linear regression is shown in Figure~\ref{fig:fw_calibration_fit} The y-intercept represents the $\lambda$ one would get with zero filter-wheel transmission, and therefore indicates the \gls{nsb} and \gls{dcr}. The variation in $M_\lambda$ across the pixels arises from the folding of the illumination profile and the relative \gls{pde}. Therefore, the next step was to correct for the illumination profile contribution to the gradient. The resulting spread of $M_\lambda$ is solely from the relative \gls{pde} (Figure~\change{add figure, in this chapter or results chapter?}). The calibration from filter-wheel transmission $T_\text{FW}$ to the average illumination across the whole camera $\average{I}_{pe}$ is then obtained by taking the averages of the linear regression coefficients:
 
 \begin{equation} \label{eq:average_camera_illumination}
 \average{I}_{pe} = \average{M}_\lambda T_\text{FW} + \average{C}_\lambda,
 \end{equation}
 
 \subsection{Average Expected Charge}
-
-\begin{figure}
-	\centering
-    \includegraphics[width=\textwidth]{lab_tfpoly_fw_calibration} 
-	\caption[Calibration from Filter-Wheel Transmission to Expected ]{Relationship between filter-wheel transmission and average expected charge in photoelectrons resulting from the filter-wheel calibration. The black line shows the conversion for a theoretical pixel exactly positioned at the camera centre. The blue segment shows the range for the actual pixels in the camera, with the consideration of illumination profile included.}
-	\label{fig:fw_calibration}
-\end{figure}
 
 As we corrected for the \gls{nsb} in the extracted signal value (Section~\ref{section:photosensor_calib}), the \gls{nsb} contribution to Equation~\ref{eq:average_camera_illumination} ($\average{C}_\lambda$) is subtracted to give us the charge we expect when illuminating the camera with a filter-wheel transmission $T_\text{FW}$, for a theoretical pixel perfectly positioned at the camera centre. To obtain the average expected charge for each true camera pixel ${Q_\text{Exp}}_\text{pix}$, this relation must be folded with the illumination profile correction factor $F_\text{pix}$ to give:
 \begin{equation} \label{eq:average_camera_illumination}
