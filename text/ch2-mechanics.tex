@@ -206,11 +206,18 @@ The final illumination profile correction, combining both the laser profile and 
 \end{itemize}
 A future study could further improve on the models used for the illumination correction.
 
-\section{Absolute Illumination} \label{section:absolute_illumination}
+\subsection{Absolute Illumination} \label{section:absolute_illumination}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=0.75\textwidth]{laser_geometry} 
+	\caption[Camera geometry correction schematic]{Two-dimensional geometry schematic of the laboratory set-up for uniform camera illumination, used to calculate the reduction in light level for each pixel depending on its distance from the camera centre.}
+	\label{fig:laser_geometry}
+\end{figure}
 
 The method adopted to obtain a value for the absolute illumination was to use a fit to the Single Photoelectron spectrum resulting from low-amplitude illumination of the pixels. Contained within this fit is the average illumination parameter, $\lambda$. This topic is further covered in Chapter~\ref{ch5-calibration}. 
 
-By simultaneously fitting three illuminations, we obtained three values of $\lambda$ per pixel. With the three filter-wheel transmissions (corresponding to the three illuminations) on the x-axis, these values of $\lambda$ were linearly regressed to obtain the gradient $M_\lambda$ and y-intercept $C_\lambda$ per pixel. The y-intercept represents the $\lambda$ one would get with zero filter-wheel transmission, and therefore indicates the \gls{nsb} and \gls{dcr}. The variation in $M_\lambda$ across the pixels arises from the folding of the illumination profile and the relative \gls{pde}. Therefore, the next step was to correct for the illumination profile contribution to the gradient, the result of which is solely the relative \gls{pde} (Figure~\change{add figure, in this chapter or results chapter?}). The calibration from filter-wheel transmission $T_\text{FW}$ to average camera illumination $\average{I}_{pe}$ is then:
+By simultaneously fitting three illuminations, we obtained three values of $\lambda$ per pixel. With the three filter-wheel transmissions (corresponding to the three illuminations) on the x-axis, these values of $\lambda$ were linearly regressed (weighted by the 1\sigma parabolic error of the fit) to obtain the gradient $M_\lambda$ and y-intercept $C_\lambda$ per pixel. This linear regression is shown in Figure~\ref{} The y-intercept represents the $\lambda$ one would get with zero filter-wheel transmission, and therefore indicates the \gls{nsb} and \gls{dcr}. The variation in $M_\lambda$ across the pixels arises from the folding of the illumination profile and the relative \gls{pde}. Therefore, the next step was to correct for the illumination profile contribution to the gradient. The resulting spread of $M_\lambda$ is solely from the relative \gls{pde} (Figure~\change{add figure, in this chapter or results chapter?}). The calibration from filter-wheel transmission $T_\text{FW}$ to the average illumination across the whole camera $\average{I}_{pe}$ is then obtained by taking the averages of the linear regression coefficients:
 
 \begin{equation} \label{eq:average_camera_illumination}
 \average{I}_{pe} = \average{M}_\lambda T_\text{FW} + \average{C}_\lambda,
@@ -236,3 +243,7 @@ Figure~\ref{fig:fw_calibration} shows the relation between filter-wheel transmis
 \change{define ADC}
 
 \change{monitoring information}
+
+\section{Nomenclature}
+
+\change[inline]{charge/signal, waveform/trace, events}
