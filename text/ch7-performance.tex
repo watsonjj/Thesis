@@ -62,19 +62,13 @@ The \textit{Charge Resolution} is the principle criterion used within \gls{cta} 
 As directed in the \requirementref{B-TEL-1010 Charge Resolution} requirement, one must validate \textit{Charge Resolution} results in three ways. To achieve this, and understand the relationship between the three validation approaches, four procedures are used to obtain a \textit{Charge Resolution}. The procedures, and their associated name for the purpose of this thesis, are:
 
 \begin{description}
-\item [Lab] .
-\item [MCLab] .
-\item [MCLabTrue] . 
-\item [MCOnsky] .
+\item [Lab] Utilises uniform illumination datasets taken in the lab that cover the full dynamic range of the camera, with 1000 events at each illumination. The average expected charge per pixel (in photoelectrons) for each illumination is calibrated by the procedure detailed in Section~\ref{section:lab-calib}. Using the calibration procedures detailed in Chapter~\ref{ch5-calibration} and the \textit{Cross Correlation} charge extraction technique (Chapter~\ref{ch6-reduction}), a value of measured charge in photoelectrons is obtained for every waveform. As the average expected charge values include the Poisson fluctuations, it is appropriate to use Equation~\ref{eq:charge_res} for calculating the \textit{Charge Resolution}, with the measured charge per waveform used for ${Q_M}_i$ and the average expected charge for $Q_T$.
+\item [MCLab] Simulations of the dynamic range datasets from the lab are obtained with the updated \pkg{sim\_telarray} camera model. Using the identical method used for the lab data (excluding the \gls{target} calibration) the charge is extracted and calibrated from the waveforms. The average expected charge for each illumination per pixel is also obtained in the same way as the previous procedure. However, the simulations contain perfect laser uniformity across the camera face (the geometry shown in Figure~\ref{fig:laser_geometry} is still applicable). This dataset then fully represents the same measurements, but with the Monte Carlo model of the camera instead of the physical camera. With an accurate model of the camera, the \textit{Charge Resolution} result should be the same as from the lab measurements. Equation~\ref{eq:charge_res} is also used in this procedure for calculating the \textit{Charge Resolution}.
+\item [MCLabTrue] Using the same dataset as the previous procedure, but instead of using the average expected charge, the true number of photoelectrons that were incident on the pixel for each waveform are extracted from the simulation file. The linear fit between the average measured charge and the ``true charge'' is used to calibrate the extracted charge into corresponding units. As the unique value of ``true charge'' per waveform is now used as $Q_T$, Equation~\ref{eq:charge_res2} must be used to account for the lack of Poisson fluctuations in $Q_T$. The \textit{Charge Resolution} resulting from this procedure demonstrates the change in going from ``average expected charge'' to ``true charge'', which is important for interpreting the results from the next procedure.
+\item [MCOnsky] A dataset containing Monte Carlo simulations of air showers, detected by \gls{chec} on the \gls{astri} telescope structure is made using \pkg{CORSIKA} and \pkg{sim\_telarray}. The \textit{Charge Resolution} is then calculated with the same procedure as the previous one. This procedure is the definitive approach for assessment of \textit{Charge Resolution}, as defined in the requirements. The previous procedures exist to give support to this result.
 \end{description}
 
-
-\begin{enumerate}
-\item 
-\end{enumerate}
-
-
-MCLab has perfect uniform illumination
+A single pixel at the centre of the camera, 888, is used for this investigation. For some of the initial \textit{Charge Resolution} results, the spread in \textit{Charge Resolution} across the other pixels in the camera (excluding ``dead'' pixels) is indicated through the error bars in the y axis.
 
 \subsection{Lab Results}
 
