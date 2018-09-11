@@ -110,7 +110,7 @@ To apply the pedestal, the entry within the lookup table that corresponds to eac
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{pedestal_hist} 
-	\caption[Spread of electronic-pedestal values before and after the pedestal subtraction.]{Spread of electronic-pedestal values before and after the pedestal subtraction for a single TARGET-C channel. The waveforms used to create the pedestal lookup table are separate to those used in these histograms.} 
+	\caption[Spread of electronic-pedestal values before and after the pedestal subtraction.]{Spread of electronic-pedestal values before and after the pedestal subtraction for a single TARGET-C channel. The waveforms used to create the pedestal lookup table are from a different dataset to those used in these histograms. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.} 
 	\label{fig:pedestalresiduals}
 \end{figure}
 
@@ -219,7 +219,7 @@ In the final calibration design of \gls{cta}, ${A_0}_i$ is intended to be suppli
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{before_after_gm} 
-	\caption[Gain-Matching Residuals]{Comparison between the spread in the average signal amplitude per pixel before and after gain matching, for a dataset with approximately \SI{50}{\pe} average illumination. Every pixel in the camera was included.} 
+	\caption[Gain-Matching Residuals]{Comparison between the spread in the average signal amplitude per pixel before and after gain matching, for a dataset with approximately \SI{50}{\pe} average illumination. Every pixel in the camera was included. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.} 
 	\label{fig:before_after_gm}
 \end{figure}
 
@@ -268,16 +268,23 @@ Due to the photon-counting nature of \glspl{mapmt} and \glspl{sipmt}, when the s
 
 \begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{before_after_ff} 
-	\caption[Flat-field Residuals]{Comparison between the spread in the average signal amplitude per pixel before (blue) and after (orange) the flat-fielding calibration. The charges were extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of \SI[separate-uncertainty = true]{47.7 \pm 3.79}{\pe}. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels was considered, i.e. they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera, excluding the ``dead'' pixels, was included in the histograms.}
-	\label{fig:before_after_ff}
+    \includegraphics[width=\textwidth]{before_after_ff_50pe} 
+	\caption[Flat-field Residuals]{Comparison between the spread in the average signal amplitude per pixel before (blue) and after (orange) the flat-fielding calibration. The charges were extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of \SI[separate-uncertainty = true]{47.7 \pm 3.79}{\pe}. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels was considered, i.e. they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera, excluding the ``dead'' pixels, was included in the histograms. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.}
+	\label{fig:before_after_ff_50pe}
 \end{figure}
 
 \begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{before_after_ff_all} 
-	\caption[Flat-field residuals versus average expected charge.]{Similar to the standard deviations of Figure~\ref{fig:before_after_ff}, but for the full dynamic range of the camera, and normalised by the mean charge at each average expected charge.}
-	\label{fig:before_after_ff_all}
+    \includegraphics[width=\textwidth]{before_after_ff_25pe} 
+	\caption[Flat-field Residuals at a lower illumination]{Same as Figure~\ref{fig:before_after_ff_50pe}, but for the lower illumination of X}
+	\label{fig:before_after_ff_25pe}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{before_after_ff_100pe} 
+	\caption[Flat-field Residuals at a higher illumination]{Same as Figure~\ref{fig:before_after_ff_50pe}, but for the higher illumination of X}
+	\label{fig:before_after_ff_100pe}
 \end{figure}
 
 Once the ``average expected charge'' dependence on filter-wheel position/transmission is characterised (Section~\ref{section:expected_charge}), we can calculate the coefficients, ${\gamma_M}_i$, required to convert the average extracted charge (in \si{mV ns}) into the charge we expect (in photoelectrons/photons). The application of these coefficients to the extracted charge has two effects:
@@ -292,7 +299,7 @@ Therefore:
 
 To obtain ${\gamma_M}_i$ per pixel $i$ in the lab, datasets with around \SI{50}{\pe} average expected charge per pixel were produced. For each pixel, the average extracted charge (in \si{mV ns}) was linearly regressed, while forcing the fit through the origin. This regression is shown for a single pixel in Figure~\ref{fig:flat_fielding}. The resulting gradient of the regression is equal to ${\gamma_M}_i$, which was combined with Equations~\ref{eq:photosensor_calibration}~\&~\ref{eq:ff} to obtain the calibrated extracted charge. The value of $\gamma_Q$ obtained for \gls{chec-s} was \SI[separate-uncertainty = true]{36.168 \pm 3.075}{mVns/\pe}\final{update with latest}, and the spread of $\gamma_{FF}$ across the camera is shown in Figure~\ref{fig:ff_values}. This value of $\gamma_Q$ can be converted into its equivalent peak-height (or single-sample) equivalent using the reference pulse shape used in the \textit{Cross Correlation} extraction method (Chapter~\ref{ch6-reduction}), resulting in a value of \SI[separate-uncertainty = true]{4.448 \pm 0.378}{mV/\pe}\final{update with latest}.
 
-The resulting residual spread in signal response between pixels at an average camera illumination of \SI[separate-uncertainty = true]{47.7 \pm 3.79}{\pe} is shown in Figure~\ref{fig:before_after_ff}. The final variation in signal response between pixels at this illumination was measured to be \SI{0.5}{\percent}. Figure~\ref{fig:before_after_ff_all} shows the improvement of the average charge spread between pixels for the full illumination dynamic range, which remains below \SI{8.5}{\percent} for the unsaturated regions.
+The resulting residual spread in signal response between pixels at an average camera illumination of \SI[separate-uncertainty = true]{47.7 \pm 3.79}{\pe} is shown in Figure~\ref{fig:before_after_ff_50pe}. The final variation in signal response between pixels at this illumination was measured to be \SI{0.5}{\percent}. Figures~\ref{fig:before_after_ff_25pe}~and~\ref{fig:before_after_ff_100pe} show the improvement of the average charge spread between pixels for a higher and a lower illumination.
 
 As the flat-field coefficients have been calculated in a manner in which they are unfolded from the illumination profile (by calculating the average expected charge individually for each pixel), they are applicable to any environment the camera is used in. Any deviations that are measured in the signal between pixels are then due to the illumination profile present in the environment, and not due to the characteristics of the photosensor. Once the camera is on the telescope, the flat-field coefficients are intended to be routinely updated using the reflection of the LED flashers (Section~\ref{section:led_flashers}) in the secondary mirror. This calibration will require an updated illumination profile in order to be performed.
 
