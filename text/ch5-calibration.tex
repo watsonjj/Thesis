@@ -255,7 +255,7 @@ Due to the photon-counting nature of \glspl{mapmt} and \glspl{sipmt}, when the s
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{flat_fielding} 
-	\caption[Flat-field calibration]{The average measured charge per illumination for a single pixel. The Y error bars are the standard deviations of the charges for each illumination for a single pixel. The X error bars are the uncertainties on the average expected charge calibration (Section~\ref{section:fwerr}). The orange points (and their standard deviations) were used in a weighted linear regression through the origin to determine the flat-field coefficients for each pixel. The resulting gradient for the pixel shown is \SI[separate-uncertainty = true]{36.156 \pm 0.657}{mVns/\pe}.} 
+	\caption[Flat-field calibration]{The average measured charge per illumination for a single pixel. The Y error bars are the standard deviations of the charges for each illumination for a single pixel. The X error bars are the uncertainties on the average expected charge calibration (Section~\ref{section:fwerr}). The orange points were used in a linear regression through the origin to determine the flat-field coefficients for each pixel. The resulting gradient for the pixel ($\gamma_{M_i}$) is annotated.} 
 	\label{fig:flat_fielding}
 \end{figure}
 
@@ -269,40 +269,53 @@ Due to the photon-counting nature of \glspl{mapmt} and \glspl{sipmt}, when the s
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{before_after_ff_50pe} 
-	\caption[Flat-field residuals.]{Comparison between the spread in the average signal amplitude per pixel before (blue) and after (orange) the flat-fielding calibration. The charges were extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of $Q_\text{Exp} = \SI[separate-uncertainty = true]{47.67 \pm 3.79}{\pe}$. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels was considered, i.e. they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera, excluding the ``dead'' pixels, was included in the histograms. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.}
+	\caption[Flat-field residuals.]{Comparison between the spread in the average signal amplitude per pixel before (blue) and after (orange) the flat-fielding calibration. The charges were extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of $Q_\text{Exp} \approx \SI{50}{\pe}$. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels was considered, i.e. they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera, excluding the ``dead'' pixels, was included in the histograms. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.}
 	\label{fig:before_after_ff_50pe}
 \end{figure}
 
 \begin{figure}
   \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{before_after_ff_25pe}
-    \caption{$Q_\text{Exp} = \SI[separate-uncertainty = true]{25.91 \pm 2.06}{\pe}$}
+    \caption{Lower average expected charge}
     \label{fig:before_after_ff_25pe}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.49\textwidth}
     \includegraphics[width=\textwidth]{before_after_ff_100pe}
-    \caption{$Q_\text{Exp} = \SI[separate-uncertainty = true]{95.44 \pm 7.59}{\pe}$}
+    \caption{Higher average expected charge}
     \label{fig:before_after_ff_100pe}
   \end{subfigure}
-  \caption[Flat-field residuals at other illuminations.]{Same as Figure~\ref{fig:before_after_ff_50pe}, but with a higher and lower expected charge ($Q_\text{Exp}$).}
+  \caption[Flat-field residuals at other illuminations.]{Same as Figure~\ref{fig:before_after_ff_50pe}, but with a higher and lower average expected charge ($Q_\text{Exp}$).}
 \end{figure}
 
-Once the ``average expected charge'' dependence on filter-wheel position/transmission is characterised (Section~\ref{section:expected_charge}), we can calculate the coefficients, ${\gamma_M}_i$, required to convert the average extracted charge (in \si{mV ns}) into the charge we expect (in photoelectrons/photons). The application of these coefficients to the extracted charge has two effects:
+Once the ``average expected charge'' dependence on filter-wheel position/transmission is characterised (Section~\ref{section:expected_charge}), we can calculate the coefficients, $\gamma_{M_i}$, required to convert the average extracted charge (in \si{mV ns}) into the charge we expect (in photoelectrons/photons). The application of these coefficients to the extracted charge has two effects:
 \begin{itemize}
 \item The signal response between pixels is homogenised - the same average amount of charge will be extracted for any pixel illuminated with an average of N photons.
 \item The signal response is converted into the common telescope-array units of photoelectrons or photons.
 \end{itemize}
 Therefore:
 \begin{equation} \label{eq:ff}
-{\gamma_M}_i = \frac{\gamma_Q}{{\gamma_{FF}}_i}.
+\gamma_{M_i} = \frac{\gamma_Q}{{\gamma_{FF}}_i}.
 \end{equation}
 
-To obtain ${\gamma_M}_i$ per pixel $i$ in the lab, datasets with around \SI{50}{\pe} average expected charge per pixel were produced. For each pixel, the average extracted charge (in \si{mV ns}) was linearly regressed, while forcing the fit through the origin. This regression is shown for a single pixel in Figure~\ref{fig:flat_fielding}. The resulting gradient of the regression is equal to ${\gamma_M}_i$, which was combined with Equations~\ref{eq:photosensor_calibration}~\&~\ref{eq:ff} to obtain the calibrated extracted charge. The nominal conversion value from \si{mV ns} to photoelectrons for \gls{chec-s} was calculated to be $\gamma_Q = \SI[separate-uncertainty = true]{36.168 \pm 3.075}{mVns/\pe}$\final{update with latest}, and the spread of $\gamma_{FF_i}$ across the camera is shown in Figure~\ref{fig:ff_values}. The value for $\gamma_Q$ can be converted into its equivalent single \si{mV} sample (i.e. peak-height) equivalent using the reference pulse from the \textit{Cross Correlation} extraction method (Chapter~\ref{ch6-reduction}), resulting in a conversion value of \SI[separate-uncertainty = true]{4.448 \pm 0.378}{mV/\pe}\final{update with latest}.
+To obtain $\gamma_{M_i}$ per pixel $i$ in the lab, datasets with around \SI{50}{\pe} average expected charge per pixel were produced. For each pixel, the average extracted charge (in \si{mV ns}) was linearly regressed, while forcing the fit through the origin. This regression is shown for a single pixel in Figure~\ref{fig:flat_fielding}. The resulting gradient of the regression is equal to $\gamma_{M_i}$, which was combined with Equations~\ref{eq:photosensor_calibration}~\&~\ref{eq:ff} for the calibration of measured charge into photoelectrons. The nominal conversion value from \si{mV ns} to photoelectrons for \gls{chec-s} was calculated to be $\gamma_Q = \SI[separate-uncertainty = true]{35.555 \pm 3.041}{mVns/\pe}$\final{update with latest}, and the spread of $\gamma_{FF_i}$ across the camera is shown in Figure~\ref{fig:ff_values}. The value for $\gamma_Q$ can be converted into its equivalent single \si{mV} sample (i.e. peak-height) equivalent using the reference pulse from the \textit{Cross Correlation} extraction method (Chapter~\ref{ch6-reduction}), resulting in a conversion value of \SI[separate-uncertainty = true]{4.373 \pm 0.374}{mV/\pe}\final{update with latest}.
 
-The resulting residual spread in signal response between pixels at an average camera illumination of \SI[separate-uncertainty = true]{47.67 \pm 3.79}{\pe} is shown in Figure~\ref{fig:before_after_ff_50pe}. The final variation in signal response between pixels at this illumination was measured to be \SI{0.5}{\percent}. Figures~\ref{fig:before_after_ff_25pe}~and~\ref{fig:before_after_ff_100pe} show the improvement of the average charge spread between pixels for a higher and a lower illumination.
+The resulting residual spread in signal response between pixels at an average expected charge of \SI[separate-uncertainty = true]{47.67 \pm 3.79}{\pe} is shown in Figure~\ref{fig:before_after_ff_50pe}. The final variation in signal response between pixels at this illumination was measured to be \SI{0.5}{\percent}. Figures~\ref{fig:before_after_ff_25pe}~and~\ref{fig:before_after_ff_100pe} show the improvement of the average charge spread between pixels for a higher and a lower illumination.
 
 As the flat-field coefficients have been calculated in a manner in which they are unfolded from the illumination profile (by calculating the average expected charge individually for each pixel), they are applicable to any environment the camera is used in. Any deviations that are measured in the signal between pixels are then due to the illumination profile present in the environment, and not due to the characteristics of the photosensor. Once the camera is on the telescope, the flat-field coefficients are intended to be routinely updated using the reflection of the LED flashers (Section~\ref{section:led_flashers}) in the secondary mirror. This calibration will require an updated illumination profile in order to be performed.
+
+\subsubsection{Consideration of Errors and Uncertainty}
+
+The standard error on the estimate of the gradient per pixel, $\sigma_{\gamma_{M_i}}$, that arises from a standard linear regression can be calculated with the relation derived by \textcite{Taylor1997}:
+\begin{equation} \label{eq:merr}
+\sigma_{\gamma_{M_i}} = \sigma_r \sqrt{\frac{N}{N \sum Q_{\text{Exp}_i}^2 - (\sum Q_{\text{Exp}_i})^2}}, \quad i = 0, 1, 2, ..., N,
+\end{equation}
+\begin{equation} \label{eq:sigmar}
+\sigma_r = \sqrt{\frac{\sum (A_{Q_i} - A_{Q_f})^2}{N - 1}},
+\end{equation}
+where $N$ is the total number of regressed points $i$, $\sigma_r$ is the mean square error of the regression, the dependant variable $A_{Q_i}$ is the average measured charge at the average expected charge $Q_{\text{Exp}_i}$, and $A_{Q_f}$ is the value that results from the regression at that same value of $Q_\text{Exp}$. The denominator in Equation~\ref{eq:sigmar} is $N-1$ as we constrained the regression through the origin, therefore there was only one free parameter.
+
+The error on $\gamma_{M_i}$ is used as weights when calculating the average to obtain $\gamma_Q$. Therefore the uncertainty on $\gamma_Q$ is obtained from the weighted standard deviation across the values of $\gamma_{M_i}$ for each pixel.
 
 \subsection{Dead Pixels}
 
@@ -310,14 +323,14 @@ Figure~\ref{fig:ff_values} shows that some of the photosensor pixels contained e
 
 \section{Saturation Recovery}
 
-\begin{figure}
+As evident in Figure~\ref{fig:flat_fielding}, high illumination measurements (greater than \utilde\SI{200}{\pe}) are affected by saturation of the detector. The saturation shown is due to the \gls{target} \gls{asic}, which saturates before the photosensor. However, while the height of the pulse increased no further, the excess charge caused the pulse to extend further (Figure~\ref{fig:generation_tc}). Therefore, it could be possible to perform a simple correction for the saturation recovery by utilising this waveform behaviour. A simple, initial investigation into saturation recovery is shown in Figure~\ref{fig:saturation_recovery}, where the waveform was integrated in a window that started just before the pulse maximum, and extended to the end of the waveform. This resulted in an extracted charge that continued to increase with illumination, apart from in the region immediately after saturation. More investigation is required for this calibration.
+
+\begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{saturation_recovery} 
 	\caption[Saturation Recovery.]{Initial investigation into recovering charge from a saturated waveform for the same pixel as shown in Figure~\ref{fig:flat_fielding}. The saturation coefficient is the integral from just before the pulse maximum, to the end of the waveform readout.}
 	\label{fig:saturation_recovery}
 \end{figure}
-
-As evident in Figure~\ref{fig:flat_fielding}, high illumination (greater than \utilde\SI{200}{\pe}) measurements are affected by saturation of the detector. The saturation shown is due to the \gls{target} \gls{asic}, which saturates before the photosensor. However, while the height of the pulse increased no further, the excess charge caused the pulse to extend further (Figure~\ref{fig:generation_tc}). Therefore, it could be possible to perform a simple correction for the saturation recovery by utilising this waveform behaviour. A simple, initial investigation into saturation recovery is shown in Figure~\ref{fig:saturation_recovery}, where the waveform was integrated in a window that started just before the pulse maximum, and extended to the end of the waveform. This resulted in an extracted charge that continued to increase with illumination, apart from in the region immediately after saturation. More investigation is required for this calibration.
 
 \section{Timing Corrections} \label{section:timing_corrections}
 
