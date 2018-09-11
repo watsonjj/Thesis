@@ -242,7 +242,7 @@ This expression is important for the flat-fielding calibration (Chapter~\ref{ch5
 
 When performing the weighted linear regression between $\lambda_i$ and filter-wheel transmission $T_{FW_i}$ (with weights $w_i = \frac{1}{\sigma_{\lambda_i}^2}$ accounting for the parabolic error in $\lambda_i$), the standard error on the estimate of the gradient per pixel, $\sigma_{M_\lambda}$, can be calculated with the relation derived by \textcite{Taylor1997}:
 \begin{equation} \label{eq:wmerr}
-\sigma_{M_\lambda} = \sqrt{\frac{\sum w_i}{\sum w_i \sum w_i T_{FW_i}^2 - (\sum w_i T_{FW_i})^2}}.
+\sigma_{M_\lambda} = \sqrt{\frac{\sum w_i}{\sum w_i \sum w_i T_{FW_i}^2 - (\sum w_i T_{FW_i})^2}}, \quad i = 0, 1, 2, ..., N.
 \end{equation}
 
 During the correction for the illumination profile on the gradient estimates, the illumination correction factors were also applied to the standard error on the gradient estimate.

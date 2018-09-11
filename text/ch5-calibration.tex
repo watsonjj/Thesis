@@ -219,7 +219,7 @@ In the final calibration design of \gls{cta}, ${A_0}_i$ is intended to be suppli
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{before_after_gm} 
-	\caption[Gain-Matching Residuals]{Comparison between the spread in the average signal amplitude per pixel before and after gain matching, for a dataset with approximately \SI{50}{\pe} average illumination. Every pixel in the camera was included. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.} 
+	\caption[Gain-Matching Residuals]{Comparison between the spread in the average signal amplitude per pixel before and after gain matching with \gls{chec-s}, for a dataset with approximately \SI{50}{\pe} average illumination. In the ``before'' case the DAC value in every superpixel was set to 100. Every pixel in the camera was included in the histogram. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.} 
 	\label{fig:before_after_gm}
 \end{figure}
 
@@ -229,13 +229,13 @@ The flat-field coefficients, ${\gamma_{FF}}_i$, provide an offline compensation 
 	\item The waveforms are readout, calibrated, and averaged per superpixel/module (excluding any dead pixels).
     \item The peak amplitudes of the average waveforms are extracted.
     \item Each module/superpixel is categorised as being above or below the requested amplitude.
-    \item Depending on their category, the voltage setting is increased or reduced by steps of 5 (in units of DAC value), such that it increments closer to the requested amplitude. If the amplitude has been overstepped in the previous measurement, a smaller step value is used. The minimum DAC step value available is 1, which corresponds to $\frac{10}{256}$~V. If the amplitude is not responding to changes in voltage, the pixel is classified as ``dead'', and excluded from the average waveforms.
+    \item Depending on their category, the voltage setting is increased or reduced by steps of 5 (in arbitrary DAC units), such that it increments closer to the requested amplitude. If the amplitude has been overstepped in the previous measurement, a smaller step value is used. The minimum DAC step value available is 1, which corresponds to $\frac{10}{256}$~V. If the amplitude is not responding to changes in voltage, the pixel is classified as ``dead'', and excluded from the average waveforms.
     \item The new voltage settings are applied and the process is repeated.
 \end{enumerate}
 
-In the future, this iterative technique will be replaced with a set of lookup tables for different requested amplitudes. These lookup tables will contain the final voltage settings resulting from this iterative technique. Additionally in the future, the requested signal will not be specified in terms of peak amplitude, but in terms of the \textit{Cross Correlation} charge extraction approach. The improvement in signal response for \gls{chec-s} as a result of the gain matching is shown in Figure~\ref{fig:before_after_gm}, where a response spread reduction of 22\% is achieved.
+In the future, this iterative technique will be replaced with a set of lookup tables for different requested amplitudes. These lookup tables will contain the final voltage settings resulting from this iterative technique. Additionally in the future, the requested signal will not be specified in terms of peak amplitude, but in terms of the \textit{Cross Correlation} charge extraction approach. The resulting spread in signal response for \gls{chec-s} as a result of the gain matching is shown in Figure~\ref{fig:before_after_gm}.
 
-Tables~x\&y\otherch{update} also show a dependence on temperature for some of the photosensor parameters. The additional benefit of the gain matching is that temperature dependences can also be accounted for, by using the monitored temperature value per module and a lookup table of the appropriate corrections to the voltages, such that a constant signal response is kept across the camera. This particular in-situ calibration has not yet been implemented, but is intended for the future.
+Tables~x\&y\otherch{update} also show a dependence on temperature for some of the photosensor parameters. The additional benefit of the gain matching is that temperature dependences can also be accounted for. This is achieved using the monitored temperature value per module and a lookup table of the appropriate corrections to the voltages, such that a constant signal response is kept across the camera. This particular in-situ calibration has not yet been implemented, but is intended for the future.
 
 \change[inline]{plot with gain vs temperature? maybe some initial results from Yuki}
 
@@ -315,7 +315,7 @@ The standard error on the estimate of the gradient per pixel, $\sigma_{\gamma_{M
 \end{equation}
 where $N$ is the total number of regressed points $i$, $\sigma_r$ is the mean square error of the regression, the dependant variable $A_{Q_i}$ is the average measured charge at the average expected charge $Q_{\text{Exp}_i}$, and $A_{Q_f}$ is the value that results from the regression at that same value of $Q_\text{Exp}$. The denominator in Equation~\ref{eq:sigmar} is $N-1$ as we constrained the regression through the origin, therefore there was only one free parameter.
 
-The error on $\gamma_{M_i}$ is used as weights when calculating the average to obtain $\gamma_Q$. Therefore the uncertainty on $\gamma_Q$ is obtained from the weighted standard deviation across the values of $\gamma_{M_i}$ for each pixel.
+The error on $\gamma_{M_i}$ is used as weights when calculating the average to obtain $\gamma_Q$. Therefore the uncertainty on $\gamma_Q$ is quoted from the weighted standard deviation across the values of $\gamma_{M_i}$ for each pixel.
 
 \subsection{Dead Pixels}
 
