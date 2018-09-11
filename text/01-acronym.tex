@@ -29,13 +29,11 @@
 \newacronym{mst}{MST}{Medium Size Telescope}
 \newacronym{sst}{SST}{Small Size Telescope}
 \newacronym{sct}{SCT}{Schwarzschild-Couder Telescope}
-\newacronym[prefixfirst={the~}]{gct}{GCT}{Gamma-ray Cherenkov Telescope}
+\newacronym[prefix={the~},prefixfirst={the~}]{gct}{GCT}{Gamma-ray Cherenkov Telescope}
 \newacronym[prefixfirst={the~}]{chec}{CHEC}{Compact High Energy Camera}
-\newacronym[prefixfirst={the~}]{chec-m}{CHEC-M}{\gls{chec} using \glspl{mapmt} as the detector}
-\newacronym[prefixfirst={the~}]{chec-s}{CHEC-S}{\gls{chec} using \glspl{sipmt} as the detector}
 \newacronym{pmt}{PMT}{Photomultiplier Tube}
 \newacronym{mapmt}{MAPMT}{Multi-Anode Photomultiplier Tube}
-\newacronym{sipmt}{SiPMT}{Silicon Photomultiplier Tube}
+\newacronym{sipmt}{SiPM}{Silicon Photomultiplier}
 \newacronym{target5}{TARGET~5}{\gls{target} (version 5)}
 \newacronym{targetc}{TARGET~C}{\gls{target} (version C)}
 \newacronym{fpga}{FPGA}{Field-Programmable Gate Array}
@@ -131,4 +129,14 @@
 	name={UDP}, 
 	description={User Datagram Protocol}, 
 	first={UDP (User Datagram Protocol)}
+}
+\newglossaryentry{chec-m}{type=\acronymtype, 
+	name={CHEC-M}, 
+	description={CHEC utilising MAPMTs as the photosensor}, 
+	first={CHEC-M}
+}
+\newglossaryentry{chec-s}{type=\acronymtype, 
+	name={CHEC-S}, 
+	description={CHEC utilising SiPMs as the photosensor}, 
+	first={CHEC-S}
 }
