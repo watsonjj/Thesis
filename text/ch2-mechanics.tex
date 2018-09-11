@@ -240,18 +240,14 @@ This expression is important for the flat-fielding calibration (Chapter~\ref{ch5
 
 \subsection{Consideration of Errors and Uncertainty} \label{section:fwerr}
 
-When performing the weighted linear regression between $\lambda_i$ and filter-wheel transmission $T_{FW_i}$ (with weights $w_i = \frac{1}{\sigma_{\lambda_i}^2}$ accounting for the parabolic error in $\lambda_i$), the standard error on the estimate of the gradient per pixel, $\sigma_{M_\lambda}$, can be calculated with the relation:
+When performing the weighted linear regression between $\lambda_i$ and filter-wheel transmission $T_{FW_i}$ (with weights $w_i = \frac{1}{\sigma_{\lambda_i}^2}$ accounting for the parabolic error in $\lambda_i$), the standard error on the estimate of the gradient per pixel, $\sigma_{M_\lambda}$, can be calculated with the relation \cite[p. 199][]{Taylor1997}:
 \begin{equation} \label{eq:merr}
-\sigma_{M_\lambda} = \sigma_r \sqrt{\frac{\sum w_i}{\sum w_i \sum w_i T_{FW_i}^2 - (\sum w_i T_{FW_i})^2}},
+\sigma_{M_\lambda} = \sqrt{\frac{\sum w_i}{\sum w_i \sum w_i T_{FW_i}^2 - (\sum w_i T_{FW_i})^2}}.
 \end{equation}
-\begin{equation} \label{eq:reserr}
-\sigma_r = \sqrt{\frac{\sum w_i (\lambda_i - \lambda_{r_i})^2}{N - 2}},
-\end{equation}
-where $\sigma_r$ is the mean square error of the regression, $N$ is the number of data points, and $\lambda_{r_i}$ is the regressed value at a transmission $T_i$. 
 
 During the correction for the illumination profile on the gradient estimates, the illumination correction factors are also applied to the standard error on the gradient estimate.
 
-While calculating the average gradient across the camera, $\average{M}_\lambda$, the individual gradient estimates are weighted by their corresponding standard error. To calculate an uncertainty on the resulting value for $\average{M}_\lambda$, the weighted standard deviation between the gradient estimates is also calculated. This uncertainty is illustrated in the error bars in Figure~\ref{fig:fw_calibration}. The resulting conversion value from filter wheel transmission to expected charge for a theoretical pixel located at the centre of the camera was calculated to be $\average{M}_\lambda = \SI[separate-uncertainty = true]{3192.93 \pm 254.07}{\pe}$.
+While calculating the average gradient across the camera, $\average{M}_\lambda$, the individual gradient estimates are weighted by their corresponding standard error. To calculate an uncertainty on the resulting value for $\average{M}_\lambda$, the weighted standard deviation between the gradient estimates is also calculated. This uncertainty is illustrated in the error bars in Figure~\ref{fig:fw_calibration}. The resulting conversion value from filter wheel transmission to expected charge for a theoretical pixel located at the centre of the camera was calculated to be $\average{M}_\lambda = \SI[separate-uncertainty = true]{3253.76 \pm 305.32}{\pe}$.
 
 
 \section{Readout Characteristics} \label{section:readout_characteristics}
