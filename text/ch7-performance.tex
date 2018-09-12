@@ -33,7 +33,7 @@ Contained within the lab data are the parameters required for the Monte Carlo va
 
 \begin{figure}
 	\centering
-%     \includegraphics[width=\textwidth]{spe_sim_lab} 
+    \includegraphics[width=\textwidth]{spe_sim_lab} 
 	\caption[Comparison of the SPE spectra between lab measurements and simulations.]{Comparison of the SPE spectra for a single pixel between lab measurements and simulations after an initial attempt towards a more accurate Monte Carlo model. The SPE spectra are identically extracted in both cases, using the \textit{Cross Correlation} charge extraction method. Both spectra are normalised in the x direction by their respective single-photoelectron value, and in the y direction such that their integral is 1.}
 	\label{fig:spe_sim_lab}
 \end{figure}
@@ -41,13 +41,13 @@ Contained within the lab data are the parameters required for the Monte Carlo va
 \begin{table}[h!]
 \centering
 \begin{tabular}{ll|ll} \toprule
-    Fit Parameter        &            & Simulation & Lab    \\ \midrule
-    Average Illumination & [\si{\pe}] & 0.717      & 0.751  \\
-    Pedestal Deviation   & [\si{\pe}] & 0.314      & 0.286  \\
-    Gain Deviation       & [\si{\pe}] & 0.109      & 0.0783 \\
-    Optical Crosstalk    &            & 0.387      & 0.350  \\ \bottomrule
+    Fit Parameter        &            & Simulation          & Lab                \\ \midrule
+    Average Illumination & [\si{\pe}] & 0.717 $\pm$ 0.011  & 0.751 $\pm$ 0.011 \\
+    Pedestal Deviation   & [\si{\pe}] & 0.314 $\pm$ 0.003  & 0.286 $\pm$ 0.002 \\
+    Gain Deviation       & [\si{\pe}] & 0.109 $\pm$ 0.009  & 0.078 $\pm$ 0.007 \\
+    Optical Crosstalk    &            & 0.387 $\pm$ 0.007  & 0.350 $\pm$ 0.006 \\ \bottomrule
 \end{tabular}
-\caption{Parameter values resulting from the fit to the spectra in Figure~\ref{fig:spe_sim_lab}}
+\caption{Parameter values resulting from the fit to the spectra in Figure~\ref{fig:spe_sim_lab}. The \si{1}{$\sigma$} parabolic errors obtained from the covariance matrix of the fit parameters are quoted.}
 \label{table:spe_sim_lab}
 \end{table}
 
@@ -71,6 +71,34 @@ As directed in the \requirementref{B-TEL-1010 Charge Resolution} requirement, on
 A single pixel at the centre of the camera, 888, is used for this investigation. For some of the initial \textit{Charge Resolution} results, the spread in \textit{Charge Resolution} across the other pixels in the camera (excluding ``dead'' pixels) is indicated through the error bars in the y axis.
 
 \subsection{Lab Results}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{checs_mve_hist} 
+	\caption[]{}
+	\label{fig:checs_mve_hist}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{checs_mve_scatter} 
+	\caption[]{}
+	\label{fig:checs_mve_scatter}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{cr_1_lab_raw} 
+	\caption[]{}
+	\label{fig:cr_1_lab_raw}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{cr_1_lab} 
+	\caption[]{}
+	\label{fig:cr_1_lab}
+\end{figure}
 
 \notes[inline,caption={}]{
 	\begin{itemize}
