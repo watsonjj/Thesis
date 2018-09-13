@@ -39,11 +39,11 @@
 
 \section{Introduction}
 
-Due to the dual-mirror Schwarzschild-Couder design of the \gls{gct}, a compact camera design is possible\change{yawn}. The camera that has been developed for \gls{gct} is hence known as the \glsfirst{chec}. In order to enable this compactness, while making no compromise to image resolution of the shower\change{need to understand pixel angular size, and the minimum needed to resolve the image} 
+Due to the dual-mirror Schwarzschild-Couder design of the \glsf{gct}, a compact camera design is possible\change{yawn}. The camera that has been developed for \gls{gct} is hence known as the \glsf{chec}. In order to enable this compactness, while making no compromise to image resolution of the shower\change{need to understand pixel angular size, and the minimum needed to resolve the image} 
 
 ...tightly packed blue-sensitive photosensors with a physical diameter of \SI{\sim 6}{mm} diameter are relied upon. Additionally, in order to capture the short flash duration of the shower (typically only a few to a few tens of nanoseconds) the photosensors must be fast, and be coupled with high-speed digitising electronics. These two components, the photosensors and digitisers, are the defining characteristics of \gls{chec}.
 
-Two designs have been implemented for \gls{chec}, each utilising a different multi-pixel photon-counting sensor technology. A \glsfirst{mapmt} based camera known as \gls{chec-m} was the first to be commissioned, and received its inauguration on the \gls{gct} structure at the Observatoire de Paris-Meudon in November 2015 \cite{Watson2017}. A second camera referred to as \gls{chec-s} is currently undergoing commissioning at the Max-Planck-Institut für Kernphysik in Heidelberg, Germany. \gls{chec-s} utilises photosensors that are novel to \gls{iact} astronomy; \glspl{sipmt} operate on a \change{describe sipms, electron-hole} to detect photons. The appeal of \glspl{sipmt} are ..., therefore their adoption in many \gls{cta} cameras is anticipated. The \gls{chec-s} design is envisaged to be continued forward as the camera for \gls{gct}. Consequently, the commissioning and performance of \gls{chec-s} received the majority of focus within this thesis, however, a comparison to \gls{chec-m} is also provided at many stages.
+Two designs have been implemented for \gls{chec}, each utilising a different multi-pixel photon-counting sensor technology. A \glsf{mapmt} based camera known as \gls{chec-m} was the first to be commissioned, and received its inauguration on the \gls{gct} structure at the Observatoire de Paris-Meudon in November 2015 \cite{Watson2017}. A second camera referred to as \gls{chec-s} is currently undergoing commissioning at the Max-Planck-Institut für Kernphysik in Heidelberg, Germany. This camera utilises \glsfpl{sipmt}, a novel photosensor in the context of \gls{iact} astronomy, despite their presence in the medical physics field for \change{find out value and reference}. \glspl{sipmt} operate on a \change{describe sipms, electron-hole} to detect photons. The appeal of \glspl{sipmt} are ..., therefore their adoption in many \gls{cta} cameras is anticipated. The \gls{chec-s} design is envisaged to be continued forward as the camera for \gls{gct}. Consequently, the commissioning and performance of \gls{chec-s} received the majority of focus within this thesis, however, a comparison to \gls{chec-m} is also provided at many stages.
 
 
 
@@ -79,7 +79,11 @@ Two designs have been implemented for \gls{chec}, each utilising a different mul
 
 \section{CHEC-S}
 
+\notes{smaller gap between modules (and pixels?)}
+
 \subsection{Silicon Photomultipliers}
+
+\notes{see vinigrov for statement about enf, and how it could be worse for silicon even with the ``ultra- low excess noise of a limited Geiger mode avalanche multiplication'' due to opct}
 
 \change[inline]{connection between gain and bias voltage}
 \change[inline]{table of parameters}

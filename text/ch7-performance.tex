@@ -103,13 +103,14 @@ A single pixel at the centre of the camera, 888, is used for this investigation.
 To begin, the different representation of the \textit{Charge Resolution} are first explained in terms of the \textit{Lab} procedure and dataset. Figure~\ref{fig:checs_mve_hist} demonstrates the charge extracted for the entire dynamic range dataset, post calibration. It is the purpose of the \textit{Charge Resolution} to characterise the spread and bias of these measured charges from the average expected charge into a single value per average expected charge (or ``true charge'' where appropriate). The average measured charges in Figure~\ref{fig:checs_mve_scatter} seem to strongly follow a one-to-one relation with the average expected charge (in the non-saturated region), attesting to the success of the extracted charge calibration. However, to fully explore the performance of the camera, we continue on to the \textit{Charge Resolution} shown in Figure~\ref{fig:cr_1_lab_raw}. It is immediately obvious that in the saturated region (\SI{>300}{\pe}), the camera fails the \textit{Charge Resolution} requirement. This is expected, as we make no attempt to recover saturated signal in this investigation. Methods to account for the saturation are briefly described in Section~\ref{section:saturation}, and will be fully explored in a future investigation. To investigate other less obvious features in the \textit{Charge Resolution}, I display the \textit{Charge Resolution} in terms of its deviation from the requirement curve.
 
 Figure~\ref{fig:cr_1_lab} shows the \textit{Charge Resolution} from Figure~\ref{fig:cr_1_lab_raw} divided by the requirement curve. This is how the \textit{Charge Resolution} is visualised elsewhere in this thesis, as it shows how close the points are to the requirement, and emphasises features that cause the results to fail the requirement. In the region of $10 < Q_\text{Exp} < 100$~\si{\pe}, the \textit{Charge Resolution} of the \textit{Lab} dataset fails requirements. By comparing this \textit{Charge Resolution} to those resulting from different Monte Carlo simulations that explore the contributing parameter space, we are able to identify the primary factors resulting in a failure to meet the requirement.
+\vfill
 
 \subsection{Lab versus Monte Carlo}
 
 \begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{cr_2_lab_vs_mc} 
-	\caption[Comparison of the different \textit{Charge Resolution} procedures.]{Comparison of the \textit{Charge Resolutions} resulting from the different procedures described in Section~\ref{section:crprocedure}. A background photon rate of \SI{5}{MHz} is simulated in the Monte Carlo datasets to represent the \gls{dcr} we expect inside the datasets produced from lab measurements.}
+	\caption[Comparison of the different \textit{Charge Resolution} procedures.]{Comparison of the \textit{Charge Resolutions} resulting from the different procedures described in Section~\ref{section:crprocedure}. A background photon rate of \SI{5}{MHz} is simulated in the Monte Carlo datasets to represent the \gls{dcr} we expect inside the datasets produced from lab measurements. The saturated points from the \textit{Lab} measurements are outside of the figure range.}
 	\label{fig:cr_2_lab_vs_mc}
 \end{figure}
 
@@ -172,12 +173,12 @@ Despite the improved performance achieved when using the ``true charge'', a seco
 A prime suspect for the poor \textit{Charge Resolution} is the very high (\SIrange{35}{40}{\percent}) optical crosstalk in the \glspl{sipmt} currently used for the \gls{chec-s} prototype. The optical crosstalk contributes to the extracted charge in two ways: 
 \begin{itemize}
 \item The measured charge is consistently higher. This factor is accounted for in the flat-fielding calibration.
-\item The spread in charge that results from a particular amount of photons contains a higher variation. This is therefore expressed as an increase in the Excess Noise Factor (ENF).
+\item The spread in charge that results from a particular amount of photons contains a higher variation. This is therefore expressed as an increase in the \glsf{enf}.
 \end{itemize}
 
 \subsubsection{Monte Carlo}
 
-Figure~\ref{fig:cr_4_opct_mc} demonstrates the \textit{MCLab Charge Resolution} for a simulation of the \gls{chec-s} model, but with \SI{20}{\percent} optical crosstalk. The effect of a reduced optical crosstalk is a consistent improvement in the \textit{Charge Resolution} for all illuminations.
+Figure~\ref{fig:cr_4_opct_mc} demonstrates the \textit{MCLab Charge Resolution} for a simulation of the \gls{chec-s} model, but with \SI{20}{\percent} optical crosstalk. The effect of a reduced optical crosstalk in the simulation is a consistent improvement in the \textit{Charge Resolution} for all illuminations.
 
 \begin{figure}[H]
 	\centering
@@ -188,19 +189,48 @@ Figure~\ref{fig:cr_4_opct_mc} demonstrates the \textit{MCLab Charge Resolution} 
 
 \subsubsection{Changing Bias Voltage}
 
-Due to the dependence of the optical crosstalk on the bias voltage across the \gls{sipmt} \change{check with rich on parameter dependencies}, we were able to investigate the impact a reduced optical crosstalk has on \textit{Charge Resolution} with \textit{Lab} data. Three datasets were generated, each gain matched to a different ADC value (the transfer function were not included in the gain matching procedure at the time). A lower bias voltage is required to obtain a smaller gain-matched setting. Figure~\ref{fig:cr_4_opct_biasvoltage} shows the improvement in \textit{Charge Resolution} with reduced bias voltage, bringing the result lower than the requirement. The effect is not identical to what is observed in simulations of a lower optical crosstalk, but the lower bias results do seem to correct for the region where the unknown additional noise component is apparent. Further investigation into this behaviour is required.
+Due to the dependence of the optical crosstalk on the bias voltage across the \gls{sipmt} \change{check with rich on parameter dependencies}, we were able to investigate the impact a reduced optical crosstalk has on \textit{Charge Resolution} using \textit{Lab} data. Three datasets were generated, each gain matched to a different ADC value (the Transfer Functions were not included in the gain matching procedure at the time). A lower bias voltage is required to obtain a smaller gain-matched setting. Figure~\ref{fig:cr_4_opct_biasvoltage} shows the improvement in \textit{Charge Resolution} with reduced bias voltage, bringing the result below the requirement. Additionally, by reducing the bias voltage, the unexplained noise component that was identified in the comparison between the \textit{Lab} and \textit{MCLab} datasets (Figure~\ref{fig:cr_2_lab_vs_mc}) appears to diminish, suggesting it is possibly related to the optical crosstalk.
 
-However, it is important to note that the reduction in bias voltage also results in a decrease of Photon Detection Efficiency (PDE). The effect of a lower PDE is a reduction in the camera's ability to resolve Cherenkov shower photons. This contradiction between improving \textit{Charge Resolution}, but reducing Cherenkov shower resolution, is one of the primary reasons the \gls{cta} requirements are being redefined to be in terms of photons, as described in Chapter~\ref{ch3-architecture}.
+However, it is important to note that by reducing the bias voltage, we also decrease the Photon Detection Efficiency (PDE) of the \gls{sipmt}. The effect of a lower PDE is a reduction in the camera's ability to resolve Cherenkov shower photons. This contradiction between improving \textit{Charge Resolution}, but reducing Cherenkov shower resolution, is one of the primary reasons the \gls{cta} requirements are being redefined to be in terms of photons, as described in Chapter~\ref{ch3-architecture}.
+
+\subsection{Analytical Description}
+
+One further way to characterise the camera's \textit{Charge Resolution} is to use the analytical description of the \textit{Charge Resolution} provided by Equation~\ref{eq:charge_res_req}. However, to fully interpret this function, we must understand the contribution of optical crosstalk to the $\mathit{ENF}$ factor. If we assume that optical crosstalk is the dominant contributor to $\mathit{ENF}$ for an \gls{sipmt} (a reasonable assumption due to its high \gls{spe} resolution), the following equations derived by \textcite{Vinogradov2012} can be used to express the $\mathit{ENF}$ in terms of the optical crosstalk probability $P_\text{opct}$:
+\begin{equation} \label{eq:opct_geometric}
+\sigma_{ENF} \approx 1 + P_\text{opct},
+\end{equation}
+\begin{equation} \label{eq:opct_branching}
+\sigma_{ENF} \approx 1 + P_\text{opct} + \frac{3}{2} P_\text{opct}^2,
+\end{equation}
+where the former equation is applicable in a geometric chain model of the optical crosstalk behaviour (each single electron response is capable of only producing 1~or~0 further electron responses) and the latter equation is applicable in a branching Poisson model (each single electron response produces a Poisson distributed random number of further electron responses). The $P_\text{opct}^3$ term from the equation derived by \textcite{Vinogradov2012} is assumed to be negligible.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll|ll} \toprule
+    Fit Parameter        &            & Values             \\ \midrule
+    Excess Noise Factor  &            & 0.350 $\pm$ 0.004  \\
+    Night-Sky Background & [\si{MHz}] & 0.000 $\pm$ 0.110  \\
+    Window Size          & [\si{ns}]  & 5                  \\
+    Electronic Noise     &            & 0.000 $\pm$ 0.763  \\
+    Miscalibration       &            & 0.065 $\pm$ 0.001  \\ \bottomrule
+\end{tabular}
+\caption{Parameter values resulting from the fit to the spectra in Figure~\ref{fig:spe_sim_lab}. The \si{1}{$\sigma$} parabolic errors obtained from the covariance matrix of the fit parameters are quoted.}
+\label{table:spe_sim_lab}
+\end{table}
 
 \subsection{Conclusion}
 
-As suggested by the investigations in this sections, a reduction in optical crosstalk could allow \gls{chec-s} to meet the \textit{Charge Resolution} requirement for all calculation procedures. 
+The results of these \textit{Charge Resolution} investigations seem to suggest a reduction in optical crosstalk could allow \gls{chec-s} to meet the \textit{Charge Resolution} requirement. 
+\change{talk about improved silicon in ch2, "Future"}
+
+% eq:charge_res_req
 
 \notes{Need to reduce opct without reducing bias voltage - better detectors}
+\notes{How do the future silicon improve on crosstalk, trenching? need to balance with PDE due to fill factor ?(VinigroV), Why is our silicon especially high (add to mechanics chapter) 4 pixels combined?}
 
 \notes[inline,caption={}]{
 	\begin{itemize}
-		\item Can we meet requirement with lower opct? Describe opct to ENF, Fit lab data with equation, show with enf equation at 125 MHz
+		\item Can we meet requirement with lower opct? Describe opct to \gls{enf}, Fit lab data with equation, show with enf equation at 125 MHz
 	\end{itemize}
 }
 

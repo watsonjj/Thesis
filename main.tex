@@ -88,6 +88,9 @@
 %\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
 %\newcommand*\glsrpl[2][]{\glsdisp[#1]{#2}{\glsentryshortpl{#2} (\glsentrylongpl{#2})}}
 \input{text/01-acronym}
+\newcommand{\glsf}[1]{\glsunset{#1}\glsentryfull{#1}}
+\newcommand{\glsfpl}[1]{\glsunset{#1}\glsentryfullpl{#1}}
+
 % Nomenclature:
 %\newglossaryentry{angelsperarea}{
 %	name = $a$ ,
