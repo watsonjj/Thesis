@@ -89,7 +89,7 @@ A single pixel at the centre of the camera, 888, is used for this investigation.
 \begin{figure}
 	\centering
     \includegraphics[width=0.9\textwidth]{cr_1_lab_raw} 
-	\caption[\textit{Charge Resolution} of the Lab dataset in default units.]{\textit{Charge Resolution} for a single CHEC-S of the same Lab dynamic range dataset shown in Figure~\ref{fig:checs_mve_hist}. The Y error bars represent the standard deviation of the \textit{Charge Resolution} values across the camera. The X error bars represent the uncertainty in the filter-wheel calibration into units of \si{\pe} (Section~\ref{section:fwerr}). The presentation of the \textit{Charge Resolution} in this form matches Figure~\ref{fig:charge_res_req}.}
+	\caption[\textit{Charge Resolution} of the Lab dataset in default units.]{Average \textit{Charge Resolution} across CHEC-S for the same Lab dynamic range dataset shown in Figure~\ref{fig:checs_mve_hist}. The Y error bars represent the standard deviation of the \textit{Charge Resolution} values across the camera. The X error bars represent the uncertainty in the filter-wheel calibration into units of \si{\pe} (Section~\ref{section:fwerr}). The points are binned to improve visibility. The presentation of the \textit{Charge Resolution} in this form matches Figure~\ref{fig:charge_res_req}.}
 	\label{fig:cr_1_lab_raw}
 \end{figure}
 
@@ -100,19 +100,11 @@ A single pixel at the centre of the camera, 888, is used for this investigation.
 	\label{fig:cr_1_lab}
 \end{figure}
 
-To begin, the different representation of the \textit{Charge Resolution} are first explained in terms of the \textit{Lab} procedure and dataset. Figure~\ref{fig:checs_mve_hist} demonstrates the charge extracted for the entire dynamic range dataset, post calibration. It is the purpose of the \textit{Charge Resolution} to characterise the spread and bias of these measured charges from the average expected charge into a single value per average expected charge (or ``true charge'' where appropriate). The average measured charges in Figure~\ref{fig:checs_mve_scatter} seem to strongly follow a one-to-one relation with the average expected charge (in the non-saturated region), attesting to the success of the extracted charge calibration. However, to fully explore the performance of the camera, we continue on to the \textit{Charge Resolution} shown in Figure~\ref{fig:cr_1_lab_raw}. It is immediately obvious that in the saturated region (\SI{>300}{\pe}), the camera fails the \textit{Charge Resolution} requirement. This is expected, as we make no attempt to recover saturated signal in this investigation. Methods to account for the saturation are briefly described in Section~\ref{section:saturation}, and will be fully explored in a future investigation. To investigate other less obvious features in the \textit{Charge Resolution}, I display the \textit{Charge Resolution} in terms of its deviation from the requirement curve.
+To begin, the different representations of the \textit{Charge Resolution} are first explained in terms of the \textit{Lab} procedure and dataset. Figure~\ref{fig:checs_mve_hist} demonstrates the charge extracted for the entire dynamic range dataset, post calibration. It is the purpose of the \textit{Charge Resolution} to characterise the spread and bias of these measured charges from the average expected charge into a single value per average expected charge (or ``true charge'' where appropriate). The average measured charges in Figure~\ref{fig:checs_mve_scatter} seem to strongly follow a one-to-one relation with the average expected charge (in the non-saturated region), attesting to the success of the extracted charge calibration. However, to fully explore the performance of the camera, we continue on to the \textit{Charge Resolution} shown in Figure~\ref{fig:cr_1_lab_raw}. It is immediately obvious that in the saturated region (\SI{>300}{\pe}), the camera fails the \textit{Charge Resolution} requirement. This is expected, as we make no attempt to recover saturated signal in this investigation. Methods to account for the saturation are briefly described in Section~\ref{section:saturation}, and will be fully explored in a future investigation. To investigate other less obvious features in the \textit{Charge Resolution}, I display the \textit{Charge Resolution} in terms of its deviation from the requirement curve.
 
 Figure~\ref{fig:cr_1_lab} shows the \textit{Charge Resolution} from Figure~\ref{fig:cr_1_lab_raw} divided by the requirement curve. This is how the \textit{Charge Resolution} is visualised elsewhere in this thesis, as it shows how close the points are to the requirement, and emphasises features that cause the results to fail the requirement. In the region of $10 < Q_\text{Exp} < 100$~\si{\pe}, the \textit{Charge Resolution} of the \textit{Lab} dataset fails requirements. By comparing this \textit{Charge Resolution} to those resulting from different Monte Carlo simulations that explore the contributing parameter space, we are able to identify the primary factors resulting in a failure to meet the requirement.
-\vfill
 
 \subsection{Lab versus Monte Carlo}
-
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=\textwidth]{cr_2_lab_vs_mc} 
-	\caption[Comparison of the different \textit{Charge Resolution} procedures.]{Comparison of the \textit{Charge Resolutions} resulting from the different procedures described in Section~\ref{section:crprocedure}. A background photon rate of \SI{5}{MHz} is simulated in the Monte Carlo datasets to represent the \gls{dcr} we expect inside the datasets produced from lab measurements. The saturated points from the \textit{Lab} measurements are outside of the figure range.}
-	\label{fig:cr_2_lab_vs_mc}
-\end{figure}
 
 As a preface to the simulated \textit{Charge Resolution} investigations, the differences in the procedures described in Section~\ref{section:crprocedure} are illustrated in Figure~\ref{fig:cr_2_lab_vs_mc}. The earlier descriptions of each procedure indicate the following expected differences between their \textit{Charge Resolutions}:
 \begin{itemize}
@@ -120,6 +112,13 @@ As a preface to the simulated \textit{Charge Resolution} investigations, the dif
 \item The difference between \textit{MCLab} and \textit{MCLabTrue} demonstrates the expected change when transitioning from the average expected charge, to the ``true charge'' that was detected in the pixel.
 \item As they are the same camera model, and the same \textit{Charge Resolution} calculation approach, there should be very little difference between \textit{MCLabTrue} and \textit{MCOnsky}. The only factor to contribute to differences between the two procedures is the peak-finding that is necessary for the \textit{MCOnsky} datasets.
 \end{itemize}
+
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=\textwidth]{cr_2_lab_vs_mc} 
+	\caption[Comparison of the different \textit{Charge Resolution} procedures.]{Comparison of the \textit{Charge Resolutions} resulting from the different procedures described in Section~\ref{section:crprocedure}. A background photon rate of \SI{5}{MHz} is simulated in the Monte Carlo datasets to represent the \gls{dcr} we expect inside the datasets produced from lab measurements. The saturated points from the \textit{Lab} measurements are outside of the figure range.}
+	\label{fig:cr_2_lab_vs_mc}
+\end{figure}
 
 It is therefore apparent in Figure~\ref{fig:cr_2_lab_vs_mc} that our simulation model is not a perfect representation of \gls{chec-s}. The lack of saturation in the simulated datasets is expected, and that is a feature we will include in future investigations. However, from the simulated datasets we can conclude that in the absence of additional \gls{nsb} photons, the \textit{Charge Resolution} of our camera before the saturated region should be below the requirement. As we do not observe this in the non-simulated dataset, there must be a noise contribution we have not appropriately accounted for. The work required to fully diagnose this noise contribution is beyond the scope of this thesis, however possible options include:
 \begin{description}
@@ -198,7 +197,7 @@ However, it is important to note that by reducing the bias voltage, we also decr
 \begin{figure}[H]
 	\centering
     \includegraphics[width=\textwidth]{cr_7_fit} 
-	\caption[Analytical fit of the \textit{Lab Charge Resolution}.]{Analytical fit of the \textit{Lab Charge Resolution} using Equation~\ref{eq:charge_res_req}. All ``non-dead'' pixels are included in the fit to give the an average characterisation of the whole camera.}
+	\caption[Analytical fit of the \textit{Lab Charge Resolution}.]{Analytical fit of the \textit{Lab Charge Resolution} using Equation~\ref{eq:charge_res_req}. All ``non-dead'' pixels are included in the fit to give the an average characterisation of the whole camera. The fit result is then used to predict the \textit{Lab Charge Resolution} at \SI{125}{MHz} \gls{nsb}, and then with \SI{10}{\percent} optical crosstalk in the presence of \SI{125}{MHz} \gls{nsb}. The relation between \gls{enf} and optical crosstalk are the ones shown in Equations~\ref{eq:opct_geometric}~and~\ref{eq:opct_branching}.}
 	\label{fig:cr_7_fit}
 \end{figure}
 
@@ -210,34 +209,26 @@ However, it is important to note that by reducing the bias voltage, we also decr
     Excess Noise Factor  & $\sigma_{ENF}$ & 1.338 $\pm$ 0.003  \\
     Miscalibration       & $\sigma_g$     & 0.067 $\pm$ 0.001  \\ \bottomrule
 \end{tabular}
-\caption{Parameter values resulting from the fit to the \textit{Lab Charge Resolution} using Equation~\ref{eq:charge_res_req}. The window size parameter is fixed to \SI{5}{ns}.}
+\caption{Parameter values resulting from the fit to the \textit{Lab Charge Resolution} (Figure~\ref{fig:cr_7_fit}) using Equation~\ref{eq:charge_res_req}.}
 \label{table:cr_7_fit}
 \end{table}
 
 One further way to characterise the camera's \textit{Charge Resolution} is to use the analytical description of the \textit{Charge Resolution} provided by Equation~\ref{eq:charge_res_req}. However, to fully interpret this function, we must understand the contribution of optical crosstalk to the $\mathit{ENF}$ factor. If we assume that optical crosstalk is the dominant contributor to $\mathit{ENF}$ for an \gls{sipmt} (a reasonable assumption due to its high \gls{spe} resolution), the following equations derived by \textcite{Vinogradov2012} can be used to express the $\mathit{ENF}$ in terms of the optical crosstalk probability $P_\text{opct}$:
+\begin{minipage}{\textwidth}
 \begin{equation} \label{eq:opct_geometric}
 \sigma_{ENF} \approx 1 + P_\text{opct},
 \end{equation}
 \begin{equation} \label{eq:opct_branching}
 \sigma_{ENF} \approx 1 + P_\text{opct} + \frac{3}{2} P_\text{opct}^2,
 \end{equation}
+\end{minipage}
 where the former equation is applicable in a geometric chain model of the optical crosstalk behaviour (each single electron response is capable of only producing 1~or~0 further electron responses) and the latter equation is applicable in a branching Poisson model (each single electron response produces a Poisson distributed random number of further electron responses). The $P_\text{opct}^3$ term from the equation derived by \textcite{Vinogradov2012} is assumed to be negligible.
+
+Shown in Figure~\ref{fig:cr_7_fit} is the result from fitting Equation~\ref{eq:charge_res_req} to the \textit{Lab Charge Resolution} from Figure~\ref{fig:cr_1_lab}. The resulting parameters, shown in Table~\ref{table:cr_7_fit}, indicate that $\sigma_0$ was poorly constrained by the data points, however $\sigma_{ENF}$ and $\sigma_g$ are well characterised. The first conclusion provided by the fit is the miscalibration is very low, and is even potentially still overestimated in the fit due to the lack of high charge measurements (values above the saturation point were excluded). Secondly, using Equations~\ref{eq:opct_geometric}~and~\ref{eq:opct_branching}, the measured \gls{enf} suggests either an optical crosstalk of \SI{34}{\percent} (geometric) or \SI{25}{\percent} (branching poisson) for the camera. If the same parameters are used in combination with a $\sigma_0$ calculated using Equation~\ref{eq:charge_res_nsb} and values $\mathit{NSB} = \SI{125}{MHz}$, $t_w = \SI{15}{ns}$, and $n_e = 0.3$, we can once again conclude that the \textit{Charge Resolution} requirement is failed by the current \gls{chec-s} design. The curve resulting from this extrapolation is shown in Figure~\ref{fig:cr_7_fit} labelled as ``\SI{125}{MHz}''.
 
 \subsection{Conclusion}
 
-The results of these \textit{Charge Resolution} investigations seem to suggest a reduction in optical crosstalk could allow \gls{chec-s} to meet the \textit{Charge Resolution} requirement. 
-\change{talk about improved silicon in ch2, "Future"}
-
-% eq:charge_res_req
-
-\notes{Need to reduce opct without reducing bias voltage - better detectors}
-\notes{How do the future silicon improve on crosstalk, trenching? need to balance with PDE due to fill factor ?(VinigroV), Why is our silicon especially high (add to mechanics chapter) 4 pixels combined?}
-
-\notes[inline,caption={}]{
-	\begin{itemize}
-		\item Can we meet requirement with lower opct? Describe opct to \gls{enf}, Fit lab data with equation, show with enf equation at 125 MHz
-	\end{itemize}
-}
+The results of these \textit{Charge Resolution} investigations seem to suggest the optical crosstalk is the dominating factor in the degradation of the \textit{Charge Resolution} performance for \gls{chec-s}. They also show that a reduction in optical crosstalk could allow \gls{chec-s} to meet the \textit{Charge Resolution} requirement. Such a reduction is possible with newer \gls{sipmt}, which use techniques such as ``trenching'' to reduce the optical crosstalk between microcells. This is discussed in more detail in Section~\ref{section:checs_future}. Within this year, a second \gls{chec-s} prototype will be built using the latest in \glspl{sipmt}, which reports an optical crosstalk of \SI{\sim 10}{\percent}. If we once again use the result of the fit from Figure~\ref{fig:cr_7_fit}, we can predict the \textit{Charge Resolution} performance of this future camera under \SI{125}{MHz} \gls{nsb}. This is shown in the curves ``\SI{10}{\percent} OPCT (Geometry)'' and ``\SI{10}{\percent} OPCT (Branching)'', and concludes that such a camera will safely meet the \textit{Charge Resolution} requirement.
 
 \section{CHEC-S Pulse Shape} \label{section:pulse_shape_results}
 
