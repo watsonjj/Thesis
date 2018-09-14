@@ -195,6 +195,25 @@ However, it is important to note that by reducing the bias voltage, we also decr
 
 \subsection{Analytical Description}
 
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=\textwidth]{cr_7_fit} 
+	\caption[Analytical fit of the \textit{Lab Charge Resolution}.]{Analytical fit of the \textit{Lab Charge Resolution} using Equation~\ref{eq:charge_res_req}. All ``non-dead'' pixels are included in the fit to give the an average characterisation of the whole camera.}
+	\label{fig:cr_7_fit}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll|ll} \toprule
+    Fit Parameter        &                &            & Values             \\ \midrule
+    Background Noise     & $\sigma_0$     &            & 0.000 $\pm$ 0.316  \\
+    Excess Noise Factor  & $\sigma_{ENF}$ &            & 1.338 $\pm$ 0.003  \\
+    Miscalibration       & $\sigma_g$     &            & 0.067 $\pm$ 0.001  \\ \bottomrule
+\end{tabular}
+\caption{Parameter values resulting from the fit to the \textit{Lab Charge Resolution} using Equation~\ref{eq:charge_res_req}. The window size parameter is fixed to \SI{5}{ns}.}
+\label{table:cr_7_fit}
+\end{table}
+
 One further way to characterise the camera's \textit{Charge Resolution} is to use the analytical description of the \textit{Charge Resolution} provided by Equation~\ref{eq:charge_res_req}. However, to fully interpret this function, we must understand the contribution of optical crosstalk to the $\mathit{ENF}$ factor. If we assume that optical crosstalk is the dominant contributor to $\mathit{ENF}$ for an \gls{sipmt} (a reasonable assumption due to its high \gls{spe} resolution), the following equations derived by \textcite{Vinogradov2012} can be used to express the $\mathit{ENF}$ in terms of the optical crosstalk probability $P_\text{opct}$:
 \begin{equation} \label{eq:opct_geometric}
 \sigma_{ENF} \approx 1 + P_\text{opct},
@@ -203,20 +222,6 @@ One further way to characterise the camera's \textit{Charge Resolution} is to us
 \sigma_{ENF} \approx 1 + P_\text{opct} + \frac{3}{2} P_\text{opct}^2,
 \end{equation}
 where the former equation is applicable in a geometric chain model of the optical crosstalk behaviour (each single electron response is capable of only producing 1~or~0 further electron responses) and the latter equation is applicable in a branching Poisson model (each single electron response produces a Poisson distributed random number of further electron responses). The $P_\text{opct}^3$ term from the equation derived by \textcite{Vinogradov2012} is assumed to be negligible.
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{ll|ll} \toprule
-    Fit Parameter        &            & Values             \\ \midrule
-    Excess Noise Factor  &            & 0.350 $\pm$ 0.004  \\
-    Night-Sky Background & [\si{MHz}] & 0.000 $\pm$ 0.110  \\
-    Window Size          & [\si{ns}]  & 5                  \\
-    Electronic Noise     &            & 0.000 $\pm$ 0.763  \\
-    Miscalibration       &            & 0.065 $\pm$ 0.001  \\ \bottomrule
-\end{tabular}
-\caption{Parameter values resulting from the fit to the spectra in Figure~\ref{fig:spe_sim_lab}. The \si{1}{$\sigma$} parabolic errors obtained from the covariance matrix of the fit parameters are quoted.}
-\label{table:spe_sim_lab}
-\end{table}
 
 \subsection{Conclusion}
 
