@@ -232,20 +232,29 @@ The results of these \textit{Charge Resolution} investigations seem to suggest t
 
 \section{CHEC-S Pulse Shape} \label{section:pulse_shape_results}
 
-\begin{figure}[H]
+\begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{cr_7_fit} 
-	\caption[Analytical fit of the \textit{Lab Charge Resolution}.]{Analytical fit of the \textit{Lab Charge Resolution} using Equation~\ref{eq:charge_res_req}. All ``non-dead'' pixels are included in the fit to give the an average characterisation of the whole camera. The fit result is used to predict the \textit{Lab Charge Resolution} at \SI{125}{MHz} \gls{nsb}, and then with \SI{10}{\percent} optical crosstalk in the presence of \SI{125}{MHz} \gls{nsb}. The possible relationships between \gls{enf} and optical crosstalk are shown in Equations~\ref{eq:opct_geometric}~and~\ref{eq:opct_branching}.}
-	\label{fig:cr_7_fit}
+    \includegraphics[width=\textwidth]{pulse_shape_lab} 
+	\caption[Pulse shape versus average expected charge for CHEC-S.]{The average pulse shape across CHEC-S as a function of average expected charge (i.e. illumination). The Y errors are the standard deviation of the pulse shape parameters across the camera. The ``dead'' pixels are excluded from the calculation.}
+	\label{fig:pulse_shape_lab}
 \end{figure}
 
-Although there is no \gls{cta} requirements attached directly to it, the pulse shape of the camera is important to understand. The camera's pulse shape behaviour has an influence on its response during charge extraction, especially when using methods that utilise the expected shape of the pulse, such as a fitting technique, or the \textit{Cross Correlation} method. Figure
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{pulse_shape_mc} 
+	\caption[Pulse shape versus average expected charge for a CHEC-S simulation.]{Same as Figure~\ref{fig:pulse_shape_lab}, but from simulation data using the \gls{chec-s} model.}
+	\label{fig:pulse_shape_mc}
+\end{figure}
+
+Although there is no \gls{cta} requirements attached directly to it, the pulse shape of the camera is important to understand. The pulse shape behaviour influences the performance of the charge extraction, especially when using methods that utilise the expected shape of the pulse, such as a fitting technique, or the \textit{Cross Correlation} method. Figure~\ref{fig:pulse_shape_lab} displays the average pulse shape of \gls{chec-s} in terms of the pulse's FWHM and rise time. A perfect detector should have a consistent pulse shape at all illuminations, as shown with the simulation dataset in Figure~\ref{fig:pulse_shape_mc}. It is suspect that the FWHM appears to drop in the same average expected charge region ($10 < Q_\text{Exp} < 100$~\si{\pe}) as where we see deviations between the \textit{Lab} and \textit{MCLab Charge Resolutions} (Figure~\ref{fig:cr_2_lab_vs_mc}). This suggests the two factors could be correlated. Further investigation into the pulse shape behaviour is required, possibly by probing at different points in the \gls{fee} to observe each components effect on the pulse shape. 
 
 \section{CHEC-S Time Resolution}
 
 \notes[inline]{what is the best you can know your time resolution with 1 ns bins? i.e. the limitation}
 
 \section{CHEC-M}
+
+Results concerning the performance of \gls{chec-m} have previously been conducted by \textcite{Zorn2017}
 
 \notes[inline]{Comparison in performance between CHEC-M and CHEC-S. show SPE spectrum again, huge decrease in spe\_sigma}
 
