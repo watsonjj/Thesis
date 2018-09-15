@@ -246,7 +246,7 @@ The results of these \textit{Charge Resolution} investigations seem to suggest t
 	\label{fig:pulse_shape_mc}
 \end{figure}
 
-Although there is no \gls{cta} requirements attached directly to it, the pulse shape of the camera is important to understand. The pulse shape behaviour influences the performance of the charge extraction, especially when using methods that utilise the expected shape of the pulse, such as a fitting technique, or the \textit{Cross Correlation} method. Figure~\ref{fig:pulse_shape_lab} displays the average pulse shape of \gls{chec-s} in terms of the pulse's FWHM and rise time. A perfect detector should have a consistent pulse shape at all illuminations, as shown with the simulation dataset in Figure~\ref{fig:pulse_shape_mc}. It is suspect that the FWHM appears to drop in the same average expected charge region ($10 < Q_\text{Exp} < 100$~\si{\pe}) as where we see deviations between the \textit{Lab} and \textit{MCLab Charge Resolutions} (Figure~\ref{fig:cr_2_lab_vs_mc}). This suggests the two factors could be correlated. Further investigation into the pulse shape behaviour is required, possibly by probing at different points in the \gls{fee} to observe each components effect on the pulse shape. 
+Although there is no \gls{cta} requirements attached directly to it, the pulse shape of the camera is important to understand. The pulse shape behaviour influences the performance of the charge extraction, especially when using methods that utilise the expected shape of the pulse, such as a fitting technique, or the \textit{Cross Correlation} method. Figure~\ref{fig:pulse_shape_lab} displays the average pulse shape of \gls{chec-s} in terms of the pulse's FWHM and rise time. A perfect detector should have a consistent pulse shape at all illuminations, as shown with the simulation dataset in Figure~\ref{fig:pulse_shape_mc}. It is suspect that the region in which the FWHM appears to drop ($10 < Q_\text{Exp} < 100$~\si{\pe}) coincides with the same region where we see the discrepancy between the \textit{Lab} and \textit{MCLab Charge Resolutions} (Figure~\ref{fig:cr_2_lab_vs_mc}). This suggests the two factors could be correlated. Further investigation into the pulse shape behaviour is required, possibly by probing at different points in the \gls{fee} to observe each components effect on the pulse shape. 
 
 \section{CHEC-S Time Resolution}
 
@@ -257,11 +257,31 @@ Although there is no \gls{cta} requirements attached directly to it, the pulse s
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{checm_mve_scatter} 
-	\caption[CHEC-M average measured charge versus average expected charge.]{Similar to Figure~\ref{fig:checm_mve_scatter}, but for CHEC-M.}
+	\caption[CHEC-M average measured charge versus average expected charge.]{Similar to Figure~\ref{fig:checm_mve_scatter}, showing the dynamic range for a single CHEC-M pixel.}
 	\label{fig:checm_mve_scatter}
 \end{figure}
 
-Earlier studies of mine, that were concerned with the performance of \gls{chec-m}, have previously been included in a publication on \gls{chec-m} by \textcite{Zorn2017}. However, the calibration procedures have improved since that publication (hereby referred to as the ``CHEC-M Paper''), and an investigation into the \textit{Charge Resolution} was not previously performed. The differences between \gls{chec-m} and \gls{chec-s} are highlighted in Chapter~\ref{ch2-mechanics}.
+Earlier studies of mine, that were concerned with the performance of \gls{chec-m}, have previously been included in a publication on \gls{chec-m} by \textcite{Zorn2017}. However, the calibration procedures have improved since that publication (hereby referred to as the ``CHEC-M paper''), and an investigation into the \textit{Charge Resolution} was not previously performed. A brief update regarding the performance of \gls{chec-m} is therefore included here, using the same techniques developed for \gls{chec-s}, while relying on the same dataset used to produce the figures in the CHEC-M paper.
 
-Firstly, an updated version of the dynamic range plot (Figure~15 in the CHEC-M Paper) is shown in Figure~\ref{fig:checm_mve_scatter}
+Firstly, an updated version of the dynamic range plot (Figure~15 in the CHEC-M paper) is shown in Figure~\ref{fig:checm_mve_scatter}. By utilising similar techniques described in Section~\ref{section:lab-calib}, the understanding of the filter wheel's behaviour (as it existed at the time this data was taken) was improved. This is reflected in the new positions of the points on the X axis, and the larger error bars.
 
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{cr_5_camera_comparison} 
+	\caption[\textit{Charge Resolution} of CHEC-M.]{\textit{Charge Resolution} of CHEC-M compared to the \textit{Charge Resolution} of CHEC-S. The fit to the CHEC-M \textit{Charge Resolution} using Equation~\ref{eq:charge_res_req} is also shown.}
+	\label{fig:cr_5_camera_comparison}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll|ll} \toprule
+    Fit Parameter        &                & Values             \\ \midrule
+    Background Noise     & $\sigma_0$     & 0.814 $\pm$ 0.007  \\
+    Excess Noise Factor  & $\sigma_{ENF}$ & 1.642 $\pm$ 0.008  \\
+    Miscalibration       & $\sigma_g$     & 0.073 $\pm$ 0.003  \\ \bottomrule
+\end{tabular}
+\caption{Parameter values resulting from the fit to the CHEC-M \textit{Charge Resolution} (Figure~\ref{fig:cr_5_camera_comparison}) using Equation~\ref{eq:charge_res_req}.}
+\label{table:cr_5_camera_comparison}
+\end{table}
+
+Resulting from the dynamic range measurements, the \textit{Charge Resolution} of \gls{chec-m} can be constructed. This is shown in Figure~\ref{fig:cr_5_camera_comparison}, compared against the \textit{Lab Charge Resolution} of \gls{chec-s}, and the fit of Equation~\ref{eq:charge_res_req} to the \gls{chec-m} points. The parameters resulting from the fit are shown in Table~\ref{table:cr_5_camera_comparison}. While the \glspl{mapmt} of \gls{chec-m} do not suffer from the large optical crosstalk found in the \glspl{sipmt} of \gls{chec-s}, \gls{chec-m} does seem to still have a larger \gls{enf}. This is one justification for the choice of \gls{chec-m} over \gls{chec-s}, however it is not clear if is solely a result of the photosensor used, or if other changes (such as the change of pre-amplifier and \gls{target} design) contributed.
