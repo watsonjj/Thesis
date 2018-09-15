@@ -7,7 +7,7 @@
 	\subsection{Topics}
 	\begin{itemize}
 		\item RMS extracted charge with varying integration window size and shift with different NSBs and amplitudes (and combination of amplitudes)
-		\item Charge resolution of different methods with different NSB (including full integration method)
+		\item \textit{Charge Resolution} of different methods with different NSB (including full integration method)
 		\item in the absence of the need for peak finding (laser illumination), and when peak finding is important (Cherenkov) - split into two, best integration technique (different NSBs, different integration window sizes), and best peak finding (different NSBs, need Cherenkov data)
 		\item window size might actually change for Cherenkov - got to capture entire signal, and signal might not be centred at "calculated peak time".
 	\end{itemize}
@@ -67,35 +67,39 @@ As explained in Chapter~\ref{ch6-reduction}, the optimal integration window para
 \end{equation}
 where $\mu_\text{on}$ is the average signal extracted from the ``on'' region, and $\sigma_\text{off}$ is the standard deviation of the signal extracted from the ``off'' region. This is an alternative to looking for the optimal window for a fluctuating signal on top of a fluctuating background ($\text{SNR} = \frac{\mu_\text{on}}{\sigma_\text{on}}$), which, due to the inclusion of the signal deviations from the ``on'' region, is much less sensitive to the noise fluctuations and has a strong dependence on the signal level, i.e. the Poisson fluctuations of the signal increases with amplitude.
 
-In Figure~\ref{fig:snr_noc} the conflict between a large window size to contain the full signal, and a small window to minimise noise is evident, resulting in a limited region in which a high signal-to-noise can be achieved. In conclusion, an integration window width of 5 samples and a shift of 2 samples appeared to be optimal for a noise of \SI{125}{MHz}, for both small and large amplitudes (Figures~\ref{fig:amp1nsb125} and \ref{fig:amp50nsb125} respectively). This integration window is demonstrated in Figure~\ref{fig:charge_extraction_window_wf}. As the charge resolution requirements are defined at an \gls{nsb} of \SI{125}{MHz}, these window parameters are adopted for the following investigations.
+In Figure~\ref{fig:snr_noc} the conflict between a large window size to contain the full signal, and a small window to minimise noise is evident, resulting in a limited region in which a high signal-to-noise can be achieved. In conclusion, an integration window width of 5 samples and a shift of 2 samples appeared to be optimal for a noise of \SI{125}{MHz}, for both small and large amplitudes (Figures~\ref{fig:amp1nsb125} and \ref{fig:amp50nsb125} respectively). This integration window is demonstrated in Figure~\ref{fig:charge_extraction_window_wf}. As the \textit{Charge Resolution} requirements are defined at an \gls{nsb} of \SI{125}{MHz}, these window parameters are adopted for the following investigations.
 
-\subsection{Comparison with Cross Correlation}
+\subsection{Comparison with \textit{Cross Correlation}}
+
+As described previously in the thesis, the most appropriate performance criterion for a charge extraction technique used for a \gls{cta} camera is the \textit{Charge Resolution}. Outlined in Section~\ref{section:crprocedure} are the names I have defined to distinguish between different \textit{Charge Resolution} procedures, each using different datasets and/or procedures. In order to evaluate the performance of the \textit{Cross Correlation} technique with respect to a simple integration window, their resulting \textit{Charge Resolutions} were compared in investigations that explore the relevant parameter space.
 
 \begin{figure}
-  %\includegraphics[width=\textwidth]{}
-  \caption[Charge resolution comparison between Cross Correlation and Window Integration for lab data.]{Charge resolution of the \textit{Cross Correlation} charge extraction approach applied to uniformly illuminated lab data, compared to the charge resolution of the integration window approach for the same dataset.}
+  \includegraphics[width=\textwidth]{cr_8_ce_comparison_lab}
+  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{Lab} data.]{\textit{Charge Resolution} of the \textit{Cross Correlation} charge extraction approach applied to uniformly illuminated lab data, compared to the \textit{Charge Resolution} of the integration window approach for the same dataset.}
   \label{fig:cr_ce_lab}
 \end{figure}
 
+First comparison is in the context of the real camera, using the \textit{Lab} dataset. Figure~\ref{}
+
 \begin{figure}
-  %\includegraphics[width=\textwidth]{}
-  \caption[Charge resolution comparison between Cross Correlation and Window Integration for MC-lab data with an optical crosstalk of \SI{40}{\percent}.]{Charge resolution of the \textit{Cross Correlation} charge extraction approach compared to the charge resolution of the integration window approach, for both \SI{5}{MHz} and \SI{125}{MHz} \gls{nsb} noise. The dataset contains waveforms obtained from Monte Carlo simulations of the camera uniformly illuminated, replicating the lab set-up. The optical crosstalk of the photosensors in the simulation is \SI{40}{\percent}.}
+  \includegraphics[width=\textwidth]{cr_8_ce_comparison_opct40}
+  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{MCLab} data with an optical crosstalk of \SI{40}{\percent}.]{\textit{Charge Resolution} of the \textit{Cross Correlation} charge extraction approach compared to the \textit{Charge Resolution} of the integration window approach, for both \SI{5}{MHz} and \SI{125}{MHz} \gls{nsb} noise. The dataset used is produced by Monte Carlo simulations of the camera uniformly illuminated, replicating the lab set-up (i.e. the \textit{MCLab} procedure). The optical crosstalk of the photosensors in the simulation is \SI{40}{\percent}.}
   \label{fig:cr_ce_mclab_opct40}
 \end{figure}
 
 \begin{figure}
-  %\includegraphics[width=\textwidth]{}
-  \caption[Charge resolution comparison between Cross Correlation and Window Integration for MC-lab data with an optical crosstalk of \SI{20}{\percent}.]{Same as Figure~\ref{fig:cr_ce_mclab_opct40}, but with an optical crosstalk of \SI{20}{\percent}.}
+  \includegraphics[width=\textwidth]{cr_8_ce_comparison_opct20}
+  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{MCLab} data with an optical crosstalk of \SI{20}{\percent}.]{Same as Figure~\ref{fig:cr_ce_mclab_opct40}, but with an optical crosstalk of \SI{20}{\percent}.}
   \label{fig:cr_ce_mclab_opct20}
 \end{figure}
 
 \begin{figure}
-  %\includegraphics[width=\textwidth]{}
-  \caption[Charge resolution comparison between Cross Correlation and Window Integration for MC-lab data with a high amount of electronic noise.]{Same as Figure~\ref{fig:cr_ce_mclab_opct40}, but with a factor of 10 higher electronic noise.}
+  \includegraphics[width=\textwidth]{cr_8_ce_comparison_high_noise}
+  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{MCLab} data with a high amount of electronic noise.]{Same as Figure~\ref{fig:cr_ce_mclab_opct40}, but with a factor of 10 higher electronic noise.}
   \label{fig:cr_ce_mclab_opct20}
 \end{figure}
 
-In order to evaluate the performance of the \textit{Cross Correlation} technique with respect to a simple integration window, I calculated the charge resolution for each approach using identical datasets. When applied to our lab dynamic range data, which is obtained in the presence of only dark count noise (estimated to be about \SI{5}{MHz}, there is very little difference between the charge extraction methods.
+
 
 \change[inline]{robust with NSB}
 
