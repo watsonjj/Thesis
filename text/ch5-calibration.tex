@@ -334,9 +334,16 @@ As evident in Figure~\ref{fig:flat_fielding}, high illumination measurements (gr
 
 \section{Timing Corrections} \label{section:timing_corrections}
 
-Due to the routing of the electronics in the front-end, the electrical signal path is slightly different per channel, causing a small difference in apparent arrival of the pulse in the waveform. The relative arrival time per pixel can be seen in Figure~\change{add camera image showing relative time}. 
+\begin{figure}
+	\centering
+    \includegraphics[width=0.8\textwidth]{time_correction} 
+	\caption[Pulse timing correction for each pixel.]{A camera image of \gls{chec-s} showing the timing correction for each pixel. The ``dead'' pixels are outlined in red, and have a zero timing correction.}
+	\label{fig:time_correction}
+\end{figure}
 
-Not only does this need to be taken into consideration when investigating the timing performance, it also can have a significant impact on the charge extraction performance. This is because the charge extraction approaches typically rely on other pixels (neighbouring or entire camera, see Chapter~\ref{ch6-reduction}) sharing a compatible pulse time. A charge extraction routine that incorrectly extracts the charge by \SI{1}{ns} can have the impact on the \textit{Charge Resolution} shown in Figure~\change{show impact of an incorrect time extraction on \textit{Charge Resolution}, maybe of just TM?}. Discussions are ongoing on how to best include the timing corrections in the charge extraction.
+Due to the routing of the electronics in the front-end, the electrical signal path is slightly different per channel, causing a small difference in apparent arrival of the pulse in the waveform. The relative arrival time per pixel for \gls{chec-s} is shown in Figure~\ref{fig:time_correction}. This is measured by extracting the average arrival time per pixel over 1000 events at an average illumination of \SI{\sim 100}{\pe}, and subtracting each pixels value by the average across the camera. It is clear that in every module, there is one particular \gls{asic} slot, corresponding to a 16-pixel corner of the module, that has a longer electrical signal path. 
+
+Not only does the timing correction need to be taken into consideration when investigating the timing performance, it also can have a significant impact on the charge extraction performance. This is because the charge extraction approaches typically rely on other pixels (neighbouring or entire camera, see Chapter~\ref{ch6-reduction}) sharing a compatible pulse time. A charge extraction routine that incorrectly extracts the charge by \SI{1}{ns} can have a negative impact on the \textit{Charge Resolution}. Discussions are ongoing on how to best include the timing corrections in the charge extraction.
 
 \section{Future}
 
