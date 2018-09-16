@@ -2,21 +2,6 @@
 
 \minitoc
 
-\notes[inline,caption={}]{
-	\section{Plan}
-	\subsection{Topics}
-	\begin{itemize}
-		\item RMS extracted charge with varying integration window size and shift with different NSBs and amplitudes (and combination of amplitudes)
-		\item \textit{Charge Resolution} of different methods with different NSB (including full integration method)
-		\item in the absence of the need for peak finding (laser illumination), and when peak finding is important (Cherenkov) - split into two, best integration technique (different NSBs, different integration window sizes), and best peak finding (different NSBs, need Cherenkov data)
-		\item window size might actually change for Cherenkov - got to capture entire signal, and signal might not be centred at "calculated peak time".
-	\end{itemize}
-	\subsection{Questions}
-	\begin{itemize}
-		\item ?
-	\end{itemize}
-}
-
 \section{Introduction}
 
 In Chapter~\ref{ch6-reduction}, the different algorithms for extracting charge from a waveform are extensively discussed, as well as the important considerations one must be vigilant of when producing a charge-extraction algorithm. This purpose of this Appendix is to inform about the performance of the chosen charge-extraction combination, \textit{Cross Correlation} and \textit{Neighbour Peak Finding}, in comparison to typical charge-extraction approaches, in the context of \gls{chec-s}.
@@ -74,36 +59,42 @@ In Figure~\ref{fig:snr_noc} the conflict between a large window size to contain 
 As described previously in the thesis, the most appropriate performance criterion for a charge extraction technique used for a \gls{cta} camera is the \textit{Charge Resolution}. Outlined in Section~\ref{section:crprocedure} are the names I have defined to distinguish between different \textit{Charge Resolution} procedures, each using different datasets and/or procedures. In order to evaluate the performance of the \textit{Cross Correlation} technique with respect to a simple integration window, their resulting \textit{Charge Resolutions} were compared in investigations that explore the relevant parameter space.
 
 \begin{figure}
-  \includegraphics[width=\textwidth]{cr_8_ce_comparison_lab}
-  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{Lab} data.]{\textit{Charge Resolution} of the \textit{Cross Correlation} charge extraction approach applied to uniformly illuminated lab data, compared to the \textit{Charge Resolution} of the integration window approach for the same dataset.}
-  \label{fig:cr_ce_lab}
+  \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_lab}
+  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{Lab} data.]{\textit{Charge Resolution} of the \textit{Cross Correlation} charge extraction approach applied to uniformly illuminated lab data, compared to the \textit{Charge Resolution} of the integration window approach for the same dataset.}
+  \label{fig:cr_8_ce_comparison_lab}
 \end{figure}
 
-First comparison is in the context of the real camera, using the \textit{Lab} dataset. Figure~\ref{}
+The first comparison is shown in Figure~\ref{fig:cr_8_ce_comparison_lab}. It explores the comparative performance in the context of the measurements using the \textit{Lab} dataset (i.e. using the real camera). It demonstrates a small performance improvement is observed with the cross-correlation technique about $Q_\text{Exp} > 10$~\si{\pe}.
 
 \begin{figure}
-  \includegraphics[width=\textwidth]{cr_8_ce_comparison_opct40}
-  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{MCLab} data with an optical crosstalk of \SI{40}{\percent}.]{\textit{Charge Resolution} of the \textit{Cross Correlation} charge extraction approach compared to the \textit{Charge Resolution} of the integration window approach, for both \SI{5}{MHz} and \SI{125}{MHz} \gls{nsb} noise. The dataset used is produced by Monte Carlo simulations of the camera uniformly illuminated, replicating the lab set-up (i.e. the \textit{MCLab} procedure). The optical crosstalk of the photosensors in the simulation is \SI{40}{\percent}.}
-  \label{fig:cr_ce_mclab_opct40}
+  \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_opct40}
+  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{MCLab} data with an optical crosstalk of \SI{40}{\percent}.]{\textit{Charge Resolution} of the \textit{Cross Correlation} charge extraction approach compared to the \textit{Charge Resolution} of the integration window approach, for both \SI{5}{MHz} and \SI{125}{MHz} \gls{nsb} noise. The dataset used is produced by Monte Carlo simulations of the camera uniformly illuminated, replicating the lab set-up (i.e. the \textit{MCLab} procedure). The optical crosstalk of the photosensors in the simulation is \SI{40}{\percent}.}
+  \label{fig:cr_8_ce_comparison_opct40}
 \end{figure}
+
+In a comparison of the two extraction approaches when used in a simulation using the \gls{chec-s} model, shown in Figure~\ref{fig:cr_8_ce_comparison_opct40}, it is evident that the \textit{Cross Correlation} approach performs worse than the \textit{Window Integration}, especially at higher \gls{nsb}.
 
 \begin{figure}
-  \includegraphics[width=\textwidth]{cr_8_ce_comparison_opct20}
-  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{MCLab} data with an optical crosstalk of \SI{20}{\percent}.]{Same as Figure~\ref{fig:cr_ce_mclab_opct40}, but with an optical crosstalk of \SI{20}{\percent}.}
-  \label{fig:cr_ce_mclab_opct20}
+  \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_opct20}
+  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{MCLab} data with an optical crosstalk of \SI{20}{\percent}.]{Same as Figure~\ref{fig:cr_8_ce_comparison_opct40}, but with an optical crosstalk of \SI{20}{\percent}.}
+  \label{fig:cr_8_ce_comparison_opct20}
 \end{figure}
+
+Figure~\ref{fig:cr_8_ce_comparison_opct20} shows a similar comparison to the previous one, however the optical crosstalk of the simulation model was reduced to \SI{20}{\percent}. The result is an improved performance when using the \textit{Cross Correlation} technique at low \gls{nsb} rate. However, at high \gls{nsb}, the \textit{Window Integrator} performs slightly better.
 
 \begin{figure}
-  \includegraphics[width=\textwidth]{cr_8_ce_comparison_high_noise}
-  \caption[\textit{Charge Resolution} comparison between Cross Correlation and Window Integration for \textit{MCLab} data with a high amount of electronic noise.]{Same as Figure~\ref{fig:cr_ce_mclab_opct40}, but with a factor of 10 higher electronic noise.}
-  \label{fig:cr_ce_mclab_opct20}
+  \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_high_noise}
+  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{MCLab} data with a high amount of electronic noise.]{Same as Figure~\ref{fig:cr_8_ce_comparison_opct40}, but with a factor of 10 higher electronic noise.}
+  \label{fig:cr_8_ce_comparison_high_noise}
 \end{figure}
 
+Finally, in Figure~\ref{fig:cr_8_ce_comparison_high_noise} a simulation of \gls{chec-s} is used, but with a factor of 10 higher electronic noise. As a result, the \textit{Cross Correlation} technique significantly improves the performance with respect to the \textit{Window Integrator}.
 
+/subsection{Conclusion}
 
-\change[inline]{robust with NSB}
-
-\change[inline]{Same discriminator used for different NSB}
-
-
-
+The comparisons of \textit{Charge Resolution} have confirmed what we understood about the \textit{Cross Correlation} method:
+\begin{itemize}
+\item The \textit{Cross Correlation} method amplifies anything correlated with reference pulse shape. This includes \gls{nsb} and optical crosstalk factors. Therefore, when these are the dominant noise factors in the waveforms, the \textit{Window Integrator} performs slightly better.
+\item When noise that is uncorrelated with the reference pulse shape is present in the waveform, such as a high amount of electronic noise, the \textit{Cross Correlation} is an extremely useful tool to resolve the signal.
+\end{itemize}
+It would appear that with the current design of \gls{chec-s}, the major noise components are those correlated with the reference pulse shape. Therefore, not much improvement is available through the \textit{Cross Correlation} technique. However, when the optical crosstalk of the \glspl{sipmt} is lowered to \SI{10}{\percent} (see Section~\ref{section:checs_future}), the other noise factors such as electronic noise could become a relatively significant contribution to the total noise contribution (as occurs in Figure~\ref{fig:cr_8_ce_comparison_opct20}). This would therefore justify the use of the \textit{Cross Correlation} technique. A further investigation into the actual parameter regions of Equation~\ref{eq:charge_res_req} which justify the use of the \textit{Cross Correlation} approach is intended for the future.
