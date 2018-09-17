@@ -4,9 +4,9 @@
 
 \section{Introduction}
 
-Arguably, software is one of the most important aspects of modern-day astronomy. This is especially so for the Imaging Atmospheric Cherenkov Technique, due to its reliance on high-speed digitisers, the dependence of its sensitivity on how well one can reconstruct the shower, and the contrast between the rates of \gls{vhe} gamma-rays versus the hadron shower background.
+Arguably, software is one of the most important aspects of modern-day astronomy. This is especially so for the Imaging Atmospheric Cherenkov Technique, due to its reliance on high-speed digitisers, the dependence of its sensitivity on how well one can reconstruct the shower, and the contrast between the rates of \gls{vhe} gamma rays versus the hadron shower background.
 
-In Chapter~\ref{ch3-architecture}, the data processing steps required to transition from the digitised waveform data obtain from the cameras to the science data release to the scientific community are described. In order transition through this chain, a number of software packages were developed, and are to be offered to \gls{cta} as in-kind contributions. This chapter provides an outline of the software packages involved in the processing pipeline for \gls{cta} and the camera commissioning for \gls{chec}. In cases where I have been involved in the development of the software, my contributions are also mentioned.
+In Chapter~\ref{ch3-architecture}, the data processing steps required to transition from the digitised waveform data obtain from the cameras to the science data released to the scientific community are described. In order transition through this chain, a number of software packages were developed, and are to be offered to the \gls{cta} Observatory as in-kind contributions. This chapter provides an outline of the software packages involved in the processing pipeline for \gls{cta} and the camera commissioning for \gls{chec}. In cases where I have been involved in the development of the software, my contributions are also mentioned.
 
 \section{TARGET Libraries}
 
@@ -30,34 +30,40 @@ These libraries are presently stored on the \gls{cta}-SVN version control server
   \centering
   \includegraphics[width=\textwidth]{tio}
   \captionsetup{singlelinecheck=off}
-  \caption[Simple overview of the data-flow for waveform samples within the TARGET libraries]{Simple overview of the data-flow for waveform samples within the TARGET libraries:
-  \begin{enumerate}[label={\arabic*)}]
-  \item 8-bit/char packets are sent from the TARGET FPGA and stored directly to file. A waveform sample is 12-bit, therefore the first four bits of the first 8-bit sample packet are used to indicate sample order.
-  \item When reading a sample from the R0 TIO file, the first four bits are ignored, and the remaining twelve bits are combined into an unsigned 16-bit sample. The samples are passed to \pkg{TargetCalib} for calibration. The resulting calibrated floating-point sample is scaled and offset to fit into an unsigned 16-bit integer for storage.
-  \item When reading a sample from a R1 TIO file, the entirety of the two 8-bit packets are kept and combined. The value is returned to floating-point format using the OFFSET and SCALE stored in the file header.
-  \end{enumerate}
-  
-  Although only the samples are shown here, all other waveform data is also sent along this stream, including ASIC and Channel number, indicating the start of a new waveform. 
+  \caption[Data-flow overview for waveform samples within the TARGET libraries]{Overview of the data-flow for waveform samples within the TARGET libraries. Although only the samples are shown here, all other waveform data is also sent along this stream, including ASIC and Channel number, indicating the start of a new waveform. 
   }
   \label{fig:tio}
 \end{figure}
 
-\noindent The file format used to store waveforms from the \gls{target} modules is a custom \gls{fits} format defined by \pkg{TargetIO}, hereby referred to as the \gls{tio} format. This format was created as a temporary solution as the official \gls{cta} format is yet to be defined. \gls{fits} was chosen as it is well known and uses a convenient library with extensive compatibilities with other programming frameworks/languages. As we wished to store the \gls{udp} packets with minimal data arranging, they are stored in a customised binary table inside the \gls{fits}. This is a non-typical use of the \gls{fits} format, and therefore makes it complicated to read with typical \gls{fits} readers. The \pkg{TargetIO} library is therefore always used to read and write waveform and header (information such as observation time) data to and from the \gls{tio} file. \gls{tio} files can either contain \textit{R0} (uncalibrated)  or \textit{R1} (low-level calibrated) waveform data. Each sample in a waveform is stored to file as an unsigned 16-bit integer. The raw waveform digital counts measured by the camera are serialised in an unsigned 12-bit integer format, and the data packets received from the \gls{target} \gls{fpga} are 8-bit in size, therefore the first 4 bits of a waveform sample inside an \textit{R0} \gls{tio} file are not used. When storing calibrated waveforms, the post-calibration floating-point sample is scaled and offset to fit the full 16-bit unsigned integer. These scale and offset values are stored in the file header and automatically applied to convert the sample back into floating-point format when read. Figure~\ref{fig:tio} demonstrates the data-flow processes involving the \gls{tio} files.
+\noindent The file format used to store waveforms from the \gls{target} modules is the \gls{fits} format. A customised binary table, defined by \pkg{TargetIO}, is used to store the waveform data inside of the \gls{fits} file. Files containing this \pkg{TargetIO}-defined bin table are hereby referred to as \gls{tio} files. This file format was created as a temporary solution as the official \gls{cta} format is yet to be defined. \gls{fits} was chosen for two reasons:
+\begin{itemize}
+\item It is a well known file format, and uses a convenient library with extensive compatibilities with other programming frameworks/languages.
+\item As we wished to store the \gls{udp} packets with minimal data arranging, the capability to deposit our custom-defined binary table inside the \gls{fits} file is pragmatic.
+\end{itemize}
+The custom binary table format is complicated to read directly with typical \gls{fits} readers, therefore the \pkg{TargetIO} library is always used to read and write waveform and header (information such as observation time) data to and from the \gls{tio} file. \gls{tio} files can either contain \textit{R0} (uncalibrated)  or \textit{R1} (low-level calibrated) waveform data. Each sample in a waveform is stored to file as an unsigned 16-bit integer. The procedure of storing the samples is demonstrated by Figure~\ref{fig:tio}:
+\begin{enumerate}[label={\arabic*)}]
+	\item 8-bit/char packets are sent from the TARGET FPGA and stored directly to file. The raw waveform digital counts measured by the camera are serialised in an unsigned 12-bit integer format, therefore the first four bits of the first 8-bit sample packet are used to indicate sample order.
+  	\item When reading a sample from the R0 TIO file, the first four bits are ignored, and the remaining twelve bits are combined into an unsigned 16-bit sample. The samples are passed to \pkg{TargetCalib} for calibration. The resulting calibrated floating-point sample is scaled and offset to fit into an unsigned 16-bit integer for storage. The OFFSET and SCALE are stored in the header of the \gls{fits} file.
+  	\item When reading a sample from a R1 TIO file, the entirety of the two 8-bit packets are kept and combined. The value is returned to floating-point format using the OFFSET and SCALE stored in the file header.
+\end{enumerate}
 
-To ensure the full efficiency of the \cpp~library is exploited via the Python wrapper, I contributed the |WaveformArrayReader| class, which, when passed a contiguous block of memory (such as a \lstset{language=Python}|numpy.array|), promptly fills the array with the entire camera's waveform data for that event. For example, to read an \textit{R1} \gls{tio} file from Python using \pkg{TargetIO} directly:
+To ensure the full efficiency of the \cpp~library is exploited via the Python wrapper, I contributed the |WaveformArrayReader| \cpp~class, which, when passed a contiguous block of memory (such as a \lstset{language=Python}|numpy.ndarray|), promptly fills the array with the entire camera's waveform data for that event. For example, to read an \textit{R1} \gls{tio} file from Python using \pkg{TargetIO} directly:
 
 \begin{lstlisting}[language=Python]
 import numpy as np
 from target_io import WaveformArrayReader
 
-# Create the reader and get the number of pixels and number of samples from the header
+# Create the reader and get the number of pixels and number of 
+#  samples from the header
 reader = WaveformArrayReader("/path/to/file/Run17473_r1.tio")
 n_pixels = reader.fNPixels
 n_samples = reader.fNSamples
 
 # Generate the memory to be filled in-place
 waveforms = np.zeros((n_pixels, n_samples), dtype=np.float32)
-first_cell_ids = np.zeros(n_pixels, dtype=np.uint16)  # Storage cell id for the first sample of the event per pixel
+
+# Storage cell id for the first sample of the event per pixel
+first_cell_ids = np.zeros(n_pixels, dtype=np.uint16)  
 
 # Fill the arrays
 event_index = 20
@@ -74,10 +80,10 @@ reader.GetR1Event(event_index, waveforms, first_cell_ids)
 
 \lstset{language=C++}
 \begin{description}
-\item [\textbf{PedestalMaker}] Generates the \textit{Pedestal} calibration file.
-\item [\textbf{TfMaker}] Generates the \textit{Transfer Function} calibration file.
-\item [\textbf{Calibrator}] Applies the aforementioned calibration files to the waveform samples.
-\item [\textbf{Mapping}] Handles the files containing the camera's pixel mapping, and provides an interface to the information. This class is necessary due to the non-intuitive mapping between physics pixel position, and order of pixel readout (Figure~\change{figure showing the pixel positions, camera or module?}). Most commonly, this class is utilised for the plotting of camera images. The class is compatible with the mapping of any square-pixel telescope, and customisable to provide the mapping of the pixels in a single module, the mapping of the superpixels, the mapping of the modules, or the neighbours to a pixel/superpixel/module. This class will be deprecated once the central \gls{cta} database of telescope configurations exists.
+\item [\textbf{PedestalMaker}] Generates the Pedestal calibration file.
+\item [\textbf{TfMaker}] Generates the Transfer Function calibration file.
+\item [\textbf{Calibrator}] Applies the Pedestal and Transfer Function calibration files to the waveform samples.
+\item [\textbf{Mapping}] Handles the files containing the camera's pixel mapping, and provides an interface to the information. This class is necessary due to the non-intuitive mapping between physical pixel position, and order of pixel readout (Figure~\change{figure showing the pixel positions, camera or module?}). Most commonly, this class is utilised for the plotting of camera images. The class is compatible with the mapping of any square-pixel telescope, and customisable to provide the mapping of the pixels in a single module, the mapping of the superpixels, the mapping of the modules, or the neighbours to a pixel/superpixel/module. This class will be deprecated once the central \gls{cta} database of telescope configurations exists.
 \item [\textbf{CameraConfiguration}] Provides an interface to certain camera-version dependant variables. Currently the variables that might change with camera-version (stored in the \gls{tio} file header) include number of storage cells, pixel mapping, and reference pulse shape. The correct version of the parameter is returned according to the camera-version provided, allowing for the automated processing of the data of different camera versions. This class will also be replaced by the central \gls{cta} database.
 \end{description}
 
@@ -85,7 +91,7 @@ Efforts are being made to improve the \pkg{TargetCalib}'s (more specifically the
 
 \section{Monte Carlo Software}
 
-An important aspect in modern \gls{iact} analysis is the utilisation of Monte Carlo simulations. Within \gls{cta} they are paramount in both the design of the array, to find the most cost-effective solution that enables the attainment of its scientific goals, and as a complement to observational data in order to reconstruct Cherenkov showers from \gls{iact} images. Two packages are typically used for the generation of the files containing simulated Cherenkov shower images: \pkg{\gls{corsika}} and \pkg{sim\_telarray}.
+An important aspect in modern \gls{iact} analysis is the utilisation of Monte Carlo simulations. Within \gls{cta} they are paramount in both the design of the array, to find the most cost-effective solution that enables the attainment of its scientific goals, and as a complement to observational data in order to reconstruct Cherenkov showers from \gls{iact} images. Two packages are typically used for the generation of the files containing simulated Cherenkov shower images: \pkg{\gls{corsika}} and \pkg{sim\_telarray}. While I had no involvement in the development of these packages, I had to learn how to use them in order to obtain simulations containing a model of the \gls{chec} camera.
 
 \subsection{\pkg{CORSIKA}}
 \vspace{-0.7em}
@@ -98,7 +104,7 @@ An important aspect in modern \gls{iact} analysis is the utilisation of Monte Ca
   \label{fig:corsika}
 \end{figure}
 
-\noindent Originally developed for the \gls{kascade} cosmic-ray experiment, the \pkg{CORSIKA} package is ``a program for detailed simulation of extensive air showers initiated by high energy cosmic ray particles'' \cite[][p. i]{heck1998corsika}. Given a specified astrophysical primary particle (protons, light nuclei, photons), the simulation tracks the particle, its interaction products, and its secondary decay products through the atmosphere, using the latest in hadronic and leptonic interaction models. It can also simulate the Cherenkov photon production produced by the superluminal products. In combination with the \gls{iact} extension package written by \textcite{Bernlohr2008}, these Cherenkov photons are tracked to a ``fiducial sphere'' surrounding the telescope, while including atmospheric refraction and absorption effects (Figure~\ref{fig:corsika}). Photons emitted at angles away from the telescope can be ignored to reduce the computational cost of this tracking. Photons are also simulated in bunches as opposed to individually to aid efficiency. The philosophy behind the development of \pkg{CORSIKA} is to provide an evolving package which accumulates the expertise from various experiments with connections to high energy and air shower physics. Due to the complexity involved in simulating extensive air showers, this is an attractive approach to minimise effort and errors, and ease the comparison of simulation results between experiments. As a result, \pkg{CORSIKA} is the most extensively used air shower simulation package in \gls{vhe} astrophysics. Experiments other than \gls{cta} that utilise \pkg{CORSIKA} include (but are not limited to) \gls{hess}, \gls{veritas}, \gls{magic}, and \gls{hawc}.
+\noindent Originally developed for the \gls{kascade} cosmic-ray experiment, the \pkg{CORSIKA} package is ``a program for detailed simulation of extensive air showers initiated by high energy cosmic ray particles'' \cite[][p. i]{heck1998corsika}. Given a specified astrophysical primary particle (protons, light nuclei, photons), the simulation tracks the particle, its interaction products, and its secondary decay products through the atmosphere, using the latest hadronic and leptonic interaction models. It can also simulate the Cherenkov photon production produced by the superluminal products. In combination with the \gls{iact} extension package written by \textcite{Bernlohr2008}, these Cherenkov photons are tracked to a ``fiducial sphere'' surrounding the telescope, while including atmospheric refraction and absorption effects (Figure~\ref{fig:corsika}). Photons emitted at angles away from the telescope can be ignored to reduce the computational cost of this tracking. Photons are also simulated in bunches as opposed to individually to aid efficiency. The philosophy behind the development of \pkg{CORSIKA} is to provide an evolving package which accumulates the expertise from various experiments with connections to high energy and air shower physics. Due to the complexity involved in simulating extensive air showers, this is an attractive approach to minimise effort and errors, and ease the comparison of simulation results between experiments. As a result, \pkg{CORSIKA} is the most extensively used air shower simulation package in \gls{vhe} astrophysics. Experiments other than \gls{cta} that utilise \pkg{CORSIKA} include (but are not limited to) \gls{hess}, \gls{veritas}, \gls{magic}, and \gls{hawc}.
 
 \subsection{\pkg{sim\_telarray}}
 \vspace{-0.7em}
@@ -109,19 +115,17 @@ An important aspect in modern \gls{iact} analysis is the utilisation of Monte Ca
 
 Also included within the \pkg{sim\_telarray} package is the \pkg{light\_emission} package. This simple simulator produces \pkg{CORSIKA} output files for simple illumination cases. For example, one can simulate the uniform illumination of the camera focal plane. Therefore, using this \pkg{CORSIKA} output file as input to \pkg{sim\_telarray} will reproduce the illumination profiles often used in lab tests during the camera commissioning phase. This is especially useful in the Monte Carlo verification and validation process, discussed in Chapter~\ref{ch7-performance}.
 
-\change[inline]{Talk about other simulation packages? GrOptics, KASKADE, SENECA, MOCCA}
-
 \section{Reduction Tools}
 \lstset{language=C++}
 
 Tools used to process the waveforms in order to either characterise the camera or progress down the data-level chain (Figure~\ref{fig:dataflow}) are often referred to as ``reduction tools''. Within the \gls{chec} group we utilise Python for all of our waveform reduction. We made this choice due to its high popularity for data science and signal processing and its extensive library of statistical and numerical packages. The most important examples of these packages include:
 
 \begin{description}
-\item [\pkg{NumPy\footnotemark}] \footnotetext{\url{http://www.numpy.org/}} Enables the efficient processing of numerical data. This is accomplished using their powerful N-dimensional array object known as a |numpy.array| \cite{VanderWalt2011}. At the lowest level, a |numpy.array| is a contiguous block of memory much like an array in C. However, NumPy defines many statistical methods which utilise optimised low-level C and Fortran operations to process the contained data in the most efficient way possible, often performing better than handwritten C or Fortran.
-\item [\pkg{SciPy\footnotemark}] \footnotetext{\url{https://www.scipy.org/}} Expands on the operations one can perform on the |numpy.array| object, providing an extensive amount of functionality useful for scientific computing, including statistical operations, interpolation, and signal processing.
+\item [\pkg{NumPy\footnotemark}] \footnotetext{\url{http://www.numpy.org/}} Enables the efficient processing of numerical data. This is accomplished using their powerful N-dimensional array object known as a |numpy.ndarray| \cite{VanderWalt2011}. At the lowest level, a |numpy.ndarray| is a contiguous block of memory much like an array in C. However, NumPy defines many methods which utilise optimised low-level C and Fortran operations to process the contained data in the most efficient way possible, often performing better than handwritten C or Fortran.
+\item [\pkg{SciPy\footnotemark}] \footnotetext{\url{https://www.scipy.org/}} Expands on the operations one can perform on the |numpy.ndarray| object, providing an extensive amount of functionality useful for scientific computing, including statistical operations, interpolation, and signal processing.
 \item [\pkg{Astropy\footnotemark}] \footnotetext{\url{http://www.astropy.org/}} Developed by the astronomy community to consolidate various common astronomy procedures into a single package. 
-\item [\pkg{Pandas\footnotemark}] \footnotetext{\url{https://pandas.pydata.org/}} Provides high-performance, easy-to-use, table-like data structures known as a |pandas.DataFrame|. Each column in the table can be processed as a |numpy.array|.
-\item [\pkg{Matplotlib\footnotemark}] \footnotetext{\url{https://matplotlib.org/}} Supplies extensive 2D plotting capabilities for Python, and is compatible with |numpy.array| objects.
+\item [\pkg{Pandas\footnotemark}] \footnotetext{\url{https://pandas.pydata.org/}} Provides high-performance, easy-to-use, table-like data structures known as a |pandas.DataFrame|. Each column in the table can be processed as a |numpy.ndarray|.
+\item [\pkg{Matplotlib\footnotemark}] \footnotetext{\url{https://matplotlib.org/}} Supplies extensive 2D plotting capabilities for Python, and is compatible with |numpy.ndarray| objects.
 \end{description}
 
 Different reduction packages may be designed with different purposes, but each can potentially import methods from another, which is especially simple to do when developing in Python. Although many other \gls{cta} groups have also adopted Python for their waveform reduction software, it is not a standard across \gls{cta}.
@@ -133,7 +137,7 @@ Different reduction packages may be designed with different purposes, but each c
 
 \noindent Waveform data from each \gls{cta} telescope must be processed and the results combined using standardised approaches, such that the data at each processing stage is compatible with the next, and the resulting reduced data and shower reconstruction is of optimum quality. This was the motivation behind the design of the \textit{Data Processing Level} architecture (Section~\ref{section:data_levels}). The most reliable way to ensure this architecture is adhered to was to create a single data processing pipeline with the capability to transform \textit{DL0} waveforms into \textit{DL2} reduced shower parameters. The prototype that has been developed among members of the \gls{cta} Consortium for this purpose is \pkg{ctapipe}.
 
-The majority of pipeline frameworks in \gls{vhe} astronomy utilise what we refer to as a ``bottom-up'' approach, where the algorithms are written in low-level languages such as C or \cpp, and perhaps interfaced with a high-level language such as Python. Examples of this are the Data Acquisition system in \gls{hess} \cite{Balzer2014}, and the \gls{aerie} framework in \gls{hawc} \cite{Abeysekara2018}. Contrary to this, the \pkg{ctapipe} framework utilises a ``top-down'' approach, where algorithms are first written in Python. Through the utilisation of \pkg{NumPy}, the majority of these Python algorithms will process data at exceptional rates, removing the need to write complex low-level code. Additionally, as mentioned previously, there exists a wide scientific-computing community in the world of Python, contributing their collective knowledge into open-source packages. Within \pkg{ctapipe} we utilise this rich resource and benefit from the open-source model: reducing time wasted reproducing existing methods, and limiting the potential for bugs to go undiscovered. However, in some complicated applications which perform very specific tasks, \pkg{NumPy} is too generalised for the algorithm to perform adequately. In these cases the following options are available in Python:
+The majority of pipeline frameworks in \gls{vhe} astronomy utilise what we refer to as a ``bottom-up'' approach, where the algorithms are written in low-level languages such as C or \cpp, and perhaps interfaced with a high-level language such as Python. Examples of this include the software written for \gls{hess} (including their Data Acquisition system \cite{Balzer2014}), and the \gls{aerie} framework written for \gls{hawc} \cite{Abeysekara2018}. Contrary to this, the \pkg{ctapipe} framework utilises a ``top-down'' approach, where algorithms are first written in Python. Through the utilisation of \pkg{NumPy}, the majority of these Python algorithms will process data efficiently, removing the need to write complex low-level code. Additionally, as mentioned previously, there exists a wide scientific-computing community in the world of Python, contributing their collective knowledge into open-source packages. Within \pkg{ctapipe} we utilise this rich resource and benefit from the open-source model: reducing time wasted to re-implement existing methods, and limiting the potential for bugs to go undiscovered. However, in some complicated applications which perform very specific tasks, it is not possible to implement an algorithm with \pkg{NumPy} expressions efficiently. As \pkg{ctapipe} utilises |numpy.ndarray| for the storage of data wherever it is possible or logical (including the camera waveforms and images), the following additional options are available for processing the data efficiently:
 
 \begin{description}
 \item [\pkg{Numba}] A Python compiler, either prior to runtime, or ``just-in-time''. Allows for the optimisation of array-oriented and maths-heavy Python code without the need to switch to a different language.
@@ -147,8 +151,8 @@ In the remainder of this subsection, I will describe the most important areas of
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.9\textwidth]{datacontainer}
-  \caption[Contents of the  {\protect \lstinline{ctapipe.io.containers.DataContainer}} object.]{Print result of a {\protect \lstinline{ctapipe.io.containers.DataContainer}} object, showing its contents.}
+  \includegraphics[width=0.7\textwidth]{datacontainer}
+  \caption[Contents of the DataContainer object.]{Print result of a {\protect \lstinline{ctapipe.io.containers.DataContainer}} object, showing its contents.}
   \label{fig:datacontainer}
 \end{figure}
 
@@ -159,7 +163,7 @@ As \pkg{ctapipe} must be capable of processing the data from any camera indiscri
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{eventsource}
-  \caption[Functional block diagram of the \lstinline{ctapipe.io.eventsource.EventSource} class.]{Functional block diagram of the \lstinline{ctapipe.io.eventsource.EventSource} class, showing the inheritance, dependencies, and object returned for a selection of the existing \lstinline{EventSource} classes.}
+  \caption[Functional block diagram of the EventSource class.]{Functional block diagram of the \lstinline{ctapipe.io.eventsource.EventSource} class, showing the inheritance, dependencies, and object returned for a selection of the existing \lstinline{EventSource} classes.}
   \label{fig:eventsource}
 \end{figure}
 
@@ -170,7 +174,7 @@ Presently in the development of \gls{cta}, a common file format has not yet been
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{eventsourcefactory}
-  \caption[Functional block diagram of the \lstinline{ctapipe.io.eventsourcefactory.EventSourceFactory} class.]{Functional block diagram of the \lstinline{ctapipe.io.eventsourcefactory.EventSourceFactory} class, showing the inheritance, the potential \lstinline{EventSource} classes that could be returned, and the methods used to assess the compatibility of the input URL with the \lstinline{EventSource}.}
+  \caption[Functional block diagram of the EventSourceFactory class.]{Functional block diagram of the \lstinline{ctapipe.io.eventsourcefactory.EventSourceFactory} class, showing the inheritance, the potential \lstinline{EventSource} classes that could be returned, and the methods used to assess the compatibility of the input URL with the \lstinline{EventSource}.}
   \label{fig:eventsourcefactory}
 \end{figure}
 
