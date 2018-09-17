@@ -149,7 +149,7 @@ In the remainder of this subsection, I will describe the most important areas of
 
 \subsubsection{DataContainer}
 
-\begin{figure}[t]
+\begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{datacontainer}
   \caption[Contents of the DataContainer object.]{Print result of a {\protect \lstinline{ctapipe.io.containers.DataContainer}} object, showing its contents.}
@@ -160,7 +160,7 @@ As \pkg{ctapipe} must be capable of processing the data from any camera indiscri
 
 \subsubsection{EventSource}
 
-\begin{figure}[t]
+\begin{figure}
   \centering
   \includegraphics[width=\textwidth]{eventsource}
   \caption[Functional block diagram of the EventSource class.]{Functional block diagram of the \lstinline{ctapipe.io.eventsource.EventSource} class, showing the inheritance, dependencies, and object returned for a selection of the existing \lstinline{EventSource} classes.}
@@ -171,14 +171,14 @@ Presently in the development of \gls{cta}, a common file format has not yet been
 
 \subsubsection{Factory}
 
-\begin{figure}[t]
+\begin{figure}
   \centering
   \includegraphics[width=\textwidth]{eventsourcefactory}
   \caption[Functional block diagram of the EventSourceFactory class.]{Functional block diagram of the \lstinline{ctapipe.io.eventsourcefactory.EventSourceFactory} class, showing the inheritance, the potential \lstinline{EventSource} classes that could be returned, and the methods used to assess the compatibility of the input URL with the \lstinline{EventSource}.}
   \label{fig:eventsourcefactory}
 \end{figure}
 
-Alongside the variety in file formats, their also exists a variety among \gls{iact} analysis techniques that are applicable to \gls{cta}, such as different charge extraction techniques or shower parametrisation approaches (Chapter~\ref{ch6-reduction}). Early in my involvement with \pkg{ctapipe} I identified the need for a design pattern that could enable the configuration of the processing chain at runtime, depending on user and file inputs. This approach needed to be clean and modular, otherwise such approaches can get very confusing and hard to maintain. As Python is a very flexible language, this problem was potentially easier to solve than if \pkg{ctapipe} was designed in a different languages. The accepted solution, of which I proposed and implemented, was to generate the |ctapipe.core.factory.Factory| class, which operates according to the ``factory method pattern'' \cite{johnson2005design}. By inheriting from the |Factory| class, one can design a factory that, when given a particular input, returns the corresponding class. The input can be designed to be anything, from a file path to a user's input on the command line. One example of a |Factory| is the |ctapipe.io.eventsourcefactory.EventSourceFactory| class (Figure~\ref{fig:eventsourcefactory}). Given an input URL, every |EventSource| is looped through, and the corresponding |is_compatible| static method is called. When |is_compatible| returns |True|, that |EventSource| is returned and used to read the file into the |DataContainer|. This functionality design makes reading any compatible file format into \pkg{ctapipe} extremely simple. The code snippet below demonstrates how to read a file and print the |event_id| for each event. It uses the helper function |ctapipe.io.eventsourcefactory.event_source| which internally handles the creation of an |EventSourceFactory| object. This snippet also demonstrates the simple functionality provided by the |EventSource| to easily loop through the events inside the file, irrespective of the file format.
+Alongside the variety of file formats, there also exists a variety among \gls{iact} analysis techniques that are applicable to \gls{cta}, such as different charge extraction techniques or shower parametrisation approaches (Chapter~\ref{ch6-reduction}). Early in my involvement with \pkg{ctapipe} I identified the need for a design pattern that could enable the configuration of the processing chain at runtime, depending on user and file inputs. This approach needed to be clean and modular, otherwise such approaches can get very confusing and hard to maintain. As Python is a very flexible language, this problem was potentially easier to solve than if \pkg{ctapipe} was designed in a different language. The accepted solution, which I proposed and implemented, was to generate the |ctapipe.core.factory.Factory| class, which operates according to the ``factory method pattern'' \cite{johnson2005design}. By inheriting from the |Factory| class, one can design a factory that, when given a particular input, returns the corresponding class. The input can be designed to be anything, from a file path to a user's input on the command line. One example of a |Factory| is the |ctapipe.io.eventsourcefactory.EventSourceFactory| class (Figure~\ref{fig:eventsourcefactory}). Given an input URL, every |EventSource| is looped through, and the corresponding |is_compatible| static method is called. When |is_compatible| returns |True|, that |EventSource| is returned and used to read the file into the |DataContainer|. This functionality design makes reading any compatible file format into \pkg{ctapipe} extremely simple. The code snippet below demonstrates how to read a file and print the |event_id| for each event. It uses the helper function |ctapipe.io.eventsourcefactory.event_source| which internally handles the creation of an |EventSourceFactory| object. This snippet also demonstrates the simple functionality provided by the |EventSource| to easily loop through the events inside the file, irrespective of the file format.
 
 \begin{lstlisting}[language=Python]
 from ctapipe.io.eventsourcefactory import event_source
@@ -198,7 +198,7 @@ with event_source(url) as source:
 
 Another major contribution of mine has been the development and maintenance of the calibration and waveform reduction pipeline within \pkg{ctapipe}. As with the |DataContainer|, each stage is split according to the data levels. Although the \textit{R1 Calibration} is a responsibility of the Camera Functional Unit (Section~\ref{section:data_levels}) and not the \gls{dpps}, it was concluded that it may be useful to be able to call \textit{R1 Calibration} methods from \pkg{ctapipe} during the prototyping phase. As shown in Figure~\ref{fig:ctapipe_calib}, the |ctapipe.image.charge_extractors.ChargeExtractor| classes are included within this scheme. The different charge extraction methods (Chapter~\ref{ch6-reduction}) are each selectable via the |ctapipe.image.charge_extractors.ChargeExtractorFactory|. An example of importing C code via \pkg{Cython} can be found for the |NeighbourPeakIntegrator|, as the loop over neighbouring pixels within a camera was too complex to optimally execute using \pkg{NumPy}.
 
-\pkg{ctapipe} has reached a stage in its development at which full pipeline processing from waveform data into \glspl{irf} is possible, as it contains the common methods for \gls{iact} waveform reduction and shower reconstruction (see Chapter~\ref{ch6-reduction} for more details on these techniques). A first release of \pkg{ctapipe} is therefore intended later this year.
+The development of \pkg{ctapipe} is ongoing, but it now contains implementations of many of the common procedures used in the Imaging Atmospheric Cherenkov Technique, described in Chapter~\ref{ch6-reduction}. It also contains some of the more complex procedures, such as the latest version of the ImPACT shower reconstruction technique developed by \cite{Parsons2014}. \pkg{ctapipe} has reached a level of maturity where people are able to utilise it for the processing of the waveform data from their prototype cameras. I have used \pkg{ctapipe} extensively for this purpose during my DPhil to analyse waveform and image data from \gls{chec}, especially for the Cherenkov showers images obtained during the \gls{gct} on-telescope campaigns (Chapter~\ref{ch8-onsky}). Additionally, \gls{cta} members have began to produces their own \glspl{irf} using \pkg{ctapipe}. An official implementation of \gls{irf} production is intended to be included in \pkg{ctapipe} soon.
 
 \subsection{\pkg{CHECLabPy}}
 \vspace{-0.7em}
@@ -207,21 +207,11 @@ Another major contribution of mine has been the development and maintenance of t
 
 \noindent It was decided within \gls{chec} that we need our own waveform reduction pipeline for camera commissioning and algorithm prototyping. The purpose of creating this package was to unify the analysis code in \gls{chec}, and supply a common method for file IO, thereby simplifying the reading of \gls{tio} files. A second primary motivation for this package was to provide an executable that would reduce the waveforms from \gls{tio} files into its signal, noise, and timing parameters, and store it into an accessible data format with no dependencies on the \gls{target} libraries or \pkg{ctapipe}. This therefore allows anyone within \gls{chec} to easily and immediately perform investigations on a dataset.
 
-To meet these needs, I created the \pkg{CHECLabPy} Python package. This operates on the same principles as \pkg{ctapipe}, using a ``top-down'' approach, and utilising common scientific computing Python packages. By creating this package separately from \pkg{ctapipe}, we are able to freely develop algorithms that most likely will not be used in the final \gls{cta} array implementation, and therefore has no purpose within \pkg{ctapipe}.  However, the \pkg{CHECLabPy} has been designed with a similar coding style to \pkg{ctapipe}. Therefore, algorithms that are deemed useful to keep, such as the charge extraction approach we select to use for \gls{chec}, can easily be integrated into \pkg{ctapipe} in the future. The primary executable for reducing waveform data from \gls{tio} files is called |extract_dl1.py|, which allows a selection of |WaveformReducer| from the command-line using a similar factory method to the one I designed for \pkg{ctapipe}. The reduced parameters from the waveforms are then stored into a |pandas.DataFrame| object, which is then saved to disk in the HDF5\footnote{\url{https://support.hdfgroup.org/HDF5/}} file format.
+To meet these needs, I created the \pkg{CHECLabPy} Python package. \pkg{CHECLabPy} has been designed with a similar coding style to \pkg{ctapipe}. It operates on the same principle of a ``top-down'' approach, and utilises common scientific computing Python packages. Due to this similarity, algorithms that are deemed useful to transfer to \pkg{ctapipe}, such as the charge extraction approach we choose to use for \gls{chec}, can easily be integrated into \pkg{ctapipe} in the future. The primary executable for reducing waveform data from \gls{tio} files is called |extract_dl1.py|, which allows a selection of |WaveformReducer| from the command-line using a similar factory method to the one I designed for \pkg{ctapipe}. The reduced parameters from the waveforms are then stored into a |pandas.DataFrame| object, which is then saved to disk in the HDF5\footnote{\url{https://support.hdfgroup.org/HDF5/}} file format.
 
 \section{Science Tools}
 
-Although not used in within this thesis, the science tools are important components to the \gls{cta} processing pipeline that are worthy of mention in this chapter. They will be provided to the scientific community, along with the \textit{DL3} data, by the \gls{suss} to support the science data analysis. This is an important aspect of the ``open-observatory'' operation of \gls{cta}.  As previous \gls{iact} experiments all built their own analysis tools, there exists no common tools within gamma-ray astronomy. Therefore, two independently-developed tools have been proposed for this purpose: \pkg{Gammapy} and \pkg{ctools}. Both packages intend to improve on the sharing-of-tools aspect of gamma-ray astronomy, through enabling the analysis of observational data from other experiments, and encouraging the standardisation of the data format used (\gls{fits}). Although the tools were developed to perform very similar operations, such as the construction of binned data products (including spectra, sky maps, and light curves) they have opposing design philosophies.
-
-\change[inline]{any publications comparing the two yet?}
-
-\subsection{\pkg{Gammapy}}
-\vspace{-0.7em}
-\noindent \hspace{\parindent} {\tiny URL: \url{https://github.com/gammapy/gammapy} \par}
-
-\noindent Originally released under the name of \pkg{PyFACT} in 2011/2012, it explored the possibility of using the open-source Python model for \gls{vhe} data analysis, utilising the common scientific computing packages, \pkg{NumPy} and \pkg{SciPy} \cite{Deil2017}. Due to the amalgamation of the Python astronomy community to create \pkg{Astropy}, it was decided to create \pkg{Gammapy} as an \pkg{Astropy} affiliated package. This means that wherever possible, it uses functionality from \pkg{Astropy}, thereby benefiting from the entire Python astronomy community. This design philosophy is the same approach adopted by \pkg{ctapipe}. 
-
-A Gammapy high-level analysis typically consists of \cite[][p. 4]{Deil2017}:
+Although not used in within this thesis, the science tools are important components to the \gls{cta} processing pipeline that are worthy of mention in this chapter. They will be provided to the scientific community, along with the \textit{DL3} data, by the \gls{suss} to support the science data analysis. This is an important aspect of the ``open-observatory'' operation of \gls{cta}. The purpose of the science tools is to perform the following tasks (as described by \textcite[p. 4]{Deil2017}):
 \begin{itemize}
 \item selection of a data cube (energy and positions) around a sky position from all event lists,
 \item computation of the corresponding exposure,
@@ -232,18 +222,16 @@ A Gammapy high-level analysis typically consists of \cite[][p. 4]{Deil2017}:
 \item derivation of a catalog of excess peaks (or a source catalog).
 \end{itemize}
 
+As previous \gls{iact} experiments all built their own internal analysis tools, no common tools exist within the gamma-ray astronomy field. Therefore, two independently-developed tools have been proposed for this purpose: \pkg{Gammapy} and \pkg{ctools}. Both packages intend to improve on the sharing-of-tools aspect of gamma-ray astronomy, through enabling the analysis of observational data from other experiments, and encouraging the standardisation of the data format used (\gls{fits}). Although the tools were developed to perform very similar operations, such as the construction of binned data products (including spectra, sky maps, and light curves) they have opposing design philosophies.
+
+\subsection{\pkg{Gammapy}}
+\vspace{-0.7em}
+\noindent \hspace{\parindent} {\tiny URL: \url{https://github.com/gammapy/gammapy} \par}
+
+\noindent A package known as \pkg{PyFACT} was developed in 2011/2012 which explored the possibility of using the open-source Python model for \gls{vhe} data analysis, utilising the common scientific computing packages, \pkg{NumPy} and \pkg{SciPy} \cite{Deil2017}. Although \pkg{PyFACT} was never adopted in any official capacity, it did demonstrate that such an approach could be useful in the \gls{vhe} astronomy field. From the inspiration by \pkg{PyFACT}, and due to the amalgamation of the Python astronomy community to create \pkg{Astropy}, it was decided to create \pkg{Gammapy} as an \pkg{Astropy} affiliated package. This means that wherever possible, it uses functionality from \pkg{Astropy}, thereby benefiting from the entire Python astronomy community. This design philosophy is the same approach adopted by \pkg{ctapipe}. 
+
 \subsection{\pkg{ctools}}
 \vspace{-0.7em}
 \noindent \hspace{\parindent} {\tiny URL: \url{http://cta.irap.omp.eu/ctools/index.html} \par}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\textwidth]{ctools}
-  \caption[Overview of \pkg{ctools}.]{Overview of the contents of the \pkg{ctools} package \cite{Knodlseder2016}.}
-  \label{fig:ctools}
-\end{figure}
-
-\noindent Conversely, the design philosophy of \pkg{ctools} is to strictly minimise dependencies as much as possible. The only dependency of \pkg{ctools} is the adjacently developed \pkg{GammaLib} \cpp~shared library, which contains ``all the classes, support functions, and some global variables that are needed to analyse gamma-ray event data'' \cite[][p. 2]{Knodlseder2016}. The advantage of this design lies in the complete independence from the maintenance of other libraries. If a dependency is no longer maintained in the future, many problems can arise in the form of incompatibilities, such those regarding operating systems or the updates inside the software package itself. However, the disadvantage of this design is the larger initial development effort required, and necessity to reimplement common methods from scratch.
-
-Much like other science analysis frameworks in high-energy astronomy (e.g. Fermi Science Tools), \pkg{ctools} is a collection of tools that each perform a single, well-defined analysis step. These tools are written in \cpp, but can also be called directly from Python via the \pkg{SWIG}-generated interface. An overview of the \pkg{ctools} package is shown in Figure~\ref{fig:ctools}.
-
+\noindent Conversely, the design philosophy of \pkg{ctools} is to strictly minimise dependencies as much as possible. The only dependency of \pkg{ctools} is the adjacently developed \pkg{GammaLib} \cpp~shared library, which contains ``all the classes, support functions, and some global variables that are needed to analyse gamma-ray event data'' \cite[][p. 2]{Knodlseder2016}. The advantage of this design lies in the complete independence from the maintenance of other libraries. If a dependency is no longer maintained in the future, many problems can arise in the form of incompatibilities, such those regarding operating systems or the updates inside the software package itself. However, the disadvantage of this design is the larger initial development effort required, and necessity to reimplement common methods from scratch. Much like other science analysis frameworks in high-energy astronomy (e.g. Fermi Science Tools), \pkg{ctools} is a collection of tools that each perform a single, well-defined analysis step. These tools are written in \cpp, but can also be called directly from Python via the \pkg{SWIG}-generated interface. However, no standard interface exists for conversion between |numpy.ndarray| and \pkg{ctools} objects, forcing the reliance on the \pkg{GammaLib} library for any efficient analysis.
