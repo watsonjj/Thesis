@@ -174,10 +174,19 @@ As aptly described by \textcite[][p.~16]{Dickinson2010}, ``determining of the en
 \end{figure}
 
 \begin{figure}
-	\centering
-    \includegraphics[width=\textwidth]{gamma_hadron_discrimination} 
-	\caption[Discriminating between images of gamma-ray and hadron induced showers.]{Example of the differences in the distributions of \textit{Hillas Parameters} between simulated \textgamma-ray-induced showers (dark) and real hadronic-induced showers (light) for the Whipple \SI{10}{m} reflector \cite{Fegan1999a}.}
-	\label{fig:gamma_hadron_discrimination}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{hillas_checs_width}
+    \caption{}
+    \label{fig:hillas_checs_width}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{hillas_checs_length}
+    \caption{}
+    \label{fig:hillas_checs_length}
+  \end{subfigure}
+  \caption[Hillas width and length from CHEC-S simulations.]{The \textit{Hillas} width and length parameters extracted from Monte Carlo simulations of CHEC-S on the ASTRI telescope structure, for both gamma-ray and proton induced showers. The energy ranges simulated were \SIrange{2}{330}{TeV} for the gamma rays and \SIrange{6}{600}{TeV} for the protons. Each histogram contains approximately 20,000 shower images.}
+    \label{fig:hillas_checs}
 \end{figure}
 
-The differences in image morphology between gamma-ray and hadronic showers is described in Chapter~\ref{ch1-intro}\otherch{describe differences in images in intro, and show perfect examples with MC of CHECS. Lessard gives precise information about the differences}. In traditional \gls{iact} analysis, these differences are quantified by the \textit{Hillas Parameters}. Gamma-ray showers typically exist within a narrow range of the parameters, while hadronic showers typically exhibit a broader spectrum of parameter values, as illustrated in Figure~\ref{fig:gamma_hadron_discrimination}. By creating an acceptance range for the \textit{Hillas Parameters}, the hadronic background can be excluded in a very simple way \cite{Dickinson2010,Fegan1999a,Hillas1996a}. However, at higher energies, the difference in morphology between gamma and hadron showers is limited, and it becomes harder to discriminate using simple cuts on the \textit{Hillas Parameters}. This is especially a problem for the \glspl{sst}, which are designed to operate within the gamma-ray energy range of \SIrange{1}{300}{TeV}. The distributions of the \textit{Hillas} width and length from simulations of \gls{chec-s} on the \gls{astri} telescope structure are shown in Figure~\ref{}. More advanced techniques, such as the 
+The differences in image morphology between gamma-ray and hadronic showers is described in Chapter~\ref{ch1-intro}\otherch{describe differences in images in intro, and show perfect examples with MC of CHECS. Lessard gives precise information about the differences}. In traditional \gls{iact} analysis, these differences are quantified by the \textit{Hillas Parameters}. Gamma-ray showers typically exist within a narrow range of the parameters, while hadronic showers typically exhibit a broader spectrum of parameter values, as illustrated in Figure~\ref{fig:gamma_hadron_discrimination}. By creating an acceptance range for the \textit{Hillas Parameters}, the hadronic background can be excluded in a very simple way \cite{Dickinson2010,Fegan1999a,Hillas1996a}. However, at higher energies, the difference in morphology between gamma and hadron showers is limited, and it becomes harder to discriminate using simple cuts on the \textit{Hillas Parameters}. This is especially a problem for the \glspl{sst}, which are designed to operate within the gamma-ray energy range of \SIrange{1}{300}{TeV}. The distributions of the \textit{Hillas} width and length from simulations of \gls{chec-s} on the \gls{astri} telescope structure are shown in Figure~\ref{fig:hillas_checs}. More advanced techniques, such as the 
