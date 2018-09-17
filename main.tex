@@ -83,13 +83,16 @@
 \newcommand{\utilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
 
 % Abbreviations:s
-\usepackage[toc,acronym,nomain]{glossaries-prefix}
+\usepackage[toc,acronym,nomain,shortcuts]{glossaries-prefix}
 %\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
 %\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
 %\newcommand*\glsrpl[2][]{\glsdisp[#1]{#2}{\glsentryshortpl{#2} (\glsentrylongpl{#2})}}
 \input{text/01-acronym}
 \newcommand{\glsf}[1]{\glsunset{#1}\glsentryfull{#1}}
 \newcommand{\glsfpl}[1]{\glsunset{#1}\glsentryfullpl{#1}}
+\newcommand*{\glsb}[2][]{\ifglsused{#2}{\acs[#1]{#2}}{%
+ \glsunset{#2}%
+ \acl[#1]{#2} [\acs[#1]{#2}]}}
 
 % Nomenclature:
 %\newglossaryentry{angelsperarea}{
