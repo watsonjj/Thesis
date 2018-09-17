@@ -4,7 +4,7 @@
 
 \section{Introduction}
 
-In Chapter~\ref{ch6-reduction}, the different algorithms for extracting charge from a waveform are extensively discussed, as well as the important considerations one must be vigilant of when producing a charge-extraction algorithm. This purpose of this Appendix is to inform about the performance of the chosen charge-extraction combination, \textit{Cross Correlation} and \textit{Neighbour Peak Finding}, in comparison to typical charge-extraction approaches, in the context of \gls{chec-s}.
+In Chapter~\ref{ch6-reduction}, the different algorithms for extracting charge from a waveform are extensively discussed, as well as the important considerations one must be vigilant of when producing a charge-extraction algorithm. The purpose of this Appendix is to inform about the performance of the chosen charge-extraction combination, \textit{Cross Correlation} and \textit{Neighbour Peak Finding}, in comparison to typical charge-extraction approaches, in the context of \gls{chec-s}.
 
 \section{Integration Window}
 
@@ -38,19 +38,19 @@ In Chapter~\ref{ch6-reduction}, the different algorithms for extracting charge f
     \caption{50~p.e. illumination, 125~MHz noise.}
     \label{fig:amp50nsb125}
   \end{subfigure}
-  \caption[Optimal integration-window parameters.]{Contour plot of signal-to-noise as a function of window width and shift, for different amplitudes and noise values. The maximum, highlighted with the red annotation, indicates the optimal integration-window parameters when applied to a CHEC-S waveform. The definitions of window and shift are shown in Figure~\ref{charge_extraction_window_wf}. The contours are split into percentiles of the range; the top \SI{5}{\percent} of values are contained in the brightest yellow contour. Negative values correspond to an integration window concentrated on the undershoot of the pulse.}
+  \caption[Optimal integration-window parameters.]{Contour plot of signal-to-noise as a function of window width and shift, for different amplitudes and noise values. The maximum, annotated with the cross and position, indicates the optimal integration-window parameters when applied to a CHEC-S waveform. The definitions of window and shift are shown in Figure~\ref{charge_extraction_window_wf}. The contours are split into percentiles of the range; the top \SI{5}{\percent} of values are contained in the brightest yellow contour. Negative values correspond to an integration window concentrated on the undershoot of the pulse.}
   \label{fig:snr_noc}
 \end{figure}
 
-As an alternative to the \textit{Cross Correlation} integration approach, one may instead use a simple integration window, defined by the number of samples inside the ``window width'', and the number of samples the window is ``shifted'' by from the peak time. In order to investigate the performance of the integration-window approach fairly, one must first optimise the values for the width and shift of the window when extracting charge from a \gls{chec-s} waveform. This exercise was performed using a Monte Carlo simulation of the lab set-up, where the camera was uniformly illuminated. The pulse time is consistent in simulations of this nature, therefore the same pulse time is manually chosen for every waveform. This allows the following investigation to be solely on the integration approach, avoiding the interference from peak finding.
+As an alternative to the \textit{Cross Correlation} integration approach, one may instead use a simple integration window, defined by the number of samples inside the ``window width'', and the number of samples the window is ``shifted'' from the peak time. In order to investigate the performance of the integration-window approach fairly, one must first optimise the values for the width and shift of the window when extracting charge from a \gls{chec-s} waveform. This exercise was performed using a Monte Carlo simulation of the lab set-up, where the camera was uniformly illuminated. The pulse time is consistent in simulations of this nature, therefore the same pulse time is manually chosen for every waveform. This allows the following investigation to be solely on the integration approach, avoiding any dependence on the peak finding.
 
 \subsection{Optimal Integration Window Parameters}
 
 As explained in Chapter~\ref{ch6-reduction}, the optimal integration window parameters are noise dependant; a larger integration window is likely to include more noise (\gls{nsb} and \gls{dcr}). However, a larger window size results in more of the signal being captured. In Figure~\ref{fig:snr_noc} the signal-to-noise ($\text{SNR}$) as a function of integration-window parameters is shown for different amplitude and noise values. The $\text{SNR}$ investigation was performed as follows. Assume an ``on'' region of the waveform, where the extracted value contains the signal plus the noise, and an ``off'' region where the extracted value contains solely the noise contributions (Figure~\ref{fig:charge_extraction_window_wf}). The optimal window for a constant signal on top of a fluctuating background is then found by:
-\begin{equation}
+\begin{equation} \label{eq:snr}
 \text{SNR} = \frac{\mu_\text{on}}{\sigma_\text{off}},
 \end{equation}
-where $\mu_\text{on}$ is the average signal extracted from the ``on'' region, and $\sigma_\text{off}$ is the standard deviation of the signal extracted from the ``off'' region. This is an alternative to looking for the optimal window for a fluctuating signal on top of a fluctuating background ($\text{SNR} = \frac{\mu_\text{on}}{\sigma_\text{on}}$), which, due to the inclusion of the signal deviations from the ``on'' region, is much less sensitive to the noise fluctuations and has a strong dependence on the signal level, i.e. the Poisson fluctuations of the signal increases with amplitude.
+where $\mu_\text{on}$ is the average signal extracted from the ``on'' region, and $\sigma_\text{off}$ is the standard deviation of the signal extracted from the ``off'' region. The approach of Equation~\ref{eq:snr} is an alternative to looking for the optimal window for a fluctuating signal on top of a fluctuating background ($\text{SNR} = \frac{\mu_\text{on}}{\sigma_\text{on}}$), which, due to the inclusion of the signal deviations from the ``on'' region, is much less sensitive to the noise fluctuations and has a strong dependence on the signal level, i.e. the Poisson fluctuations of the signal increases with amplitude.
 
 In Figure~\ref{fig:snr_noc} the conflict between a large window size to contain the full signal, and a small window to minimise noise is evident, resulting in a limited region in which a high signal-to-noise can be achieved. In conclusion, an integration window width of 5 samples and a shift of 2 samples appeared to be optimal for a noise of \SI{125}{MHz}, for both small and large amplitudes (Figures~\ref{fig:amp1nsb125} and \ref{fig:amp50nsb125} respectively). This integration window is demonstrated in Figure~\ref{fig:charge_extraction_window_wf}. As the \textit{Charge Resolution} requirements are defined at an \gls{nsb} of \SI{125}{MHz}, these window parameters are adopted for the following investigations.
 
@@ -64,7 +64,7 @@ As described previously in the thesis, the most appropriate performance criterio
   \label{fig:cr_8_ce_comparison_lab}
 \end{figure}
 
-The first comparison is shown in Figure~\ref{fig:cr_8_ce_comparison_lab}. It explores the comparative performance in the context of the measurements using the \textit{Lab} dataset (i.e. using the real camera). It demonstrates a small performance improvement is observed with the cross-correlation technique about $Q_\text{Exp} > 10$~\si{\pe}.
+The first comparison is shown in Figure~\ref{fig:cr_8_ce_comparison_lab}. It explores the comparative performance in the context of the measurements using the \textit{Lab} dataset (i.e. using the real camera). A small performance improvement is observed with the cross-correlation technique for $Q_\text{Exp} > 10$~\si{\pe}.
 
 \begin{figure}
   \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_opct40}
@@ -76,7 +76,7 @@ In a comparison of the two extraction approaches when used in a simulation using
 
 \begin{figure}
   \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_opct20}
-  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{MCLab} data with an optical crosstalk of \SI{20}{\percent}.]{Same as Figure~\ref{fig:cr_8_ce_comparison_opct40}, but with an optical crosstalk of \SI{20}{\percent}.}
+  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{MCLab} data with an optical crosstalk of \SI{20}{\percent}.]{Same as Figure~\ref{fig:cr_8_ce_comparison_opct40}, but with a dataset containing an optical crosstalk value of \SI{20}{\percent}.}
   \label{fig:cr_8_ce_comparison_opct20}
 \end{figure}
 
@@ -84,17 +84,17 @@ Figure~\ref{fig:cr_8_ce_comparison_opct20} shows a similar comparison to the pre
 
 \begin{figure}
   \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_high_noise}
-  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{MCLab} data with a high amount of electronic noise.]{Same as Figure~\ref{fig:cr_8_ce_comparison_opct40}, but with a factor of 10 higher electronic noise.}
+  \caption[\textit{Charge Resolution} comparison between \textit{Cross Correlation} and \textit{Window Integration} for \textit{MCLab} data with a high amount of electronic noise.]{Same as Figure~\ref{fig:cr_8_ce_comparison_opct40}, but with a dataset containing a factor of 10 higher electronic noise.}
   \label{fig:cr_8_ce_comparison_high_noise}
 \end{figure}
 
 Finally, in Figure~\ref{fig:cr_8_ce_comparison_high_noise} a simulation of \gls{chec-s} is used, but with a factor of 10 higher electronic noise. As a result, the \textit{Cross Correlation} technique significantly improves the performance with respect to the \textit{Window Integrator}.
 
-/subsection{Conclusion}
+\subsection{Conclusion}
 
-The comparisons of \textit{Charge Resolution} have confirmed what we understood about the \textit{Cross Correlation} method:
+The comparisons of \textit{Charge Resolution} have confirmed our understanding of the \textit{Cross Correlation} method:
 \begin{itemize}
 \item The \textit{Cross Correlation} method amplifies anything correlated with reference pulse shape. This includes \gls{nsb} and optical crosstalk factors. Therefore, when these are the dominant noise factors in the waveforms, the \textit{Window Integrator} performs slightly better.
 \item When noise that is uncorrelated with the reference pulse shape is present in the waveform, such as a high amount of electronic noise, the \textit{Cross Correlation} is an extremely useful tool to resolve the signal.
 \end{itemize}
-It would appear that with the current design of \gls{chec-s}, the major noise components are those correlated with the reference pulse shape. Therefore, not much improvement is available through the \textit{Cross Correlation} technique. However, when the optical crosstalk of the \glspl{sipmt} is lowered to \SI{10}{\percent} (see Section~\ref{section:checs_future}), the other noise factors such as electronic noise could become a relatively significant contribution to the total noise contribution (as occurs in Figure~\ref{fig:cr_8_ce_comparison_opct20}). This would therefore justify the use of the \textit{Cross Correlation} technique. A further investigation into the actual parameter regions of Equation~\ref{eq:charge_res_req} which justify the use of the \textit{Cross Correlation} approach is intended for the future.
+It would appear that with the current design of \gls{chec-s}, the major noise components are those correlated with the reference pulse shape. Therefore, not much improvement is available through the \textit{Cross Correlation} technique. However, when the optical crosstalk of the \glspl{sipmt} is lowered to \SI{10}{\percent} (see Section~\ref{section:checs_future}), the other noise factors such as electronic noise could become a relatively significant contribution to the total noise (as occurs in Figure~\ref{fig:cr_8_ce_comparison_opct20}). This would therefore justify the use of the \textit{Cross Correlation} technique. A further investigation into the actual parameter regions of Equation~\ref{eq:charge_res_req} which justify the use of the \textit{Cross Correlation} approach is intended for the future.
