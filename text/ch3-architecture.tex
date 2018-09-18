@@ -90,7 +90,7 @@ The rms difference in the reconstructed signal arrival time for any two simultan
 \end{itemize}
 \end{requirement}
 
-A second important requirement concerning the signal inside the waveforms is the \textit{Time Resolution} requirement. While the capability to accurately locate the signal is already assessed by the \textit{Charge Resolution}, the purpose of this requirement is to instead ensure that the physical camera exhibits sensible behaviour with regards to the relative location of the signal between pixels, per event. The \textit{Time Resolution} $\sigma_T$ is essentially defined as the standard deviation of the difference in pulse time between every pixel in the camera, per event. This can be expressed as:
+A second important requirement concerning the signal inside the waveforms is the \textit{Time Resolution} requirement. While the capability to accurately locate the signal is already assessed by the \textit{Charge Resolution}, the purpose of this requirement is to instead ensure that the physical camera exhibits sensible behaviour with regards to the relative location of the signal between pixels, per event. One interpretation of the \textit{Time Resolution} $\sigma_T$ is the standard deviation of the difference in pulse time between every pixel in the camera, per event. This can be expressed as:
 \begin{equation} \label{eq:time_res}
 \sigma_T = \sqrt{\frac{\sum_{i=0}^N(\sum_{j=i+1}^N (T_{i-j} - \average{T}_{i-j})^2)}{\binom{N}{2} - 1}},
 \end{equation}
@@ -99,7 +99,7 @@ A second important requirement concerning the signal inside the waveforms is the
 \end{equation}
 where $T_{i-j} = T_i - T_j$, i.e. the difference between the extracted pulse time $T_i$ for pixel $i$, and extracted pulse time $T_j$ for pixel $j$. $\binom{N}{2}$ is the binomial coefficient of the number of pixels $N$ ``choose'' 2, i.e. the total number of unique pixel combinations.
 
-While the \textit{Time Resolution} $\sigma_T$ is calculated per event, the camera is better characterised by the mean and standard deviation of the \textit{Time Resolution} over multiple events. In order to meet the requirement, the \textit{Time Resolution} should be under \SI{2}{ns} for pixels with measured charges above \SI{5}{\pe}, in an environment containing an \gls{nsb} photon rate of at least \SI{0.125}{\pe/ns}. Any pixel timing corrections (described later in Section~\ref{section:timing_corrections}) that are required should be applied to the pulse time extracted from the waveform. Furthermore, the \textit{Time Resolution} does not need to be extracted with the same approach as used in the charge extraction, as long as the approach is justifiable.
+In this definition of \textit{Time Resolution}, $\sigma_T$ is calculated per event. However, the camera is better characterised by the mean and standard deviation of $\sigma_T$ over multiple events. In order to meet the requirement, the \textit{Time Resolution} should be under \SI{2}{ns} for pixels with measured charges above \SI{5}{\pe}, in an environment containing an \gls{nsb} photon rate of at least \SI{0.125}{\pe/ns}. Any pixel timing corrections (described later in Section~\ref{section:timing_corrections}) that are required should be applied to the pulse time extracted from the waveform. Furthermore, the \textit{Time Resolution} does not need to be extracted with the same approach as used in the charge extraction, as long as the approach is justifiable.
 
 \subsection{B-TEL-1295 Pixel Availability} \label{section:pixel_availability}
 
