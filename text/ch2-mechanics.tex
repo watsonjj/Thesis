@@ -39,7 +39,69 @@
 
 \section{Introduction}
 
-Due to the dual-mirror Schwarzschild-Couder design of the \glsf{gct}, a compact camera design is possible\change{yawn}. The camera that has been developed for \gls{gct} is hence known as the \glsf{chec}. In order to enable this compactness, while making no compromise to image resolution of the shower\change{need to understand pixel angular size, and the minimum needed to resolve the image} 
+Due to the design of \gls{gct} as a dual-mirror Schwarzschild-Couder telescope, it is capable of a \SI{9}{\degree} \gls{fov} \change{intro: talk about benefit of high FoV} while simultaneously reducing the plate scale by a factor of $\sim 3$ compared to single-telescope designs. This large reduction in plate scale allows for a much more compact camera, for which novel opportunities in photosensor technology exist \cite{Vassiliev2007}. The camera that has been developed for \gls{gct} is appropriately known as the \glsf{chec}.
+
+Two designs have been implemented for \gls{chec}, each featuring a different multi-pixel photon-counting sensor technology. A \glsf{mapmt} based camera known as \gls{chec-m} was the first to be commissioned, and received its inauguration on the \gls{gct} telescope structure at the Observatoire de Paris-Meudon in November 2015 \cite{Watson2017}. A second camera, known as \gls{chec-s}, is currently undergoing commissioning at the Max-Planck-Institut für Kernphysik in Heidelberg, Germany. This camera utilises \glsfpl{sipmt} as a photosensor. \gls{chec-s} also features upgrades the digitisation chain that were developed since the commissioning of \gls{chec-m}.
+
+This chapter will describe the components of the \glsf{chec}, covering the photosensor, \gls{fee} and \gls{bee}. These descriptions will be focussed on the factors contributed by the electronics that have a significant influence on the low-level calibration and performance investigations covered in this thesis. Furthermore, the external components and laboratory set-up will be described. Finally, the data output of the camera is described, with specific focus on the characteristics of the waveform readout. The calibration and analysis of these waveforms obtained from the full camera electronics chain is the primary focus of this thesis.
+
+\section{Photosensors}
+
+Since the inception of the Imaging Atmospheric Cherenkov Technique, the photosensor used in the iact cameras have almost exclusively been \glsfpl{pmt} . These fast, blue-sensitive, broadband light detectors provide photon
+
+
+the primary photosensor used in \gls{iact} cameras has been
+
+\subsection{Photomultiplier Tubes}
+
+\subsection{Multi-Anode Photomultiplier Tubes}
+
+\subsection{Silicon Photomultipliers}
+
+, a novel photosensor in the context of \gls{iact} astronomy, 
+
+
+
+despite their presence in the medical physics field for \change{find out value and reference}. \glspl{sipmt} operate on a \change{describe sipms, electron-hole} to detect photons. The appeal of \glspl{sipmt} are ..., therefore their adoption in many \gls{cta} cameras is anticipated. The \gls{chec-s} design is envisaged to be continued forward as the camera for \gls{gct}. Consequently, the commissioning and performance of \gls{chec-s} received the majority of focus within this thesis, however, a comparison to \gls{chec-m} is also provided at many stages.
+
+
+\subsection{Future}
+
+\section{Pre-amplifiers and shapers}
+
+\section{Digitiser}
+
+\subsection{TARGET-5}
+
+\subsection{TARGET-C}
+
+\section{Back-End Electronics}
+
+\section{External Components}
+
+\subsection{LED Flashers}
+
+\subsection{Chiller}
+
+\section{Laboratory Set-Up}
+
+\section{Laboratory Calibration}
+
+\section{Readout Characteristics} \label{section:readout_characteristics}
+
+\change{define ADC}
+
+\change{monitoring information}
+
+\section{Nomenclature}
+
+\change[inline]{charge/signal, waveform/trace, events, noise (nsb/dcr/electronic/cosmic ray)}
+
+
+Traditionally, \glspl{iact} have relied on \glspl{pmt} as the photosensor. The fast, blue-sensitive, broadband light detectors provide photon
+
+
+In order to enable this compactness, while making no compromise to image resolution of the shower\change{need to understand pixel angular size, and the minimum needed to resolve the image} 
 
 ...tightly packed blue-sensitive photosensors with a physical diameter of \SI{\sim 6}{mm} diameter are relied upon. Additionally, in order to capture the short flash duration of the shower (typically only a few to a few tens of nanoseconds) the photosensors must be fast, and be coupled with high-speed digitising electronics. These two components, the photosensors and digitisers, are the defining characteristics of \gls{chec}.
 
