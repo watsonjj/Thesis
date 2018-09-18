@@ -51,7 +51,7 @@ For a photosensor to be useful to \glspl{iact}, it must be:
 \begin{enumerate}
 \item Sensitive to Cherenkov (blue) light.
 \item Fast in its response to a signal, which is required to detect the prompt Cherenkov shower flashes.
-\item Cheap, allowing large arrays of them to be combined to fill the full plate scale and, provide high spatial resolution of the shower.
+\item Cheap, allowing large arrays of them to be combined to fill the full plate scale of the telescope and provide high spatial resolution of the shower.
 \end{enumerate}
 
 \subsection{Photomultiplier Tubes}
@@ -59,16 +59,24 @@ For a photosensor to be useful to \glspl{iact}, it must be:
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{pmt} 
-	\caption{Common diagram of a Photomultiplier Tube \cite{HAMAMATSU2007}.}
+	\caption[Diagram of a Photomultiplier Tube.]{Common diagram of a Photomultiplier Tube (box-and-grid type) \cite{Hamamatsu2016}.}
 	\label{fig:pmt}
 \end{figure}
 
 Since the inception of the Imaging Atmospheric Cherenkov Technique, the photosensors used for \gls{iact} cameras have almost exclusively been \glsfpl{pmt} \cite{Weekes2003}. These detectors operate as photon counting devices, where the charge produced by a single photon is amplified into a large current signal that can be read out. The components of a \gls{pmt} are as follows (using Figure~\ref{fig:pmt} for reference):
 \begin{description}
-\item [Photocathode] Produces electrons from incident photons via the photoelectric effect. These electrons are often referred to as ``photoelectrons''. Associated with a photocathode is its wavelength-dependant probability that photon will be converted into a photoelectron. This is known as its \gls{qe}, and is determined by the compound it is made of. The photocathodes in \glspl{pmt} are typically sensitive to visible light, with a \gls{qe} that peaks at \SI{\sim 30}{\percent} for \SI{\sim 400}{nm} (for the best photocathodes) \cite{Hamamatsu2011}.
+\item [Photocathode] Produces electrons from incident photons via the photoelectric effect. These electrons are often referred to as ``photoelectrons''. Associated with a photocathode is its wavelength-dependant probability that photon will be converted into a photoelectron. This is known as its \gls{qe}, and is determined by the compound it is made of. The photocathodes in \glspl{pmt} are typically sensitive to visible light, with a \gls{qe} that peaks at \SI{\sim 30}{\percent} for \SI{\sim 400}{nm} (for the best photocathodes) \cite{Hamamatsu2016}.
 \item [Focusing Electrode] Ensures that photoelectrons produced at the edges of the photocathode are focussed onto the first dynode.
-\item [Dynode] 
+\item [Electron Multiplier] The \gls{hv} across the \gls{pmt} accelerates the photoelectrons to the first dynode. Upon the impact, the dynode will release a further amount of electrons, the number of which is proportional to the kinetic energy of the incident electron. These secondary electrons are then accelerated to the next dynode, which has a higher voltage than the previous dynode. 
+where $A$ 
+\item [Anode] The total result of the dynode chain is a proportional amplification from the initial photocathode current $I_c$ to the output anode current $I_a$. The proportionality factor is known as the gain of the photomultiplier. The gain $G$ depends on the number of dynode stages $n$, and the value of high voltage applied $V$ \cite{Hamamatsu2016}:
+\begin{equation} \label{eq:pmt_gain}
+G = \frac{I_a}{I_c} = k V^{\alpha n},
+\end{equation}
+where $k$ is a constant that depends on the photomultiplier design, and $\alpha$ is a coefficient determined by the dynode material and geometric structure (typically has values around 0.7 to 0.8).
 \end{description}
+
+Due to their wide usage across many fields, \glspl{pmt} are available at a very reasonable cost. 
 
 
 
