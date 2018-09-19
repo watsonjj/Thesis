@@ -76,26 +76,68 @@ G = \frac{I_a}{I_c} = k V^{\alpha n},
 where $k$ is a constant that depends on the photomultiplier design, and $\alpha$ is a coefficient determined by the dynode material and geometric structure (typically has values around 0.7 to 0.8).
 \end{description}
 
-Due to their wide usage across many fields, \glspl{pmt} are available at a very reasonable cost. 
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{pmt_time} 
+	\caption[Photomultiplier Tube timing characteristics.]{Typical values for the timing response of a Photomultiplier Tube \cite{Hamamatsu2016}.}
+	\label{fig:pmt_time}
+\end{figure}
+
+Due to their wide usage across many fields, \glspl{pmt} are available at a very reasonable cost. The timing response of \glspl{pmt} faithfully reproduce the incident light pulse, however the anode's pulse rise time property does modify the response slightly \cite{Hamamatsu2016}. Additionally, there is a delay in signal due to the electron transit time along the dynode chain. This transit time has an associated ``transit time spread'' due to the different paths the electrons may take in the dynode chain. These time response characteristics are dependant on the dynode structure and applied voltage. Examples of the typical timing response values are shown in Figure~\ref{fig:pmt_time}.
+
+Beyond their low \gls{qe}, a second disadvantage of a \gls{pmt} is its high voltage requirement \cite{Weekes2003}. Furthermore, since \glspl{pmt} generally have $\sim 10$ dynode stages, Equation~\ref{eq:pmt_gain} dictates that a small change in voltage will result in a large variation in gain. The high voltage supply therefore needs to be extremely stable \cite{Hamamatsu2016}. This is particularly unfavourable for the application of \glspl{pmt} in \glspl{iact}, due to the typical remoteness of the telescopes. A third disadvantage is the robustness of a \gls{pmt}, as they are very sensitive to light and can be permanently damaged if exposed to bright sources, such as the full moon. This disadvantage can limit the amount of observation time that is safe for the telescopes.
+
+\subsection{Multi-Anode Photomultiplier Tubes}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{mapmt} 
+	\caption[Internals of a Multi-anode Photomultiplier Tube.]{Electrode structure of a Multi-anode Photomultiplier Tube, demonstrating an example electron multiplication trajectory \cite{HAMAMATSU2007}.}
+	\label{fig:mapmt}
+\end{figure}
+
+In order to be compatible with the reduced plate scale of the telescope, more compact options than \glspl{pmt} must be found. An extension to the \gls{pmt} technology is the \glsf{mapmt}. This photosensor consists of many \glspl{pmt} arranged in a compact grid to provide position-sensitive detection of light. A diagram of the internal dynode structure for \glspl{mapmt} is shown in Figure~\ref{fig:mapmt}. The chosen \gls{mapmt} model for \gls{chec-m} is the Hamamatsu H10966B . This flat panel type \gls{mapmt} features an 8~x~8 multianode, resulting in 64 pixels per \gls{mapmt}. The entire module's diameter is \SI{49}{mm}, while each pixel has a diameter of \SI{\sim 6}{mm}. It provides a \gls{qe} of \SI{\sim 30}{\percent} at \SI{400}{nm} wavelength, a typical gain of \SI{3.3 x 10^5}, and a typical anode rise time and transit time of \SI{0.4}{ns} and \SI{4}{ns}, respectively \cite{Hamamatsu2011}. 
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{mapmt_crosstalk} 
+	\caption[Multi-anode Photomultiplier Tube crosstalk.]{Example of the crosstalk present in an MAPMT, measured by using a fibre \cite{Hamamatsu2011}.}
+	\label{fig:mapmt_crosstalk}
+\end{figure}
+
+An important concern when using an \gls{mapmt} is the crosstalk. This is the measure of how accurately the signal readout retains its positional information. It is hampered by the broadening of the electron flow in the photocathode and dynode chain. The crosstalk characteristics presented in the technical document for Hamamatsu H10966B are shown in Figure~\ref{fig:mapmt_crosstalk}.
+
+\subsection{Silicon Photomultipliers}
+
+For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost. \glspl{sipmt}, or its solid state single photon detector precursors, have been actively developed since the 1960s \cite{Renker2006}. They have recently matured into a feasible replacement for traditional \gls{pmt} technology, causing a transitioning trend in the majority of fields that previously relied on \glspl{pmt}. 
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{pn_junction} 
+	\caption[A typical illustration of a P-N Junction.]{My own illustration of a P-N Junction, inspired by \textcite{Ghassemi2017}.}
+	\label{fig:pn_junction}
+\end{figure}
+
+As with all solid state devices, the building blocks of \glspl{sipmt} are P-N Junctions. A p- and n-type material are created by the addition of impurities to a semiconducting material such as silicon. The impurities added to produce the n-type semiconductor increases its number of freely moving electrons, while the impurities added to produce the p-type semiconductor increases its number of freely moving holes. When the two materials are joined, the P-N Junction is formed. As a result of the abundance of charges in each material, a diffusion current forms with electrons moving from the n-type material (leaving behind its immobile positive ions) to combine with the holes in the p-type material. The same occurs vice versa for the excess holes in the p-type material, leaving behind its immobile negative ions. The result is a region adjacent to the junction with no free charges remaining, known as the depletion layer (Figure~\ref{}). 
+
+These junctions are created through the contact
+
+The major factors that now make \glsp{sipmt} an appealing replacement for \glspl{pmt}, as outlined by \textcite{Ghassemi2017}, are:
+\begin{itemize}
+\item The transition probability of a photoelectron from a silicon crystal’s valence band to its conduction band is higher than the emission probability achievable in an alkali-based photocathode. This factor results in a higher attainable \gls{qe}. 
+\item The semiconductor properties of silicon enable a high collection efficiency of photoelectron charge, resulting in a reduced spread in the amplification of a single photoelectron in comparison to \glspl{pmt} (in the absence of optical crosstalk considerations, see Section~\ref{section:enf})
+\item The high electrical conductance of doped silicon enables the low-voltage (of the order of \SIrange{10}{100}{V}) operation of an \gls{sipm}.
+\item The high fill factor of \gls{sipmt} pixels and the compactness of the tiles allow a reduced dead space.
+\item The mechanical reliability in terms of its ageing/warm-up considerations is much better than in \glspl{pmt}, as well as its performance in magnetic fields.
+\end{itemize}
 
 
 
-accelerated to each dynode in the chain by the \gls{hv} applied across the photomultiplier. At each dynode the charge is 
-
-is multiplied by each anode of the chain, at each step being accelerated.
-
-fast and blue-light-sensitive light 
 
 
-% the primary photosensor used in \gls{iact} cameras has been
+. while they have been utilised in high energy and medical fields for a while, they have only re
 
-% \subsection{Photomultiplier Tubes}
-
-% \subsection{Multi-Anode Photomultiplier Tubes}
-
-% \subsection{Silicon Photomultipliers}
-
-The primary area of improvement on the \gls{pmt} technology in an improvement of the \gls{qe}. For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost.
+Form factor allows for a more compact module spacing 
 
 % , a novel photosensor in the context of \gls{iact} astronomy, 
 
@@ -103,8 +145,9 @@ The primary area of improvement on the \gls{pmt} technology in an improvement of
 
 % despite their presence in the medical physics field for \change{find out value and reference}. \glspl{sipmt} operate on a \change{describe sipms, electron-hole} to detect photons. The appeal of \glspl{sipmt} are ..., therefore their adoption in many \gls{cta} cameras is anticipated. The \gls{chec-s} design is envisaged to be continued forward as the camera for \gls{gct}. Consequently, the commissioning and performance of \gls{chec-s} received the majority of focus within this thesis, however, a comparison to \gls{chec-m} is also provided at many stages.
 
+\subsection{Excess Noise Factor} \label{section:enf}
 
-% \subsection{Future}
+\subsection{Future}
 
 % \section{Pre-amplifiers and shapers}
 
@@ -386,6 +429,10 @@ The primary area of improvement on the \gls{pmt} technology in an improvement of
 % \change{define ADC}
 
 % \change{monitoring information}
+
+% saturation
+% sample rate
+% pulse shape
 
 % \section{Nomenclature}
 
