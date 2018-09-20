@@ -235,9 +235,7 @@ The flat-field coefficients, ${\gamma_{FF}}_i$, provide an offline compensation 
 
 In the future, this iterative technique will be replaced with a set of lookup tables for different requested amplitudes. These lookup tables will contain the final voltage settings resulting from this iterative technique. Additionally in the future, the requested signal will not be specified in terms of peak amplitude, but in terms of the \textit{Cross Correlation} charge extraction approach. The resulting spread in signal response for \gls{chec-s} as a result of the gain matching is shown in Figure~\ref{fig:before_after_gm}.
 
-Tables~x\&y\otherch{update} also show a dependence on temperature for some of the photosensor parameters. The additional benefit of the gain matching is that temperature dependences can also be accounted for. This is achieved using the monitored temperature value per module and a lookup table of the appropriate corrections to the voltages, such that a constant signal response is kept across the camera. This particular in-situ calibration has not yet been implemented, but is intended for the future.
-
-\change[inline]{plot with gain vs temperature? maybe some initial results from Yuki}
+The additional benefit of the gain matching is that it provides a convenient part in the data-taking chain to apply the bias compensation for temperature dependences (introduced in Section~\ref{section:sipmt}). This is achieved using the monitored temperature value per module and a lookup table of the appropriate corrections to the voltages, such that a constant signal response is kept across the camera. This particular in-situ calibration has not yet been implemented, but is intended for the future.
 
 \subsection{SPE Fitting}
 
