@@ -109,7 +109,7 @@ An important concern when using an \gls{mapmt} is the crosstalk. This is the mea
 
 \subsection{Silicon Photomultipliers}
 
-For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost. \glspl{sipmt}, or its solid state single photon detector precursors, have been actively developed since the 1960s \cite{Renker2006}. They have recently matured into a feasible replacement for traditional \gls{pmt} technology, causing a transitioning trend in the majority of fields that previously relied on \glspl{pmt}. The physics behind \gls{sipmt} technology is more complicated than that of \glspl{pmt}, therefore a full description of their inner workings is reserved to Appendix~\ref{a1-sipm}.
+For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost. \glspl{sipmt}, or its solid state single photon detector precursors, have been actively developed since the 1960s \cite{Renker2006}. They have recently matured into a feasible replacement for traditional \gls{pmt} technology, causing a transitioning trend in the majority of fields that previously relied on \glspl{pmt}. The physics behind \gls{sipmt} technology is more complicated than that of \glspl{pmt}, therefore a full description of their inner workings is reserved for Appendix~\ref{a1-sipm}.
 
 As a short summary, an \glspl{sipmt} microcell consists of a single \gls{apd}, operated in Geiger mode (i.e. with a reverse bias voltage past the breakdown voltage). The breakdown voltage is the voltage beyond which the gain of an \gls{apd} tends to infinity. Therefore, an incident photon (or thermal excitation, i.e. ``dark count'') which produces an electron-hole pair in the silicon will consequently cause an avalanche of excess charge carriers, turning the silicon conductive and producing a macroscopic current. As the charge produced in this avalanche is essentially limited by the quenching resistor, the same charge is read out irrespective of the number of incident photons. By arranging an array of up to 10,000 of these microcells per \si{mm\squared} to form an \gls{sipmt} pixel, a high resolution photon counting sensor can be produced with a large dynamic range.
 
@@ -123,24 +123,30 @@ The major factors that contribute to the appeal of modern iterations of \gls{sip
 \end{itemize}
 
 The first, and only to date, \gls{iact} telescope to adopt \glspl{sipmt} as the photosensor is \gls{fact}. Operational since 2011, and built on the refurbished
-HEGRA \gls{iact} on the Canary Island La Palma, the 1440 pixel \gls{sipmt} camera is installed in combination with a \SI{9.5}{m\squared} single mirror. As reported by \textcite{Biland2015}, \gls{sipmt} technology has been proved by \gls{fact} to be a viable alternative to \glspl{pmt} for future \glspl{iact}. This conclusion was reached even with the first generation of commercially available \glspl{sipmt}. \glspl{sipmt} have gone through considerable improvements since the construction of \gls{fact}.
+HEGRA \gls{iact} on the Canary Island La Palma, the 1440 pixel \gls{sipmt} camera is installed in combination with a \SI{9.5}{m\squared} single mirror. As reported by \textcite{Biland2015}, \gls{fact} has proved \gls{sipmt} technology is a viable alternative to \glspl{pmt} for future \glspl{iact}. This conclusion was reached even with the first generation of commercially available \glspl{sipmt}. \glspl{sipmt} have gone through considerable improvements since the construction of \gls{fact}.
 
-The \glspl{sipmt} currently used in the \gls{chec-s} prototype are the Hamamatsu \change{continue}  
+The \glspl{sipmt} currently used in the \gls{chec-s} prototype are the Hamamatsu S12642-1616PA-50 tiles. These tiles have 256 pixels of size \SI[parse-numbers = false]{3 \times 3}{mm\squared}. These are combined to provide 64 camera pixels of \SI[parse-numbers = false]{\sim 6 \times 6}{mm\squared}.
 
-\subsection{Performance Parameters of SiPMs}
+\subsection{Performance Parameters of SiPMs} \label{section:sipmt}
 
-For an investigation into the performance of the \gls{chec-s} camera it is important 
+For a complete investigation into the performance obtained from the \gls{chec-s} camera, it is important to understand the influence of the characteristic parameters of an \gls{sipmt}.
 
-\subsection{Gain}
+\subsubsection{Gain}
 
-As the charge read out from a \gls{sipmt} microcell is fixed by the quenching resistor, the gain of an \gls{sipmt} is characterised with the following simple relation between the capacitance of microcell diode $C$ and the overvoltage $\Delta V$ applied \cite{SensL2011}:
+As the charge read out from a \gls{sipmt} microcell is quantised by the quenching resistor, the gain of an \gls{sipmt} is characterised with the following simple relation between the capacitance of microcell diode $C$ and the overvoltage $\Delta V$ applied \cite{SensL2011}:
 \begin{equation} \label{eq:sipmt_gain}
 G = \frac{C \Delta V}{e},
 \end{equation}
-\begin{equation} \label{eq:sipmt_gain}
+\begin{equation} \label{eq:sipmt_voltage}
 \Delta V = V_{bias} - V_{br},
 \end{equation}
-where $e$ is the electron charge, $V_{bias}$ is the bias voltage, and $V_{br}$ is the breakdown voltage. 
+where $e$ is the electron charge, $V_{bias}$ is the bias voltage, and $V_{br}$ is the breakdown voltage. Consequently, the total charge $Q$ output from \gls{sipmt} pixel is proportional to the number of fired microcells $N_{fired}$:
+\begin{equation} \label{eq:sipmt_charge}
+Q = N_{fired} G q.
+\end{equation}
+This well-described quantisation of the charge is the reason for the high photon counting resolution of \glspl{sipmt}.
+
+\subsubsection{Photon Detection Efficiency (PDE)}
 
 \begin{figure}
 	\centering
@@ -149,7 +155,7 @@ where $e$ is the electron charge, $V_{bias}$ is the bias voltage, and $V_{br}$ i
 	\label{fig:sipm_pde}
 \end{figure}
 
-In addition to the gain which has already been characterised earlier in this section, it is important to detail the other parameters that are significant in \glspl{sipmt}. Firstly, the \gls{pde} of an \gls{sipmt} is the measure of its wavelength-dependant sensitivity to photons. Due to the microcell structure, this property differs slightly to the \gls{qe} of a \gls{pmt}. Qualitatively, it is the statistical probability that an incident photon produces an avalanche. Quantitatively, as shown in the SensL \gls{sipmt} technical note \cite{SensL2011}, it is defined as the product between the silicon's:
+The \gls{pde} of an \gls{sipmt} is the measure of its wavelength-dependant sensitivity to photons. Due to the microcell structure, this property differs slightly to the \gls{qe} of a \gls{pmt}. Qualitatively, it is the statistical probability that an incident photon produces an avalanche. Quantitatively, as shown in the SensL \gls{sipmt} technical note \cite{SensL2011}, it is defined as the product between the silicon's:
 \begin{description}
 \item [Quantum Efficiency $\eta(\lambda)$ -] Likelihood of a photon producing an electron-hole pair. 
 \item [Avalanche Initiation Probability $\epsilon(V)$ -] Probability of a produced excess charge carrier initiating an avalanche.
@@ -159,22 +165,39 @@ Resulting in the equation:
 \begin{equation} \label{eq:sipmt_pde}
 PDE(\lambda, V) = \eta(\lambda) \cdot \epsilon(V) \cdot F.
 \end{equation}
-As indicated in Equation~\ref{eq:sipmt_pde}, and Figure~\ref{fig:sipm_pde}, the \gls{pde} of an \gls{sipmt} is a function of its overvoltage. As the overvoltage is increased, $\epsilon(V)$ approaches 1, and the \gls{pde} saturates.
+The dependence of the \gls{pde} on its overvoltage is indicated in Equation~\ref{eq:sipmt_pde} and Figure~\ref{fig:sipm_pde}. As the overvoltage is increased, $\epsilon(V)$ approaches 1, and the \gls{pde} saturates.
+
+\subsubsection{Dark Counts}
 
 As mentioned in the description of the behaviour of an \gls{sipmt} microcell, an excess charge carrier can be release from a semiconductor atom through thermal excitation, which then produces an avalanche. This is commonly referred to as a ``dark count'' (as there was no photon to cause the avalanche), and produces a single photoelectron signal in the \gls{sipmt} pixel. The \gls{dcr} is the associated measure of this phenomena, quoted in \si{Hz}. It is a function of active area, overvoltage and temperature. Although dark counts are also present in \glspl{pmt}, they are much more prominent in \glspl{sipmt}.
 
-A 
+\subsubsection{Optical Crosstalk}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=0.6\textwidth]{sipm_opct} 
+	\caption[Illustration of the possible ways optical crosstalk is produced.]{Illustration showing the different routes for secondary photon to produce optical crosstalk in adjacent microcells \cite{Rech2008}.}
+	\label{fig:sipm_opct}
+\end{figure}
+
+During the avalanche process, it is possible for the accelerated charge carriers to produce secondary photons. These photons are table to travel significant distances through the silicon, and could create an electron-hole pair in adjacent microcells. The electron-hole pair for each cell will create an additional avalanche, and possibly create further secondary photons. In Figure~\ref{fig:sipm_opct} the various routes a secondary photon can travel to a neighbouring microcell are shown. Not only can secondary photons travel directly to the neighbouring cell, they can possibly be reflected on the boundaries of the silicon, returning to produce an electron-hole pair in the avalanche region \cite{Rech2008}.
+
+This process happens instantaneously. Therefore, according to Equation~\ref{eq:sipmt_charge}, a single photoelectron/dark-count signal can result in a measured charge $N_{fired}$ times greater than the expected charge of $G q$. I.e. a single photon may generate a signal equivalent to 2 or 3 photons \cite{SensL2011}. The value associated with optical crosstalk is its probability that an avalanching microcell will cause an avalanche in a second cell. As with the other parameters discussed so far, the optical crosstalk increases with overvoltage.
+
+\subsubsection{Afterpulsing}
+
+Another phenomena that can occur as a result of the avalanche is the afterpulsing. This is where an excess charge carrier becomes temporarily trapped in a defect of the silicon, before being released and continuing on their avalanche. The afterpulse probability also increases with overvoltage, however modern \glspl{sipmt} have severely diminished this probability \cite{Ghassemi2017,SensL2011}.
+
+\subsubsection{Temperature Dependence}
+
+Aside from the dark counts, none of the \gls{sipmt} parameters described in this section have a direct dependence on temperature. However, they do all have a dependence on overvoltage, and consequently, the breakdown voltage. The primary influence of an increase in temperature on an \gls{sipmt} is a linear increase in the breakdown voltage. The proportionality coefficient for the \glspl{sipmt} used by \gls{chec-s} is reasonably small, at \SI{60}{mV/C\degree}. Nevertheless, a large variation in temperature would result in a change in the \gls{sipmt} performance parameters.
+
+To keep the temperature controlled and low (to minimise the \gls{dcr}), the \glspl{sipmt} in \gls{chec-s} are thermally bonded to a liquid cooled faceplate. This is further described in Section~\ref{} \change{reference section}. Furthermore, by changing the bias voltage in response to a change in temperature, the same overvoltage can be maintained, therefore minimising dependence on temperature for the parameters. This process in known as ``bias compensation'', and is mentioned again in Section~\ref{section:photosensor_calib}.
 
 
-\gls{qe} $\eta(\lambda)$ (), the avalanche initiation probability 
+in a process knwo
 
-\subsubsection{FACT}
-
-\subsubsection{CHEC-S SiPMs}
-
-
-Despite its high resolution output, \glspl{sipmt} do suffer from some disadvantages:
-
+To keep the dark count rate low, and to maintain the temperature of the silicon
 
 
 
