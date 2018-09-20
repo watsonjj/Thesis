@@ -28,7 +28,7 @@ Contained within the lab data are the parameters required for the Monte Carlo va
 \item Electronic baseline variation,
 \item Photosensor gain,
 \item Variation of gain between pixels,
-\item \gls{spe} spectrum shape.
+\item Single photoelectron multiplication response (Figure~\ref{fig:enf_gain}).
 \end{itemize}
 
 \begin{figure}
@@ -169,10 +169,10 @@ Despite the improved performance achieved when using the ``true charge'', a seco
 	\label{fig:cr_4_opct_mc}
 \end{figure}
 
-A prime suspect for the poor \textit{Charge Resolution} is the very high (\SIrange{35}{40}{\percent}) optical crosstalk in the \glspl{sipmt} currently used for the \gls{chec-s} prototype. The optical crosstalk contributes to the extracted charge in two ways: 
+A prime suspect for the poor \textit{Charge Resolution} is the very high (\SIrange{35}{40}{\percent}) optical crosstalk in the \glspl{sipmt} currently used for the \gls{chec-s} prototype. This value range of optical crosstalk is obtained from the \gls{spe} fit parameters to the camera pixels (the values for a single pixel are shown in Table~\ref{table:spe_sim_lab}). The optical crosstalk contributes to the extracted charge in two ways: 
 \begin{itemize}
 \item The measured charge is consistently higher. This factor is accounted for in the flat-fielding calibration (Section~\ref{section:photosensor_calib}).
-\item The spread in charge that results from a particular amount of photons contains a higher variation. This is therefore expressed as an increase in the \glsf{enf} (see Section~\ref{section:sipmts}).
+\item The spread in charge that results from a particular amount of photons is larger. This is therefore expressed as an increase in the \glsf{enf} (see Section~\ref{section:enf}).
 \end{itemize}
 
 \subsubsection{Monte Carlo}
@@ -243,11 +243,11 @@ where the former equation is applicable in a geometric chain model of the optica
 \label{table:cr_7_fit}
 \end{table}
 
-Shown in Figure~\ref{fig:cr_7_fit} is the result from fitting Equation~\ref{eq:charge_res_req} to the \textit{Lab Charge Resolution} from Figure~\ref{fig:cr_1_lab}. The resulting parameters, shown in Table~\ref{table:cr_7_fit}, indicate that $\sigma_0$ was poorly constrained by the data points, however $\sigma_{ENF}$ and $\sigma_g$ are well characterised. The first conclusion provided by the fit is the miscalibration is very low, and is potentially still overestimated due to the lack of high charge measurements (values above the saturation point were excluded). Secondly, using Equations~\ref{eq:opct_geometric}~and~\ref{eq:opct_branching}, the measured \gls{enf} suggests either an optical crosstalk of \SI{34}{\percent} (geometric) or \SI{25}{\percent} (branching Poisson) for the camera. If the same parameters are used in combination with a value for $\sigma_0$ calculated using Equation~\ref{eq:charge_res_nsb} and values $\mathit{NSB} = \SI{125}{MHz}$, $t_w = \SI{15}{ns}$, and $n_e = 0.3$, we can once again conclude that the \textit{Charge Resolution} requirement is failed by the current \gls{chec-s} design. The curve resulting from this extrapolation is shown in Figure~\ref{fig:cr_7_fit} labelled as ``\SI{125}{MHz}''.
+Shown in Figure~\ref{fig:cr_7_fit} is the result from fitting Equation~\ref{eq:charge_res_req} to the \textit{Lab Charge Resolution} from Figure~\ref{fig:cr_1_lab}. The resulting parameters, shown in Table~\ref{table:cr_7_fit}, indicate that $\sigma_0$ was poorly constrained by the data points, however $\sigma_{ENF}$ and $\sigma_g$ are well characterised. The first conclusion provided by the fit is the miscalibration is very low, and is potentially still overestimated due to the lack of high charge measurements (values above the saturation point were excluded). Secondly, the value extracted for $\sigma_{ENF}$ in this fit is compatible with that obtained from the consideration of the single photoelectron multiplication response in Section~\ref{section:enf}. Thirdly, using Equations~\ref{eq:opct_geometric}~and~\ref{eq:opct_branching}, the measured \gls{enf} suggests either an optical crosstalk of \SI{34}{\percent} (geometric) or \SI{25}{\percent} (branching Poisson) for the camera. If the same parameters are used in combination with a value for $\sigma_0$ calculated using Equation~\ref{eq:charge_res_nsb} and values $\mathit{NSB} = \SI{125}{MHz}$, $t_w = \SI{15}{ns}$, and $n_e = 0.3$, we can once again conclude that the \textit{Charge Resolution} requirement is failed by the current \gls{chec-s} design. The curve resulting from this extrapolation is shown in Figure~\ref{fig:cr_7_fit} labelled as ``\SI{125}{MHz}''.
 
 \subsection{Conclusion}
 
-The results of these \textit{Charge Resolution} investigations seem to suggest the optical crosstalk is the dominating factor in the degradation of the \textit{Charge Resolution} performance for \gls{chec-s}. They also show that a reduction in optical crosstalk could allow \gls{chec-s} to meet the \textit{Charge Resolution} requirement. Such a reduction is possible with newer \glspl{sipmt}, which use techniques such as ``trenching'' to reduce the optical crosstalk between microcells. This is discussed in more detail in Section~\ref{section:checs_future}. Within this year, a second \gls{chec-s} prototype will be built using the latest \glspl{sipmt}, which are reported to have an optical crosstalk of \SI{\sim 10}{\percent}. If we once again use the result of the fit from Figure~\ref{fig:cr_7_fit}, we can predict the \textit{Charge Resolution} performance of this future camera under \SI{125}{MHz} \gls{nsb}. This is shown in the curves ``\SI{10}{\percent} OPCT (Geometry)'' and ``\SI{10}{\percent} OPCT (Branching)'', and concludes that such a camera will safely meet the \textit{Charge Resolution} requirement.
+The results of these \textit{Charge Resolution} investigations seem to suggest the optical crosstalk is the dominating factor in the degradation of the \textit{Charge Resolution} performance for \gls{chec-s}. They also show that a reduction in optical crosstalk could allow \gls{chec-s} to meet the \textit{Charge Resolution} requirement. Such a reduction is possible with newer \glspl{sipmt}, which use techniques such as ``trenching'' to reduce the optical crosstalk between microcells. This is discussed in more detail in Section~\ref{section:checs_future}. Within this year, a second \gls{chec-s} prototype will be built using the latest \glspl{sipmt}, which are reported to have an optical crosstalk of \SI{\sim 10}{\percent} (see Section~\ref{section:sipmt_future}). If we once again use the result of the fit from Figure~\ref{fig:cr_7_fit}, we can predict the \textit{Charge Resolution} performance of this future camera under \SI{125}{MHz} \gls{nsb}. This is shown in the curves ``\SI{10}{\percent} OPCT (Geometry)'' and ``\SI{10}{\percent} OPCT (Branching)'', and concludes that such a camera will safely meet the \textit{Charge Resolution} requirement.
 
 \section{CHEC-S Pulse Shape} \label{section:pulse_shape_results}
 

@@ -207,33 +207,26 @@ To keep the temperature controlled and low (to minimise the \gls{dcr}), the \gls
 
 A common expression for the variation in photosensor response to a single photoelectron is its \glsf{enf}. This factor encompasses the multiplicative errors in the amplification process for both the \gls{mapmt} and \gls{sipmt}. 
 
-The dominating contributions to the \gls{enf} in a \gls{pmt} are the fluctuations in the secondary multiplication factor at each dynode. This is a statistical fluctuation due to cascade multiplication. The multiplication factor can also differ across a dynode, therefore the trajectory of the electron can change the read out amplitude \cite{HAMAMATSU2007}. Conversely, the multiplication of charge in an \gls{sipmt} is very quantised, due to the microcells being operated in Geiger mode, and therefore functioning as binary device. This would suggest the \gls{enf} of an \gls{sipmt} is very close to 1. However, due to the statistical fluctuations caused by the optical crosstalk and afterpulsing of the device, the \gls{enf} is not perfect, and has the potential of being worse than that of a \gls{pmt}, despite the extremely high photoelectron counting resolution.
+The dominating contributions to the \gls{enf} in a \gls{pmt} are the fluctuations in the secondary multiplication factor at each dynode. This is a statistical fluctuation due to cascade multiplication. The multiplication factor can also differ across a dynode, therefore the trajectory of the electron can change the read out amplitude \cite{HAMAMATSU2007}. Conversely, the multiplication of charge in an \gls{sipmt} is very quantised, due to the microcells being operated in Geiger mode, and therefore functioning as binary device. This would suggest the \gls{enf} of an \gls{sipmt} is very close to 1. However, due to the statistical fluctuations caused by the optical crosstalk and afterpulsing of the device, the \gls{enf} is not perfect. Therefore, the \gls{enf} of an \gls{sipmt} has the potential of being worse than that of a \gls{pmt}, despite the extremely high photoelectron counting resolution \cite{Vinogradov2012}.
 
 \begin{figure}
 	\centering
-    \includegraphics[width=0.6\textwidth]{enf_gain} 
-	\caption[Illustration of the possible ways optical crosstalk is produced.]{Illustration showing the different routes for secondary photon to produce optical crosstalk in adjacent microcells \cite{Rech2008}.}
+    \includegraphics[width=\textwidth]{enf_gain} 
+	\caption[Comparison of the single photoelectron multiplication response between CHEC-M and CHEC-S.]{Comparison of the single photoelectron multiplication response between CHEC-M and CHEC-S, demonstrating the difference in ENF between the two detector types. The characteristic parameters for the photosensors, used to create this plot, are obtained from the fits described in Appendix~\ref{a2-spe}.}
 	\label{fig:enf_gain}
 \end{figure}
 
-As described by \textcite{Teich1986}, the \gls{enf} $\sigma_{ENF}$ can be expressed in terms of the photomultiplier's average gain $\average{G}$ and the gain variance $\sigma_G^2$:
+As described by \textcite{Teich1986}, the \gls{enf} $\sigma_{ENF}$ can be expressed in terms of the photomultiplier's average gain $\mu_G$ and the gain variance $\sigma_G^2$:
 \begin{equation} \label{eq:enf_gain}
-\sigma_{ENF} = 1 + \frac{\sigma_G^2}{(\average{G})^2}.
+\sigma_{ENF} = 1 + \frac{\sigma_G^2}{\mu_G^2}.
 \end{equation}
-As suggested by Equation~\ref{eq:enf_gain}, a perfect photomultiplier with zero multiplication variance would have an \gls{enf} of 1. This representation of the \gls{enf} can be visualised from the multiplication response of a single photoelectron in the detector. Figure~\ref{} 
+As suggested by Equation~\ref{eq:enf_gain}, a perfect photomultiplier with zero multiplication variance would have an \gls{enf} of 1. This representation of the \gls{enf} can be visualised in terms of the multiplication response/probability of a single photoelectron in the photomultiplier. Figure~\ref{fig:enf_gain} demonstrates this response for the \glspl{mapmt} of \gls{chec-m} and the \glspl{sipmt} of \gls{chec-s}. 
 
-
-Each point on the X axis for a traditional \gls{pmt} corresponds to a different gain. This is not the same in the single photoelectron response,  
-
-
-In the definition used in this thesis, a perfect \gls{enf} is equal to 1. 
-
-
-The \gls{enf} can be visualised as the possible charge output from a single photoelectron production.
+Using Equation~\ref{eq:enf_gain}, the \glspl{enf} are calculated from the mean and variance of the single photoelectron multiplication response, and displayed in the legend of Figure~\ref{fig:enf_gain}. The \gls{enf} of the \glspl{sipmt} is quite large and almost comparable to the \gls{enf} of the \glspl{mapmt}. The reason for this, as demonstrated in Chapter~\ref{ch7-performance}, is the high optical crosstalk (\SIrange{35}{40}{\percent} present in this iteration of \glspl{sipmt}.
 
 The \gls{enf} is a key ingredient to the \textit{Charge Resolution} \gls{cta} Requirement introduced in Section~\ref{section:cr}, and will be further explored in the performance results of the camera in Chapter~\ref{ch7-performance}.
 
-\subsection{Future}
+\subsection{Future} \label{section:sipmt_future}
 
 % \section{Pre-amplifiers and shapers}
 
