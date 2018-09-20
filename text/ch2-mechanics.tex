@@ -78,8 +78,8 @@ where $k$ is a constant that depends on the photomultiplier design, and $\alpha$
 
 \begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{pmt_time} 
-	\caption[Photomultiplier Tube timing characteristics.]{Typical values for the timing response of a Photomultiplier Tube \cite{Hamamatsu2016}.}
+    \includegraphics[width=0.6\textwidth]{pmt_time} 
+	\caption[Photomultiplier Tube timing characteristics.]{Typical values for the timing response of a Photomultiplier Tube~\cite{Hamamatsu2016}.}
 	\label{fig:pmt_time}
 \end{figure}
 
@@ -91,17 +91,17 @@ Beyond their low \gls{qe}, a second disadvantage of a \gls{pmt} is its high volt
 
 \begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{mapmt} 
-	\caption[Internals of a Multi-anode Photomultiplier Tube.]{Electrode structure of a Multi-anode Photomultiplier Tube, demonstrating an example electron multiplication trajectory \cite{HAMAMATSU2007}.}
+    \includegraphics[width=0.6\textwidth]{mapmt} 
+	\caption[Internals of a Multi-anode Photomultiplier Tube.]{Electrode structure of a Multi-anode Photomultiplier Tube, demonstrating an example electron multiplication trajectory~\cite{HAMAMATSU2007}.}
 	\label{fig:mapmt}
 \end{figure}
 
-In order to be compatible with the reduced plate scale of the telescope, more compact options than \glspl{pmt} must be found. An extension to the \gls{pmt} technology is the \glsf{mapmt}. This photosensor consists of many \glspl{pmt} arranged in a compact grid to provide position-sensitive detection of light. A diagram of the internal dynode structure for \glspl{mapmt} is shown in Figure~\ref{fig:mapmt}. The chosen \gls{mapmt} model for \gls{chec-m} is the Hamamatsu H10966B . This flat panel type \gls{mapmt} features an 8~x~8 multianode, resulting in 64 pixels per \gls{mapmt}. The entire module's diameter is \SI{49}{mm}, while each pixel has a diameter of \SI{\sim 6}{mm}. It provides a \gls{qe} of \SI{\sim 30}{\percent} at \SI{400}{nm} wavelength, a typical gain of \SI{3.3 x 10^5}, and a typical anode rise time and transit time of \SI{0.4}{ns} and \SI{4}{ns}, respectively \cite{Hamamatsu2011}. 
+In order to be compatible with the reduced plate scale of the telescope, more compact options than \glspl{pmt} must be found. An extension to the \gls{pmt} technology is the \glsf{mapmt}. This photosensor consists of many \glspl{pmt} arranged in a compact grid to provide position-sensitive detection of light. A diagram of the internal dynode structure for \glspl{mapmt} is shown in Figure~\ref{fig:mapmt}. The chosen \gls{mapmt} model for \gls{chec-m} is the Hamamatsu H10966B . This flat panel type \gls{mapmt} features an $8 \times 8$ multianode, resulting in 64 pixels per \gls{mapmt}. The entire module's diameter is \SI{49}{mm}, while each pixel has a diameter of \SI{\sim 6}{mm}. It provides a \gls{qe} of \SI{\sim 30}{\percent} at \SI{400}{nm} wavelength, a typical gain of $3.3 \times 10^5$, and a typical anode rise time and transit time of \SI{0.4}{ns} and \SI{4}{ns}, respectively \cite{Hamamatsu2011}. 
 
 \begin{figure}
 	\centering
-    \includegraphics[width=\textwidth]{mapmt_crosstalk} 
-	\caption[Multi-anode Photomultiplier Tube crosstalk.]{Example of the crosstalk present in an MAPMT, measured by using a fibre \cite{Hamamatsu2011}.}
+    \includegraphics[width=0.6\textwidth]{mapmt_crosstalk} 
+	\caption[Multi-anode Photomultiplier Tube crosstalk.]{Example of the crosstalk present in an MAPMT, measured by using a fibre~\cite{Hamamatsu2011}.}
 	\label{fig:mapmt_crosstalk}
 \end{figure}
 
@@ -109,7 +109,9 @@ An important concern when using an \gls{mapmt} is the crosstalk. This is the mea
 
 \subsection{Silicon Photomultipliers}
 
-For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost. \glspl{sipmt}, or its solid state single photon detector precursors, have been actively developed since the 1960s \cite{Renker2006}. They have recently matured into a feasible replacement for traditional \gls{pmt} technology, causing a transitioning trend in the majority of fields that previously relied on \glspl{pmt}. 
+For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost. \glspl{sipmt}, or its solid state single photon detector precursors, have been actively developed since the 1960s \cite{Renker2006}. They have recently matured into a feasible replacement for traditional \gls{pmt} technology, causing a transitioning trend in the majority of fields that previously relied on \glspl{pmt}. The physics behind \gls{sipmt} technology is more complicated than that of \glspl{pmt}, so I shall begin with a description of how \glspl{sipmt} operate before returning to the discussion on their application within \glspl{iact}. 
+
+\subsubsection{The P-N Junction}
 
 \begin{figure}
 	\centering
@@ -118,19 +120,68 @@ For a photosensor to be considered as a replacement for the tried-and-trusted \g
 	\label{fig:pn_junction}
 \end{figure}
 
-As with all solid state devices, the building blocks of \glspl{sipmt} are P-N Junctions. A p- and n-type material are created by the addition of impurities to a semiconducting material such as silicon. The impurities added to produce the n-type semiconductor increases its number of freely moving electrons, while the impurities added to produce the p-type semiconductor increases its number of freely moving holes. When the two materials are joined, the P-N Junction is formed. As a result of the abundance of charges in each material, a diffusion current forms with electrons moving from the n-type material (leaving behind its immobile positive ions) to combine with the holes in the p-type material. The same occurs vice versa for the excess holes in the p-type material, leaving behind its immobile negative ions. The result is a region adjacent to the junction with no free charges remaining, known as the depletion layer (Figure~\ref{}). 
+As with all solid state devices, the building blocks of \glspl{sipmt} are P-N Junctions. A p- and n-type material are created by the addition of impurities to a semiconducting material such as silicon. The impurities added to produce the n-type semiconductor increases its number of freely moving electrons, while the impurities added to produce the p-type semiconductor increases its number of freely moving holes. When the two materials are joined, the P-N Junction is formed. As a result of the abundance of charges in each material, a diffusion current forms with electrons moving from the n-type material (leaving behind its immobile positive ions) to combine with the holes in the p-type material. The same occurs vice versa for the excess holes in the p-type material, leaving behind its immobile negative ions. The result is a region adjacent to the junction with no free charges remaining, known as the depletion layer (Figure~\ref{fig:pn_junction}). The charge difference from the immobile ions  produces an electric field inside the depletion layer, that points from its positively charged N side to its negatively charge P side. This electric field opposes the diffusion current and causes an equilibrium to be reached across the junction.
 
-These junctions are created through the contact
+\begin{figure}
+	\centering
+    \includegraphics[width=0.6\textwidth]{pn_bandgap} 
+	\caption[Illustration of the silicon bandgap.]{Illustration of the silicon bandgap, demonstrating a bound electron being exited into an excess charge carrier via the photoelectric effect. The excess charge carrier is then accelerated in the opposite direction of the electric field, resulting in a current \cite{Ghassemi2017}.}
+	\label{fig:pn_bandgap}
+\end{figure}
 
-The major factors that now make \glsp{sipmt} an appealing replacement for \glspl{pmt}, as outlined by \textcite{Ghassemi2017}, are:
+However, this equilibrium can be disturbed by the input of energy into the system, either by thermal excitation (producing what is known as \textit{dark counts}) or by the photoelectric effect. If the energy provided to a bound electron is greater than the band gap energy (inherent to the semiconductor) then it becomes an excess charge carrier, leaving behind a hole. These excess charge carriers are known as an electron-hole pair. If these excess charge carrier are produced in the depletion layer, they will travel along the electric field in the direction according to its charge. For example, an excess electron charge carrier released in the P side of the depletion layer will travel in the opposite direction to the electric field, crossing the P-N Junction to the N side. This is illustrated in Figure~\ref{fig:pn_bandgap}. If a connection is formed between the P and N regions, this process will produce a current. If excess charge carriers are freed outside the depletion layer, they are generally short-lived, as there is no significant electric field to accelerate them, and therefore no net current is produced.
+
+\subsubsection{\gls{apd}}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=0.6\textwidth]{pn_reversebias} 
+	\caption[Diagram of an Avalanche PhotoDiode.]{Diagram of an Avalanche PhotoDiode with a reverse bias voltage applied. The N side of the semiconductor acts as the cathode. Traditionally the cathode is the ``negative electrode'', however in reverse bias the N side is connected to the positive terminal. The P side of the semiconductor acts as the anode. Similarly to the N side, although the anode is the name traditionally given to the ``positive electrode'', in reverse bias the P side is connected to the negative terminal. The result is the electrons are accelerated to the N side cathode, while holes are accelerated to the P side anode \cite{Ghassemi2017}.}
+	\label{fig:pn_reversebias}
+\end{figure}
+
+In order to maximise the photosensitivity of the semiconductor, the depletion layer depth must be maximised. To achieve this, a reverse bias voltage is applied to the semiconductor. This means biasing the N side (cathode) to a higher electric potential that the P side (anode). The result of this is the freely-mobile holes on the P side, and the freely-mobile electrons on the N side, are pulled away from the junction. This leaves behind the charged ions and causes the depth of the depletion region to increase.
+
+In addition to an increased depletion layer depth, this reverse bias results in an increase in the electric field within the depletion region. Excess charge carriers achieve a higher kinetic energy as a result. If the mean kinetic energy attained between collisions with ions is greater than the band gap energy, additional charge carriers may be released. This impact ionisation effect results in a rapid multiplication of excess charge carriers, and is referred to as an avalanche. Such a device it therefore known as an \gls{apd}. The ratio of final charge carrier signal that is read out to the initial photo-carriers produced is the gain of the \gls{apd}, analogous to the gain of a \gls{pmt}.
+
+The typical operation of a \gls{apd} is to apply the bias voltage that optimally maintains relatively constant bandwidth and stable noise output, while achieving the highest gain level \cite{Ghassemi2017}. This voltage occurs before the \textit{breakdown voltage}, where the gain approach infinity. This operation of the \gls{apd} is known as ``proportional'' or ``linear'' mode \cite{Otte2006}, as the gain increases proportionally with bias voltage. However, \glspl{apd} in this mode suffer from limited gain and large variations in their single amplification, and are therefore not useful in single photon counting. To better utilise \glspl{apd} we must increase the bias voltage beyond the breakdown voltage, causing the \gls{apd} to transition into Geiger mode.
+
+\subsubsection{\gls{gapd}}
+
+In Geiger mode, a single photoelectron produces a self-perpetuating ionisation cascade. This effectively causes the silicon to become conductive, thereby amplifying the original electron-hole pair into a measurable current flow \cite{SensL2011}. A ``quenching resistor'' is used in series with the diode to limit the current drawn during breakdown, thereby lowering the bias voltage across the diode and bringing it below the breakdown voltage. This halts the avalanche and results in a signal shape that can be read out from the voltage across the quenching resistor.
+
+The disadvantage of this mode is that the \gls{gapd} is a binary device. All information about the number of generated photoelectrons in the semiconductor is lost. The only knowledge one can have is that there was at least one photoelectron. However, the response that results from this signal, completely independent of the number of initial photoelectrons, is extremely large and well defined, with a gain in the range $\SIrange{10^5}{10^7}. The gain of an \gls{gapd} is characterised with the equation:
+\begin{equation} \label{eq:sipmt_gain}
+G = \frac{C \Delta V}{e},
+\end{equation}
+\begin{equation} \label{eq:sipmt_gain}
+\Delta V = V_{bias} - V_{br},
+\end{equation}
+where $C$ is the capacitance of the diode, $e$ is the electron charge, and $\Delta V$ is the overvoltage, $V_{bias}$ is the bias voltage, and $V_{br}$ is the breakdown voltage. 
+
+\glspl{gapd} are therefore very useful as single photon counting devices, but are not useful for \glspl{iact}. 
+
+\subsubsection{\glsf{sipmt}}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=0.6\textwidth]{sipmt_circuit} 
+	\caption[Simplified equivalent circuit of an SiPM detector.]{Simplified equivalent circuit of an SiPM detector, demonstrating the individual microcells connected in parallel \cite{Marano2014}.}
+	\label{fig:sipmt_circuit}
+\end{figure}
+
+The final transition in this technology chain is to the concept of the \gls{sipmt}. This device utilises a densely packed array of up to 10,000 \glspl{gapd} per \SI{mm^2}. Each of these \gls{gapd} ``microcells'' has its own quenching resistor, and all the microcells are connected in parallel to a common bus \cite{Otte2006}. The result is a detector that can count multiple photons, with a dynamic range that is essentially the number of microcells. Though, each microcell still operates as a binary sensor, therefore two photons incident on the same cell will only register as one. Figure~\ref{fig:sipmt_circuit} shows a simplification of the equivalent circuit diagram for an \gls{sipmt}. The superposition of the output current pulses from all the microcells results in the highly quantised measure of the number of photoelectrons produced.
+
+The major factors that make modern iterations of \gls{sipmt} technology an appealing replacement for \glspl{pmt} are outlined by \textcite{Ghassemi2017}:
 \begin{itemize}
 \item The transition probability of a photoelectron from a silicon crystal’s valence band to its conduction band is higher than the emission probability achievable in an alkali-based photocathode. This factor results in a higher attainable \gls{qe}. 
 \item The semiconductor properties of silicon enable a high collection efficiency of photoelectron charge, resulting in a reduced spread in the amplification of a single photoelectron in comparison to \glspl{pmt} (in the absence of optical crosstalk considerations, see Section~\ref{section:enf})
-\item The high electrical conductance of doped silicon enables the low-voltage (of the order of \SIrange{10}{100}{V}) operation of an \gls{sipm}.
+\item The high electrical conductance of doped silicon enables the low-voltage (of the order of \SIrange{10}{100}{V}) operation of an \gls{sipmt}.
 \item The high fill factor of \gls{sipmt} pixels and the compactness of the tiles allow a reduced dead space.
 \item The mechanical reliability in terms of its ageing/warm-up considerations is much better than in \glspl{pmt}, as well as its performance in magnetic fields.
 \end{itemize}
 
+Despite its high resolution output, \glspl{sipmt} do suffer from some disadvantages:
 
 
 
