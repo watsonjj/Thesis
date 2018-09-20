@@ -131,7 +131,7 @@ As with all solid state devices, the building blocks of \glspl{sipmt} are P-N Ju
 
 However, this equilibrium can be disturbed by the input of energy into the system, either by thermal excitation (producing what is known as \textit{dark counts}) or by the photoelectric effect. If the energy provided to a bound electron is greater than the band gap energy (inherent to the semiconductor) then it becomes an excess charge carrier, leaving behind a hole. These excess charge carriers are known as an electron-hole pair. If these excess charge carrier are produced in the depletion layer, they will travel along the electric field in the direction according to its charge. For example, an excess electron charge carrier released in the P side of the depletion layer will travel in the opposite direction to the electric field, crossing the P-N Junction to the N side. This is illustrated in Figure~\ref{fig:pn_bandgap}. If a connection is formed between the P and N regions, this process will produce a current. If excess charge carriers are freed outside the depletion layer, they are generally short-lived, as there is no significant electric field to accelerate them, and therefore no net current is produced.
 
-\subsubsection{\gls{apd}}
+\subsubsection{Avalanche PhotoDiode (APD)}
 
 \begin{figure}
 	\centering
@@ -146,22 +146,20 @@ In addition to an increased depletion layer depth, this reverse bias results in 
 
 The typical operation of a \gls{apd} is to apply the bias voltage that optimally maintains relatively constant bandwidth and stable noise output, while achieving the highest gain level \cite{Ghassemi2017}. This voltage occurs before the \textit{breakdown voltage}, where the gain approach infinity. This operation of the \gls{apd} is known as ``proportional'' or ``linear'' mode \cite{Otte2006}, as the gain increases proportionally with bias voltage. However, \glspl{apd} in this mode suffer from limited gain and large variations in their single amplification, and are therefore not useful in single photon counting. To better utilise \glspl{apd} we must increase the bias voltage beyond the breakdown voltage, causing the \gls{apd} to transition into Geiger mode.
 
-\subsubsection{\gls{gapd}}
+\subsubsection{Geiger-mode Avalanche PhotoDiode (G-APD)}
 
 In Geiger mode, a single photoelectron produces a self-perpetuating ionisation cascade. This effectively causes the silicon to become conductive, thereby amplifying the original electron-hole pair into a measurable current flow \cite{SensL2011}. A ``quenching resistor'' is used in series with the diode to limit the current drawn during breakdown, thereby lowering the bias voltage across the diode and bringing it below the breakdown voltage. This halts the avalanche and results in a signal shape that can be read out from the voltage across the quenching resistor.
 
-The disadvantage of this mode is that the \gls{gapd} is a binary device. All information about the number of generated photoelectrons in the semiconductor is lost. The only knowledge one can have is that there was at least one photoelectron. However, the response that results from this signal, completely independent of the number of initial photoelectrons, is extremely large and well defined, with a gain in the range $\SIrange{10^5}{10^7}. The gain of an \gls{gapd} is characterised with the equation:
+The disadvantage of this mode is that the \gls{gapd} is a binary device. All information about the number of generated photoelectrons in the semiconductor is lost. The only knowledge one can have is that there was at least one photoelectron. However, the response that results from this signal, completely independent of the number of initial photoelectrons, is extremely large and well defined, with a gain in the range $10^5$-$10^7$. The gain of an \gls{gapd} is characterised with the equation:
 \begin{equation} \label{eq:sipmt_gain}
 G = \frac{C \Delta V}{e},
 \end{equation}
 \begin{equation} \label{eq:sipmt_gain}
 \Delta V = V_{bias} - V_{br},
 \end{equation}
-where $C$ is the capacitance of the diode, $e$ is the electron charge, and $\Delta V$ is the overvoltage, $V_{bias}$ is the bias voltage, and $V_{br}$ is the breakdown voltage. 
+where $C$ is the capacitance of the diode, $e$ is the electron charge, and $\Delta V$ is the overvoltage, $V_{bias}$ is the bias voltage, and $V_{br}$ is the breakdown voltage. \glspl{gapd} are therefore very useful as single photon counting devices, but are not so useful for \glspl{iact}. 
 
-\glspl{gapd} are therefore very useful as single photon counting devices, but are not useful for \glspl{iact}. 
-
-\subsubsection{\glsf{sipmt}}
+\subsubsection{Silicon Photomultiplier (SiPM)}
 
 \begin{figure}
 	\centering
@@ -170,7 +168,7 @@ where $C$ is the capacitance of the diode, $e$ is the electron charge, and $\Del
 	\label{fig:sipmt_circuit}
 \end{figure}
 
-The final transition in this technology chain is to the concept of the \gls{sipmt}. This device utilises a densely packed array of up to 10,000 \glspl{gapd} per \SI{mm^2}. Each of these \gls{gapd} ``microcells'' has its own quenching resistor, and all the microcells are connected in parallel to a common bus \cite{Otte2006}. The result is a detector that can count multiple photons, with a dynamic range that is essentially the number of microcells. Though, each microcell still operates as a binary sensor, therefore two photons incident on the same cell will only register as one. Figure~\ref{fig:sipmt_circuit} shows a simplification of the equivalent circuit diagram for an \gls{sipmt}. The superposition of the output current pulses from all the microcells results in the highly quantised measure of the number of photoelectrons produced.
+The final transition in this technology chain is to the concept of the \gls{sipmt}. This device utilises a densely packed array of up to 10,000 \glspl{gapd} per \si{mm\squared}. Each of these \gls{gapd} ``microcells'' has its own quenching resistor, and all the microcells are connected in parallel to a common bus \cite{Otte2006}. The result is a detector that can count multiple photons, with a dynamic range that is essentially the number of microcells. Though, each microcell still operates as a binary sensor, therefore two photons incident on the same cell will only register as one. Figure~\ref{fig:sipmt_circuit} shows a simplification of the equivalent circuit diagram for an \gls{sipmt}. The superposition of the output current pulses from all the microcells results in the highly quantised measure of the number of photoelectrons produced.
 
 The major factors that make modern iterations of \gls{sipmt} technology an appealing replacement for \glspl{pmt} are outlined by \textcite{Ghassemi2017}:
 \begin{itemize}
@@ -186,9 +184,9 @@ Despite its high resolution output, \glspl{sipmt} do suffer from some disadvanta
 
 
 
-. while they have been utilised in high energy and medical fields for a while, they have only re
+% . while they have been utilised in high energy and medical fields for a while, they have only re
 
-Form factor allows for a more compact module spacing 
+% Form factor allows for a more compact module spacing 
 
 % , a novel photosensor in the context of \gls{iact} astronomy, 
 
