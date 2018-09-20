@@ -148,7 +148,14 @@ The typical operation of a \gls{apd} is to apply the bias voltage that optimally
 
 \subsubsection{Geiger-mode Avalanche PhotoDiode (G-APD)}
 
-In Geiger mode, a single photoelectron produces a self-perpetuating ionisation cascade. This effectively causes the silicon to become conductive, thereby amplifying the original electron-hole pair into a measurable current flow \cite{SensL2011}. A ``quenching resistor'' is used in series with the diode to limit the current drawn during breakdown, thereby lowering the bias voltage across the diode and bringing it below the breakdown voltage. This halts the avalanche and results in a signal shape that can be read out from the voltage across the quenching resistor.
+\begin{figure}
+	\centering
+    \includegraphics[width=0.6\textwidth]{gapd_cycle} 
+	\caption[G-APD reverse bias voltage cycle.]{Diagram of the current created by the avalanche versus reverse bias voltage \cite{SensL2011}. The stages in the cycle of the G-APD operation are labelled. 1) The G-APD is set to a reverse bias voltage above the breakdown voltage. No current flows yet. 2) A excess charge carrier is produced by thermal excitation or the photoelectric effect. The carrier causes a Geiger discharge, creating a macroscopic current. 3) The current is quenched by a resistor in series with the diode. The bias voltage across the diode is reduced below the breakdown voltage, and the avalanche ceases. The G-APD then recharges ready for the next avalanche.}
+	\label{fig:gapd_cycle}
+\end{figure}
+
+In Geiger mode, a single photoelectron produces a self-perpetuating ionisation cascade. This effectively causes the silicon to become conductive, thereby amplifying the original electron-hole pair into a measurable current flow \cite{SensL2011}. A ``quenching resistor'' is used in series with the diode to limit the current drawn during breakdown, thereby lowering the bias voltage across the diode and bringing it below the breakdown voltage. This halts the avalanche and results in a signal shape that can be read out from the voltage across the quenching resistor. The \gls{sipm} then undergoes a recovery back to the original ``overvolatage'' above the breakdown voltage, ready for the next photoelectron avalanche. This operation cycle of the \gls{gapd} is shown in Figure~\ref{fig:gapd_cycle}.
 
 The disadvantage of this mode is that the \gls{gapd} is a binary device. All information about the number of generated photoelectrons in the semiconductor is lost. The only knowledge one can have is that there was at least one photoelectron. However, the response that results from this signal, completely independent of the number of initial photoelectrons, is extremely large and well defined, with a gain in the range $10^5$-$10^7$. The gain of an \gls{gapd} is characterised with the equation:
 \begin{equation} \label{eq:sipmt_gain}
@@ -168,7 +175,7 @@ where $C$ is the capacitance of the diode, $e$ is the electron charge, and $\Del
 	\label{fig:sipmt_circuit}
 \end{figure}
 
-The final transition in this technology chain is to the concept of the \gls{sipmt}. This device utilises a densely packed array of up to 10,000 \glspl{gapd} per \si{mm\squared}. Each of these \gls{gapd} ``microcells'' has its own quenching resistor, and all the microcells are connected in parallel to a common bus \cite{Otte2006}. The result is a detector that can count multiple photons, with a dynamic range that is essentially the number of microcells. Though, each microcell still operates as a binary sensor, therefore two photons incident on the same cell will only register as one. Figure~\ref{fig:sipmt_circuit} shows a simplification of the equivalent circuit diagram for an \gls{sipmt}. The superposition of the output current pulses from all the microcells results in the highly quantised measure of the number of photoelectrons produced.
+The final transition in this technology chain is to the concept of the \gls{sipmt}. This device utilises a densely packed array of up to 10,000 \glspl{gapd} per \si{mm\squared}. Each of these \gls{gapd} ``microcells'' has its own quenching resistor, and all the microcells are connected in parallel to a common bus \cite{Otte2006}. Figure~\ref{fig:sipmt_circuit} shows a simplification of the equivalent circuit diagram for an \gls{sipmt}. The result is a detector that can count multiple photons, with a dynamic range that is essentially the number of microcells. Though, each microcell still operates as a binary sensor, therefore two photons incident on the same cell will only register as one. The superposition of the output current pulses from all the microcells results in the highly quantised measure of the number of photoelectrons produced.
 
 The major factors that make modern iterations of \gls{sipmt} technology an appealing replacement for \glspl{pmt} are outlined by \textcite{Ghassemi2017}:
 \begin{itemize}
@@ -178,6 +185,28 @@ The major factors that make modern iterations of \gls{sipmt} technology an appea
 \item The high fill factor of \gls{sipmt} pixels and the compactness of the tiles allow a reduced dead space.
 \item The mechanical reliability in terms of its ageing/warm-up considerations is much better than in \glspl{pmt}, as well as its performance in magnetic fields.
 \end{itemize}
+
+\subsubsection{Performance Parameters of SiPMs}
+
+In addition to the gain which has already been characterised earlier in this section, it is important to detail the other parameters that are significant in \glspl{sipmt}. Firstly, the \gls{pde} of an \gls{sipm} is the measure of its wavelength-dependant sensitivity to photons. Due to the microcell structure, this property differs slightly to the \gls{qe} of a \gls{pmt}. Qualitatively, it is the statistical probability that an incident photon produces an avalanche. Quantitatively, as shown in the sensL \gls{sipm} technical note \cite{SensL2011}, it is defined as the product between the silicon's:
+\begin{description}
+\item [Quantum Efficiency $\eta(\lambda)$] Likelihood of a photon producing an electron-hole pair. 
+\item [Avalanche Initiation Probability $\epsilon(V)$] Probability of a produced excess charge carrier initiating an avalanche.
+\item [Fill Factor $F$] Ratio of active to inactive area.
+\end{description}
+\begin{equation} \label{eq:sipmt_gain}
+PDE(\lambda, V) = \eta(\lambda) \cdot \epsilon(V) \cdot F.
+\end{equation}
+
+
+
+
+\gls{qe} $\eta(\lambda)$ (), the avalanche initiation probability 
+
+\subsubsection{FACT}
+
+\subsubsection{CHEC-S SiPMs}
+
 
 Despite its high resolution output, \glspl{sipmt} do suffer from some disadvantages:
 
