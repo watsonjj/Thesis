@@ -85,7 +85,7 @@ where $k$ is a constant that depends on the photomultiplier design, and $\alpha$
 
 Due to their wide usage across many fields, \glspl{pmt} are available at a very reasonable cost. The timing response of \glspl{pmt} faithfully reproduce the incident light pulse, however the anode's pulse rise time property does modify the response slightly \cite{Hamamatsu2016}. Additionally, there is a delay in signal due to the electron transit time along the dynode chain. This transit time has an associated ``transit time spread'' due to the different paths the electrons may take in the dynode chain. These time response characteristics are dependant on the dynode structure and applied voltage. Examples of the typical timing response values are shown in Figure~\ref{fig:pmt_time}.
 
-Beyond their low \gls{qe}, a second disadvantage of a \gls{pmt} is its high voltage requirement \cite{Weekes2003}. Furthermore, since \glspl{pmt} generally have $\sim 10$ dynode stages, Equation~\ref{eq:pmt_gain} dictates that a small change in voltage will result in a large variation in gain. The high voltage supply therefore needs to be extremely stable \cite{Hamamatsu2016}. This is particularly unfavourable for the application of \glspl{pmt} in \glspl{iact}, due to the typical remoteness of the telescopes. A third disadvantage is the robustness of a \gls{pmt}, as they are very sensitive to light and can be permanently damaged if exposed to bright sources, such as the full moon. This disadvantage can limit the amount of observation time that is safe for the telescopes.
+Beyond their low \gls{qe}, a second disadvantage of a \gls{pmt} is its high voltage requirement \cite{Weekes2003}. Furthermore, since \glspl{pmt} generally have $\sim 10$ dynode stages, Equation~\ref{eq:pmt_gain} dictates that a small change in voltage will result in a large variation in gain. The high voltage supply therefore needs to be extremely stable \cite{Hamamatsu2016}. This is particularly unfavourable for the application of \glspl{pmt} in \glspl{iact}, due to the typical remoteness of the telescopes. A third disadvantage is the robustness of a \gls{pmt}, as they are very sensitive to light and can be permanently damaged if exposed to bright sources. This limits the amount of observation time that is safe for \glspl{iact}, and considerations such as the moon's location in the sky need to be considered \cite{Knoetig2013}.
 
 \subsection{Multi-Anode Photomultiplier Tubes}
 
@@ -111,7 +111,7 @@ An important concern when using an \gls{mapmt} is the crosstalk. This is the mea
 
 For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost. \glspl{sipmt}, or its solid state single photon detector precursors, have been actively developed since the 1960s \cite{Renker2006}. They have recently matured into a feasible replacement for traditional \gls{pmt} technology, causing a transitioning trend in the majority of fields that previously relied on \glspl{pmt}. The physics behind \gls{sipmt} technology is more complicated than that of \glspl{pmt}, therefore a full description of their inner workings is reserved for Appendix~\ref{a1-sipm}.
 
-As a short summary, an \glspl{sipmt} microcell consists of a single \gls{apd}, operated in Geiger mode (i.e. with a reverse bias voltage past the breakdown voltage). The breakdown voltage is the voltage beyond which the gain of an \gls{apd} tends to infinity. Therefore, an incident photon (or thermal excitation, i.e. ``dark count'') which produces an electron-hole pair in the silicon will consequently cause an avalanche of excess charge carriers, turning the silicon conductive and producing a macroscopic current. As the charge produced in this avalanche is essentially limited by the quenching resistor, the same charge is read out irrespective of the number of incident photons. By arranging an array of up to 10,000 of these microcells per \si{mm\squared} to form an \gls{sipmt} pixel, a high resolution photon counting sensor can be produced with a large dynamic range.
+As a short summary, an \glspl{sipmt} microcell consists of a single \gls{apd}, operated in Geiger mode (i.e. with a reverse bias voltage past the breakdown voltage). The breakdown voltage is the voltage beyond which the gain of an \gls{apd} tends to infinity. Therefore, an incident photon (or thermal excitation, i.e. ``dark count'') which produces an electron-hole pair in the silicon will consequently cause an avalanche of excess charge carriers, turning the silicon conductive and producing a macroscopic current. As the charge produced in this avalanche is essentially limited by the quenching resistor, the same charge is read out irrespective of the number of incident photons. The \gls{apd} operated in Geiger mode is therefore referred to as a binary device. By arranging an array of up to 10,000 of these microcells per \si{mm\squared} to form an \gls{sipmt} pixel, a high resolution photon counting sensor can be produced with a large dynamic range.
 
 The major factors that contribute to the appeal of modern iterations of \gls{sipmt} technology as a replacement for \glspl{pmt} are outlined by \textcite{Ghassemi2017}:
 \begin{itemize}
@@ -122,12 +122,21 @@ The major factors that contribute to the appeal of modern iterations of \gls{sip
 \item The mechanical reliability in terms of its ageing/warm-up considerations is much better than in \glspl{pmt}, as well as its performance in magnetic fields.
 \end{itemize}
 
+Additionally, as there is no photocathode to degrade, nor possibility chance for a damaging current to be reached (due to the quenching by the resistor), \glspl{sipmt} are very robust to excess illuminations of light. This provides \glspl{iact} the opportunity to continue observing under bright night sky conditions, such as intense moonlight \cite{Knoetig2013,Heller2017}.
+
 The first, and only to date, \gls{iact} telescope to adopt \glspl{sipmt} as the photosensor is \gls{fact}. Operational since 2011, and built on the refurbished
 HEGRA \gls{iact} on the Canary Island La Palma, the 1440 pixel \gls{sipmt} camera is installed in combination with a \SI{9.5}{m\squared} single mirror. As reported by \textcite{Biland2015}, \gls{fact} has proved \gls{sipmt} technology is a viable alternative to \glspl{pmt} for future \glspl{iact}. This conclusion was reached even with the first generation of commercially available \glspl{sipmt}. \glspl{sipmt} have gone through considerable improvements since the construction of \gls{fact}.
 
-The \glspl{sipmt} currently used in the \gls{chec-s} prototype are the Hamamatsu S12642-1616PA-50 tiles. These tiles have 256 pixels of size \SI[parse-numbers = false]{3 \times 3}{mm\squared}. These are combined to provide 64 camera pixels of \SI[parse-numbers = false]{\sim 6 \times 6}{mm\squared}.
+\begin{figure}
+	\centering
+    \includegraphics[width=0.6\textwidth]{sipmt_checs} 
+	\caption[Performance characteristics for the SiPMs used in CHEC-S.]{Performance characteristics (gain, PDE, optical crosstalk) for the SiPMs used in CHEC-S, copied from the datasheet provided by Hamamatsu~\cite{Hamamatsu2013}.}
+	\label{fig:sipmt_checs}
+\end{figure}
 
-\subsection{Performance Parameters of SiPMs} \label{section:sipmt}
+The \glspl{sipmt} currently used in the \gls{chec-s} prototype are the Hamamatsu S12642-1616PA-50 tiles. These tiles have 256 pixels of size \SI[parse-numbers = false]{3 \times 3}{mm\squared}. These are combined to provide 64 camera pixels of \SI[parse-numbers = false]{\sim 6 \times 6}{mm\squared}. The performance parameters of this \gls{sipmt} tile (which will be introduced in Section~\ref{section:sipmt}), as measured by Hamamatsu, are displayed in Figure~\ref{fig:sipmt_checs}.
+
+\subsection{Performance Parameters of SiPMs} \label{section:sipmt_parameters}
 
 For a complete investigation into the performance obtained from the \gls{chec-s} camera, it is important to understand the influence of the characteristic parameters of an \gls{sipmt}.
 
@@ -156,11 +165,11 @@ This well-described quantisation of the charge is the reason for the high photon
 \end{figure}
 
 The \gls{pde} of an \gls{sipmt} is the measure of its wavelength-dependant sensitivity to photons. Due to the microcell structure, this property differs slightly to the \gls{qe} of a \gls{pmt}. Qualitatively, it is the statistical probability that an incident photon produces an avalanche. Quantitatively, as shown in the SensL \gls{sipmt} technical note \cite{SensL2011}, it is defined as the product between the silicon's:
-\begin{description}
-\item [Quantum Efficiency $\eta(\lambda)$ -] Likelihood of a photon producing an electron-hole pair. 
-\item [Avalanche Initiation Probability $\epsilon(V)$ -] Probability of a produced excess charge carrier initiating an avalanche.
-\item [Fill Factor $F$ -] Ratio of active to inactive area.
-\end{description}
+\begin{itemize}
+\item Quantum Efficiency $\eta(\lambda)$ - Likelihood of a photon producing an electron-hole pair. 
+\item Avalanche Initiation Probability $\epsilon(V)$ - Probability of a produced excess charge carrier initiating an avalanche.
+\item Fill Factor $F$ - Ratio of active to inactive area.
+\end{itemize}
 Resulting in the equation:
 \begin{equation} \label{eq:sipmt_pde}
 PDE(\lambda, V) = \eta(\lambda) \cdot \epsilon(V) \cdot F.
@@ -194,24 +203,15 @@ Aside from the dark counts, none of the \gls{sipmt} parameters described in this
 
 To keep the temperature controlled and low (to minimise the \gls{dcr}), the \glspl{sipmt} in \gls{chec-s} are thermally bonded to a liquid cooled faceplate. This is further described in Section~\ref{} \change{reference section}. Furthermore, by changing the bias voltage in response to a change in temperature, the same overvoltage can be maintained, therefore minimising dependence on temperature for the parameters. This process in known as ``bias compensation'', and is mentioned again in Section~\ref{section:photosensor_calib}.
 
+\subsection{Excess Noise Factor (ENF)} \label{section:enf}
 
-in a process knwo
+A common expression for the variation in photosensor response to a single photoelectron is its \glsf{enf}. This factor encompasses the multiplicative errors in the amplification process in both the \gls{mapmt} and \gls{sipmt}. In the definition used in this thesis, a perfect \gls{enf} is equal to 1. 
 
-To keep the dark count rate low, and to maintain the temperature of the silicon
+The dominating contributions to the \gls{enf} in a \gls{pmt} are the ``fluctuations in the secondary multiplication factor at each dynode (statistical fluctuation due to cascade multiplication), non-uniformity of multiplication depending on the dynode position and electrons deviating from their favourable trajectories'' \cite[][p. 127]{HAMAMATSU2007}. Conversely, the multiplication of charge in an \gls{sipmt} is very quantised in an \gls{sipmt} due to the microcells being operated in Geiger mode, and therefore functioning as binary device. This would suggest the \gls{enf} of an \gls{sipmt} is very close to 1. However, due to the statistical fluctuations caused by the optical crosstalk and afterpulsing of the device, the \gls{enf} is not perfect, and has the potential of being worse than that of a \gls{pmt}, despite the extremely high photoelectron counting resolution.
 
+The \gls{enf} can be visualised as the possible charge output from a single photoelectron production.
 
-
-% . while they have been utilised in high energy and medical fields for a while, they have only re
-
-% Form factor allows for a more compact module spacing 
-
-% , a novel photosensor in the context of \gls{iact} astronomy, 
-
-
-
-% despite their presence in the medical physics field for \change{find out value and reference}. \glspl{sipmt} operate on a \change{describe sipms, electron-hole} to detect photons. The appeal of \glspl{sipmt} are ..., therefore their adoption in many \gls{cta} cameras is anticipated. The \gls{chec-s} design is envisaged to be continued forward as the camera for \gls{gct}. Consequently, the commissioning and performance of \gls{chec-s} received the majority of focus within this thesis, however, a comparison to \gls{chec-m} is also provided at many stages.
-
-\subsection{Excess Noise Factor} \label{section:enf}
+The \gls{enf} is a key ingredient to the \textit{Charge Resolution} \gls{CTA} Requirement introduced in Section~\ref{section:cr}, and will be further explored in the performance results of the camera in Chapter~\ref{ch7-performance}.
 
 \subsection{Future}
 
