@@ -263,7 +263,20 @@ It is clear from Figure~\ref{fig:enf_gain} that the main area of improvement to 
 	\label{fig:sipm_module}
 \end{figure}
 
-In order to read the signal from the photosensors, they
+The \glsf{fee} of the camera handle the recording of the signal from the photosensors into a digital data stream for storage, calibration, and subsequently the analysis. Images of the \gls{fee} modules for the two \gls{chec} prototypes are shown in Figures~\ref{fig:mapm_module}~and~\ref{fig:sipm_module}. 
+
+\subsection{Amplifier and Shaper}
+
+The first stage in the processing chain is the amplification and shaping of the analogue signal to match the optimal shape for triggering. This is required due to very narrow pulses produced by \glspl{mapmt} and \glspl{sipmt} \cite{Zorn2017}. The optimal pulse is dictated from Monte Carlo simulations to be around \SIrange{5}{10}{ns} FWHM and a \SIrange{10}{90}{\percent} rise time of \SIrange{2}{6}{ns}. If the pulse shape is faster than this specification, the pulses from individual Cherenkov photons are unable to pile up to produce a trigger due to their time gradient (Section~\ref{} \otherch{ref time gradient}). Conversely, if the pulse is slower, \gls{NSB} photons are able to produce a trigger.
+
+\subsection{Digitisation}
+
+
+
+In order for the signal to be 
+
+
+In order to read the signal from the photosensors, they must be connected to a digitiser. 
 
 
 
