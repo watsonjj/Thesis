@@ -222,11 +222,51 @@ As described by \textcite{Teich1986}, the \gls{enf} $\sigma_{ENF}$ can be expres
 \end{equation}
 As suggested by Equation~\ref{eq:enf_gain}, a perfect photomultiplier with zero multiplication variance would have an \gls{enf} of 1. This representation of the \gls{enf} can be visualised in terms of the multiplication response/probability of a single photoelectron in the photomultiplier. Figure~\ref{fig:enf_gain} demonstrates this response for the \glspl{mapmt} of \gls{chec-m} and the \glspl{sipmt} of \gls{chec-s}. 
 
-Using Equation~\ref{eq:enf_gain}, the \glspl{enf} are calculated from the mean and variance of the single photoelectron multiplication response, and displayed in the legend of Figure~\ref{fig:enf_gain}. The \gls{enf} of the \glspl{sipmt} is quite large and almost comparable to the \gls{enf} of the \glspl{mapmt}. The reason for this, as demonstrated in Chapter~\ref{ch7-performance}, is the high optical crosstalk (\SIrange{35}{40}{\percent} present in this iteration of \glspl{sipmt}.
+Using Equation~\ref{eq:enf_gain}, \sigma_{ENF} is calculated from the mean and variance of the single photoelectron multiplication response for each camera, and displayed in the legend of Figure~\ref{fig:enf_gain}. The \gls{enf} of the \glspl{sipmt} is quite large and almost comparable to the \gls{enf} of the \glspl{mapmt}. The reason for this, as demonstrated in Chapter~\ref{ch7-performance}, is the high optical crosstalk (\SIrange{35}{40}{\percent} present in this iteration of \glspl{sipmt}.
 
 The \gls{enf} is a key ingredient to the \textit{Charge Resolution} \gls{cta} Requirement introduced in Section~\ref{section:cr}, and will be further explored in the performance results of the camera in Chapter~\ref{ch7-performance}.
 
 \subsection{Future} \label{section:sipmt_future}
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{before_after_ff_25pe}
+    \caption{Lower average expected charge}
+    \label{fig:before_after_ff_25pe}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{before_after_ff_100pe}
+    \caption{Higher average expected charge}
+    \label{fig:before_after_ff_100pe}
+  \end{subfigure}
+  \caption[Flat-field residuals at other illuminations.]{Same as Figure~\ref{fig:before_after_ff_50pe}, but with a higher and lower average expected charge ($Q_\text{Exp}$).}
+\end{figure}
+
+It is clear from Figure~\ref{fig:enf_gain} that the main area of improvement to be made in the \gls{sipmt} chosen for the final design of \gls{chec} is in the optical crosstalk. Producers of \glspl{sipmt} are actively developing techniques to achieve this with minimal impedance of other characteristics such as the \gls{pde}. One simple approach to reduce the optical crosstalk is the inclusion of ``trenches'' between the cells \cite{Kindt1998,Pagano2011}. This is a form of optical isolation achieved by creating trenches around each cell and filling them with oxide and metal to absorb secondary photons. However, this addition can reduce the fill factor of the \gls{sipmt}, thereby reducing the \gls{pde} via Equation~\ref{eq:sipmt_pde}. Although these trenches stop the majority of secondary photons, which have a direct path to the neighbouring microcell (Figure~\ref{fig:sipm_opct}), they do not affect the photons that take an indirect route via reflection. The trenches therefore reduce optical crosstalk, but does not eliminate it completely.
+
+\change{can I add graphs from reference sheet?}
+
+\section{Front-End Electronics (FEE)}
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{mapm_module}
+    \caption{Lower average expected charge}
+    \label{fig:mapm_module}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{sipm_module}
+    \caption{Higher average expected charge}
+    \label{fig:sipm_module}
+  \end{subfigure}
+  \caption[Flat-field residuals at other illuminations.]{Same as Figure~\ref{fig:before_after_ff_50pe}, but with a higher and lower average expected charge ($Q_\text{Exp}$).}
+\end{figure}
+
+In order to read the signal from the photosensors, they
+
+
 
 % \section{Pre-amplifiers and shapers}
 
