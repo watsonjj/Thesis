@@ -230,48 +230,50 @@ The \gls{enf} is a key ingredient to the \textit{Charge Resolution} \gls{cta} Re
 
 \begin{figure}
   \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{before_after_ff_25pe}
-    \caption{Lower average expected charge}
-    \label{fig:before_after_ff_25pe}
+    \includegraphics[width=\textwidth]{sipm_new_bare}
+    \caption{S14521-8648 (Bare) \cite{Hamamatsu2018a}}
+    \label{fig:sipm_new_bare}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{before_after_ff_100pe}
-    \caption{Higher average expected charge}
-    \label{fig:before_after_ff_100pe}
+    \includegraphics[width=\textwidth]{sipm_new_resin}
+    \caption{S14521-8649 (Resin Coated) \cite{Hamamatsu2018b}}
+    \label{fig:sipm_new_resin}
   \end{subfigure}
-  \caption[Flat-field residuals at other illuminations.]{Same as Figure~\ref{fig:before_after_ff_50pe}, but with a higher and lower average expected charge ($Q_\text{Exp}$).}
+  \caption[Characteristic performance of future CHEC-S SiPMs.]{Characteristic performance of two potential SiPM productions for the use in future CHEC-S prototypes.}
 \end{figure}
 
 It is clear from Figure~\ref{fig:enf_gain} that the main area of improvement to be made in the \gls{sipmt} chosen for the final design of \gls{chec} is in the optical crosstalk. Producers of \glspl{sipmt} are actively developing techniques to achieve this with minimal impedance of other characteristics such as the \gls{pde}. One simple approach to reduce the optical crosstalk is the inclusion of ``trenches'' between the cells \cite{Kindt1998,Pagano2011}. This is a form of optical isolation achieved by creating trenches around each cell and filling them with oxide and metal to absorb secondary photons. However, this addition can reduce the fill factor of the \gls{sipmt}, thereby reducing the \gls{pde} via Equation~\ref{eq:sipmt_pde}. Although these trenches stop the majority of secondary photons, which have a direct path to the neighbouring microcell (Figure~\ref{fig:sipm_opct}), they do not affect the photons that take an indirect route via reflection. The trenches therefore reduce optical crosstalk, but does not eliminate it completely.
 
-\change{can I add graphs from reference sheet?}
+Two \gls{sipmt} productions by Hamamatsu are being considered for the next \gls{chec-s} prototype. S14521-8648 exhibits a greatly reduced optical crosstalk, down to \SI{< 10}{\percent} (shown in Figure~\ref{fig:sipm_new_bare}). S14521-8649 is the same silicon design, but has a protective resin coating to reduce the change of damage to the pixels. The optical crosstalk of this second silicon is slightly higher (shown in Figure~\ref{fig:sipm_new_resin}) as the coating allows another surface for secondary photons to reflect into neighbouring microcells. If it is deemed that the protective coating in unnecessary, the former \gls{sipmt} will be chosen to maximise performance.
 
 \section{Front-End Electronics (FEE)}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{mapm_module} 
-	\caption[Image of the MAPMT and FEE for CHEC-M.]{Image of the MAPMT and FEE for CHEC-M with the components labelled \cite{Zorn2017}.}
+	\caption[Image of the MAPMT and FEE for CHEC-M.]{Image of the MAPMT connected to the CHEC-M FEE with the components labelled \cite{Zorn2017,DeFranco2016}.}
 	\label{fig:mapm_module}
 \end{figure}
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sipm_module} 
-	\caption[Image of the SiPM and FEE for CHEC-S.]{Image of the SiPM and FEE for CHEC-S with the components labelled.}
+	\caption[Image of the SiPM and FEE for CHEC-S.]{Image of the SiPM connected to the CHEC-S FEE with the components labelled.}
 	\label{fig:sipm_module}
 \end{figure}
 
 The \glsf{fee} of the camera handle the recording of the signal from the photosensors into a digital data stream for storage, calibration, and subsequently the analysis. Images of the \gls{fee} modules for the two \gls{chec} prototypes are shown in Figures~\ref{fig:mapm_module}~and~\ref{fig:sipm_module}. 
 
-\subsection{Amplifier and Shaper}
+\subsection{Amplification and Shaping}
 
-The first stage in the processing chain is the amplification and shaping of the analogue signal to match the optimal shape for triggering. This is required due to very narrow pulses produced by \glspl{mapmt} and \glspl{sipmt} \cite{Zorn2017}. The optimal pulse is dictated from Monte Carlo simulations to be around \SIrange{5}{10}{ns} FWHM and a \SIrange{10}{90}{\percent} rise time of \SIrange{2}{6}{ns}. If the pulse shape is faster than this specification, the pulses from individual Cherenkov photons are unable to pile up to produce a trigger due to their time gradient (Section~\ref{} \otherch{ref time gradient}). Conversely, if the pulse is slower, \gls{NSB} photons are able to produce a trigger.
+The first stage in the processing chain is the amplification and shaping of the analogue signal to match the optimal shape for triggering. This is required due to very narrow pulses produced by \glspl{mapmt} and \glspl{sipmt} \cite{Zorn2017}. The optimal pulse is dictated from Monte Carlo simulations to be around \SIrange{5}{10}{ns} FWHM and a \SIrange{10}{90}{\percent} rise time of \SIrange{2}{6}{ns}. If the pulse shape is faster than this specification, the pulses from individual Cherenkov photons are unable to pile up to produce a trigger due to their time gradient (Section~\ref{} \otherch{ref time gradient}). Conversely, if the pulse is slower, \gls{nsb} photons are able to produce a trigger.
 
 \subsection{Digitisation}
 
+Designed specifically for the readout of \gls{iact} camera, the \gls{target} \gls{asic} provides
 
+The \gls{target} module is a 
 
 In order for the signal to be 
 
