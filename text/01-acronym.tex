@@ -10,15 +10,16 @@
 % firstplural={⟨long⟩\glspluralsuffix\space (⟨abbrv ⟩\glspluralsuffix)},
 % ⟨key-val list⟩}
 
-%\newacronym{api}{API}{Application Programming Interface }
 
-\newacronym{fwhm}{FWHM}{Full Width at Half Maximum}
+\newglossaryentry{fwhm}{name={FWHM}, description={The full width of a pulse (or distribution) at half of its maximum.}}
+
 \newacronym{vhe}{VHE}{Very High Energy}
 \newacronym{psf}{PSF}{Point Spread Function}
 \newacronym[prefix={an~}]{nsb}{NSB}{Night-Sky Background}
 \newacronym{dcr}{DCR}{Dark-Count Rate}
-\newacronym{pe}{p.e.}{Photo-Electrons}
+%\newacronym{pe}{p.e.}{Photo-Electrons}
 \newacronym{adc}{ADC}{Analogue-to-Digital Converter}
+\newacronym{dac}{DAC}{Digital-to-Analogue Converter}
 \newacronym{pde}{PDE}{Photon Detection Efficiency}
 \newacronym{qe}{QE}{Quantum Efficiency}
 \newacronym{spe}{SPE}{Single Photo-Electron}
@@ -34,10 +35,8 @@
 \newacronym{pmt}{PMT}{Photomultiplier Tube}
 \newacronym{mapmt}{MAPMT}{Multi-Anode Photomultiplier Tube}
 \newacronym{sipmt}{SiPM}{Silicon Photomultiplier}
-\newacronym{target5}{TARGET-5}{\gls{target} (version 5)}
-\newacronym{targetc}{TARGET-C}{\gls{target} (version C)}
 \newacronym{fpga}{FPGA}{Field-Programmable Gate Array}
-\newacronym{adc2pe}{adc2pe}{conversion of \gls{adc} counts to \gls{pe}}
+%\newacronym{adc2pe}{adc2pe}{conversion of \gls{adc} counts to \gls{pe}}
 \newacronym{mc}{MC}{Monte-Carlo}
 \newacronym{hv}{HV}{High Voltage}
 \newacronym{impact}{ImPACT}{Image Pixel-wise fit for Atmospheric Cherenkov Telescopes}
@@ -55,12 +54,19 @@
 \newacronym{fov}{FoV}{Field of View}
 \newacronym{apd}{APD}{Avalanche PhotoDiode}
 \newacronym{gapd}{G-APD}{Geiger-mode Avalanche PhotoDiode}
+\newacronym{dacq}{DACQ}{Data-Acquisition}
 
 \newglossaryentry{target}{type=\acronymtype, 
 	name={TARGET}, 
 	description={TeV Array Readout with GSa/s sampling and Event Trigger}, 
 	first={TARGET (TeV Array Readout with GSa/s sampling and Event Trigger)}
 }
+\newglossaryentry{target5}{name={TARGET-5}, description={Version 5 of the TARGET ASIC.}}
+\newglossaryentry{targetc}{name={TARGET-C}, description={Version C of the TARGET ASIC.}}
+\newglossaryentry{t5tea}{name={T5TEA}, description={ASIC chip used alongside TARGET-C for the trigger handling.}}
+
+
+
 \newglossaryentry{asic}{type=\acronymtype, 
 	name={ASIC}, 
 	description={Application-Specific-Integrated Circuit}, 
@@ -84,11 +90,7 @@
 	description={Simplified Wrapper and Interface Generator}, 
 	first={SWIG (Simplified Wrapper and Interface Generator)}
 }
-\newglossaryentry{tio}{type=\acronymtype, 
-	name={TIO}, 
-	description={Custom FITS file format defined by TargetIO used for storing waveform data from TARGET-based cameras}, 
-	first={TIO}
-}
+\newglossaryentry{tio}{name={TIO}, description={Custom FITS file format defined by TargetIO used for storing waveform data from TARGET-based cameras}}
 \newglossaryentry{astri}{type=\acronymtype, 
 	name={ASTRI}, 
 	description={Astrofisica con Specchi a Tecnologia Replicante Italiana}, 
@@ -139,16 +141,8 @@
 	description={User Datagram Protocol}, 
 	first={UDP (User Datagram Protocol)}
 }
-\newglossaryentry{chec-m}{type=\acronymtype, 
-	name={CHEC-M}, 
-	description={CHEC utilising MAPMTs as the photosensor}, 
-	first={CHEC-M}
-}
-\newglossaryentry{chec-s}{type=\acronymtype, 
-	name={CHEC-S}, 
-	description={CHEC utilising SiPMs as the photosensor}, 
-	first={CHEC-S}
-}
+\newglossaryentry{chec-m}{name={CHEC-M}, description={CHEC utilising MAPMTs as the photosensor.}}
+\newglossaryentry{chec-s}{name={CHEC-S}, description={CHEC utilising SiPMs as the photosensor.}}
 \newglossaryentry{fact}{type=\acronymtype, 
 	name={FACT}, 
 	description={First G-APD Cherenkov Telescope}, 

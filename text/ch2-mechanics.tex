@@ -39,7 +39,7 @@
 
 \section{Introduction}
 
-Due to the design of \gls{gct} as a dual-mirror Schwarzschild-Couder telescope, it is capable of a \SI{9}{\degree} \gls{fov} \change{intro: talk about benefit of high FoV} while simultaneously reducing the plate scale by a factor of $\sim 3$ compared to single-telescope designs. This large reduction in plate scale allows for a much more compact camera, for which novel opportunities in photosensor technology exist \cite{Vassiliev2007}. The camera that has been developed for \gls{gct} is appropriately known as the \glsf{chec}.
+Due to the design of \gls{gct} as a dual-mirror Schwarzschild-Couder telescope, it is capable of a \SI{9}{\degree} \gls{fov} \change{intro: talk about benefit of high FoV} while simultaneously reducing the plate scale by a factor of ${\sim} 3$ compared to single-telescope designs. The resulting plate scale value for the \gls{gct} design is \SI{\sim 39.6}{mm/\degree} \cite{Rulten2016}. This large reduction in plate scale allows for a much more compact camera, for which novel opportunities in photosensor technology exist \cite{Vassiliev2007}. The appropriate photosensor angular pixel size for an \gls{iact}, in order to be less than the \gls{fwhm} of a typical \SI{1}{TeV} gamma-ray image, is \SI{\sim 0.2}{\degree}. Correspondingly, the \gls{gct} camera requires a pixel less than \SI{\sim 8}{mm}. The camera that has been developed for \gls{gct} is appropriately known as the \glsf{chec}.
 
 Two designs have been implemented for \gls{chec}, each featuring a different multi-pixel photon-counting sensor technology. A \glsf{mapmt} based camera known as \gls{chec-m} was the first to be commissioned, and received its inauguration on the \gls{gct} telescope structure at the Observatoire de Paris-Meudon in November 2015 \cite{Watson2017}. A second camera, known as \gls{chec-s}, is currently undergoing commissioning at the Max-Planck-Institut für Kernphysik in Heidelberg, Germany. This camera utilises \glsfpl{sipmt} as a photosensor. \gls{chec-s} also features upgrades the digitisation chain that were developed since the commissioning of \gls{chec-m}.
 
@@ -101,7 +101,7 @@ In order to be compatible with the reduced plate scale of the telescope, more co
 \begin{figure}
 	\centering
     \includegraphics[width=0.6\textwidth]{mapmt_crosstalk} 
-	\caption[Multi-anode Photomultiplier Tube crosstalk.]{Example of the crosstalk present in an MAPMT, measured by using a fibre~\cite{Hamamatsu2011}.}
+	\caption[Multi-Anode Photomultiplier Tube crosstalk.]{Example of the crosstalk present in an MAPMT, measured by using a fibre~\cite{Hamamatsu2011}.}
 	\label{fig:mapmt_crosstalk}
 \end{figure}
 
@@ -201,7 +201,7 @@ Another phenomena that can occur as a result of the avalanche is the afterpulsin
 
 Aside from the dark counts, none of the \gls{sipmt} parameters described in this section have a direct dependence on temperature. However, they do all have a dependence on overvoltage, and consequently, the breakdown voltage. The primary influence of an increase in temperature on an \gls{sipmt} is a linear increase in the breakdown voltage. The proportionality coefficient for the \glspl{sipmt} used by \gls{chec-s} is reasonably small, at \SI{60}{mV/C\degree}. Nevertheless, a large variation in temperature would result in a change in the \gls{sipmt} performance parameters.
 
-To keep the temperature controlled and low (to minimise the \gls{dcr}), the \glspl{sipmt} in \gls{chec-s} are thermally bonded to a liquid cooled faceplate. This is further described in Section~\ref{} \change{reference section}. Furthermore, by changing the bias voltage in response to a change in temperature, the same overvoltage can be maintained, therefore minimising dependence on temperature for the parameters. This process in known as ``bias compensation'', and is mentioned again in Section~\ref{section:photosensor_calib}.
+To keep the temperature controlled and low (to minimise the \gls{dcr}), the \glspl{sipmt} in \gls{chec-s} are thermally bonded to a liquid cooled faceplate (Figure~\ref{fig:camera_checs}). Furthermore, by changing the bias voltage in response to a change in temperature, the same overvoltage can be maintained, therefore minimising dependence on temperature for the parameters. This process in known as ``bias compensation'', and is mentioned again in Section~\ref{section:photosensor_calib}.
 
 \subsection{Excess Noise Factor (ENF)} \label{section:enf}
 
@@ -222,11 +222,13 @@ As described by \textcite{Teich1986}, the \gls{enf} $\sigma_{ENF}$ can be expres
 \end{equation}
 As suggested by Equation~\ref{eq:enf_gain}, a perfect photomultiplier with zero multiplication variance would have an \gls{enf} of 1. This representation of the \gls{enf} can be visualised in terms of the multiplication response/probability of a single photoelectron in the photomultiplier. Figure~\ref{fig:enf_gain} demonstrates this response for the \glspl{mapmt} of \gls{chec-m} and the \glspl{sipmt} of \gls{chec-s}. 
 
-Using Equation~\ref{eq:enf_gain}, $\sigma_{ENF}$ is calculated from the mean and variance of the single photoelectron multiplication response for each camera, and displayed in the legend of Figure~\ref{fig:enf_gain}. The \gls{enf} of the \glspl{sipmt} is quite large and almost comparable to the \gls{enf} of the \glspl{mapmt}. The reason for this, as demonstrated in Chapter~\ref{ch7-performance}, is the high optical crosstalk (\SIrange{35}{40}{\percent} present in this iteration of \glspl{sipmt}.
+Using Equation~\ref{eq:enf_gain}, $\sigma_{ENF}$ is calculated from the mean and variance of the single photoelectron multiplication response for each camera, and displayed in the legend of Figure~\ref{fig:enf_gain}. The \gls{enf} of the \glspl{sipmt} is quite large and almost comparable to the \gls{enf} of the \glspl{mapmt}. The reason for this, as demonstrated in Chapter~\ref{ch7-performance}, is the high optical crosstalk (\SIrange{35}{40}{\percent}) present in this iteration of \glspl{sipmt}.
 
 The \gls{enf} is a key ingredient to the \textit{Charge Resolution} \gls{cta} Requirement introduced in Section~\ref{section:cr}, and will be further explored in the performance results of the camera in Chapter~\ref{ch7-performance}.
 
 \subsection{Future} \label{section:sipmt_future}
+
+It is clear from Figure~\ref{fig:enf_gain} that the main area of improvement to be made in the \gls{sipmt} chosen for the final design of \gls{chec} is in the optical crosstalk. Producers of \glspl{sipmt} are actively developing techniques to achieve this with minimal impedance of other characteristics such as the \gls{pde}. One simple approach to reduce the optical crosstalk is the inclusion of ``trenches'' between the cells \cite{Kindt1998,Pagano2011}. This is a form of optical isolation achieved by creating trenches around each cell and filling them with oxide and metal to absorb secondary photons. However, this addition can reduce the fill factor of the \gls{sipmt}, thereby reducing the \gls{pde} via Equation~\ref{eq:sipmt_pde}. Although these trenches stop the majority of secondary photons, which have a direct path to the neighbouring microcell (Figure~\ref{fig:sipm_opct}), they do not affect the photons that take an indirect route via reflection. The trenches therefore reduce optical crosstalk, but does not eliminate it completely.
 
 \begin{figure}
   \begin{subfigure}[b]{0.49\textwidth}
@@ -243,11 +245,29 @@ The \gls{enf} is a key ingredient to the \textit{Charge Resolution} \gls{cta} Re
   \caption[Characteristic performance of future CHEC-S SiPMs.]{Characteristic performance of two potential SiPM productions for the use in future CHEC-S prototypes.}
 \end{figure}
 
-It is clear from Figure~\ref{fig:enf_gain} that the main area of improvement to be made in the \gls{sipmt} chosen for the final design of \gls{chec} is in the optical crosstalk. Producers of \glspl{sipmt} are actively developing techniques to achieve this with minimal impedance of other characteristics such as the \gls{pde}. One simple approach to reduce the optical crosstalk is the inclusion of ``trenches'' between the cells \cite{Kindt1998,Pagano2011}. This is a form of optical isolation achieved by creating trenches around each cell and filling them with oxide and metal to absorb secondary photons. However, this addition can reduce the fill factor of the \gls{sipmt}, thereby reducing the \gls{pde} via Equation~\ref{eq:sipmt_pde}. Although these trenches stop the majority of secondary photons, which have a direct path to the neighbouring microcell (Figure~\ref{fig:sipm_opct}), they do not affect the photons that take an indirect route via reflection. The trenches therefore reduce optical crosstalk, but does not eliminate it completely.
-
 Two \gls{sipmt} productions by Hamamatsu are being considered for the next \gls{chec-s} prototype. S14521-8648 exhibits a greatly reduced optical crosstalk, down to \SI{< 10}{\percent} (shown in Figure~\ref{fig:sipm_new_bare}). S14521-8649 is the same silicon design, but has a protective resin coating to reduce the change of damage to the pixels. The optical crosstalk of this second silicon is slightly higher (shown in Figure~\ref{fig:sipm_new_resin}) as the coating allows another surface for secondary photons to reflect into neighbouring microcells. If it is deemed that the protective coating in unnecessary, the former \gls{sipmt} will be chosen to maximise performance.
 
-\section{Front-End Electronics (FEE)}
+\section{Camera Electronics}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{camera_checm} 
+	\caption[Image of the CHEC-M focal surface.]{Focal surface of the CHEC-M prototype, annotated with key components. Adapted from \textcite{Zorn2017}.}
+	\label{fig:camera_checm}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{camera_checs} 
+	\caption[Image of the CHEC-S focal surface.]{Focal surface of the CHEC-S prototype, annotated with key components.}
+	\label{fig:camera_checs}
+\end{figure}
+
+The fully built prototypes of \gls{chec-m} and \gls{chec-s}, including the fitted photosensors, are shown in Figures~\ref{fig:camera_checm}~and~\ref{fig:camera_checs}. This section will discuss the internal electronics belonging to each of the prototype cameras.
+
+The internal electronics of \gls{chec} can be categorised as either \gls{fee} or \gls{bee}. The distinction is made in their position in the camera, and the number of photosensors that are handled by them. A single \gls{fee} module is required per photosensor, whereas the \gls{bee} handle entire camera, obtaining the data from each of the \gls{fee} modules.
+
+\subsection{Front-End Electronics (FEE)}
 
 \begin{figure}
 	\centering
@@ -259,26 +279,69 @@ Two \gls{sipmt} productions by Hamamatsu are being considered for the next \gls{
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{sipm_module} 
-	\caption[Image of the SiPM and FEE for CHEC-S.]{Image of the SiPM connected to the CHEC-S FEE with the components labelled.}
+	\caption[Image of the SiPM and FEE for CHEC-S.]{Image of the SiPM connected to the CHEC-S FEE with the components labelled \cite{White2017}.}
 	\label{fig:sipm_module}
 \end{figure}
 
-The \glsf{fee} of the camera handle the recording of the signal from the photosensors into a digital data stream for storage, calibration, and subsequently the analysis. Images of the \gls{fee} modules for the two \gls{chec} prototypes are shown in Figures~\ref{fig:mapm_module}~and~\ref{fig:sipm_module}. 
+The \glsf{fee} of the camera handle the recording of the signal from the photosensors into a digital data stream for storage, calibration, and subsequently the analysis. Images of the \gls{fee} modules for the two \gls{chec} prototypes are shown in Figures~\ref{fig:mapm_module}~and~\ref{fig:sipm_module}.
 
-\subsection{Amplification and Shaping}
+The first stage in extracting the signal from the photosensors is the amplification and shaping of the analogue signal. The primary reason this is performed is to ensure the signal pulses have the optimal shape for triggering. The optimal pulse is dictated from Monte Carlo simulations to be around \SIrange{5}{10}{ns} \gls{fwhm} and a \SIrange{10}{90}{\percent} rise time of \SIrange{2}{6}{ns} \cite{Zorn2017}. If the pulse shape is faster than this specification, the pulses from individual Cherenkov photons are unable to pile up to produce a trigger due to their time gradient (Section~\ref{} \otherch{ref time gradient}). Conversely, if the pulse is slower, \gls{nsb} photons are able to produce a trigger. The amplification and shaping is achieved with either the external preamplifier (\gls{chec-m}) or the amplifier and shaper circuits built into the \gls{targetc} module (\gls{chec-s}).
 
-The first stage in the processing chain is the amplification and shaping of the analogue signal to match the optimal shape for triggering. This is required due to very narrow pulses produced by \glspl{mapmt} and \glspl{sipmt} \cite{Zorn2017}. The optimal pulse is dictated from Monte Carlo simulations to be around \SIrange{5}{10}{ns} FWHM and a \SIrange{10}{90}{\percent} rise time of \SIrange{2}{6}{ns}. If the pulse shape is faster than this specification, the pulses from individual Cherenkov photons are unable to pile up to produce a trigger due to their time gradient (Section~\ref{} \otherch{ref time gradient}). Conversely, if the pulse is slower, \gls{nsb} photons are able to produce a trigger.
+The second component of the \gls{fee} is the \gls{target} module. These modules are composed of \cite{Funk2017}: 
+\begin{itemize}
+\item the sampling \gls{asic},
+\item the \glspl{adc} for digitising,
+\item the triggering \gls{asic}
+\item the \gls{fpga} to initiate and handle the readout,
+\item and the internal \gls{dac} for setting the operational values for the components.
+\end{itemize}
+Two \gls{target} modules versions have been integrated into \gls{chec} prototype cameras so far. \gls{chec-m} utilised the \gls{target5} modules (Figure~\ref{fig:mapm_module}), named as such due the \gls{target5} \gls{asic} housed in the module. The \gls{target5} \gls{asic} is responsible for both the sampling and the triggering \cite{Albert2017}. Meanwhile, \gls{chec-s} uses the latest \gls{target} module design, often referred to as \gls{targetc}. This version of the module has split the sampling and triggering between two \glspl{asic} to reduce the interference between the two functionalities (thereby improving trigger performance \cite{Funk2017}). The sampling and trigger \glspl{asic} are known as \gls{targetc} (hence the module's name) and \gls{t5tea}, respectively.
 
-\subsection{Digitisation}
+Each \gls{asic} has 16 input channels, associated with 16 photosensor pixels. Therefore, each \gls{target} module contains four of each \gls{asic} to accommodate all 64 pixels on the photosensors. Both cameras contain a total of 32 \gls{fee} modules arranged in a grid, producing the curved focal surface of the camera. This \SI{1}{m} radius of curvature is required by the Schwarzschild-Couder optics to ensure that the focus of the optics is constant over the field of view. The flexibility of the ribbon cables installed between the photosensor and \gls{target} module allow for this curved alignment, while keeping the module drawers in the camera enclosure simple. The combination of these 32 \gls{fee} results in a camera with 2,048 pixels. The focal surfaces of each camera are shown in Figures \change{add chec camera figures}.
 
-Designed specifically for the readout of \gls{iact} camera, the \gls{target} \gls{asic} provides
+Aside from the photosensor, the version of \gls{target} used in the camera is the only other major differing components between \gls{chec-m} and \gls{chec-s} related to the waveform readout. 
 
-The \gls{target} module is a 
+\subsection{Back-End Electronics (BEE)} \label{section:bee}
 
-In order for the signal to be 
+The \gls{bee} also consists of two components \cite{Zorn2017}:
+\begin{description}
+\item [Backplane] Responsible for providing the power, clock and trigger to the \gls{fee} modules. It is also responsible for routing the raw waveform data from the \gls{fee} to the \gls{dacq} boards. 
+\item [DACQ Boards] Provides a communication link between the camera server PC and the \gls{fee} modules. This link is also used for the transfer of raw waveform data. Two boards are used, each connected to 16 \gls{fee} modules via \SI{1}{Gbps} Ethernet links. The connection between a single board and the PC is via two \SI{1}{Gbps} fibre-optic links. One fibre-optic link is for the downlink, the other for the uplink, ensuring communication with the camera can be maintained during data taking. Data is sent to and from the \gls{fee} modules via a custom format over \gls{udp}. To ensure the \SI{1}{Gbps} uplink is not saturated by the traffic from the 32 \SI{1}{Gbps} links to the \gls{fee}, controlled delays between packet sending are utilised.
+\end{description}
 
+\subsection{LED Flashers}
 
-In order to read the signal from the photosensors, they must be connected to a digitiser. 
+An additional component of the camera electronics relevant to this thesis are the LED flashers. Located in each corner of the camera focal surface (Figures~\ref{fig:camera_checm}~and~\ref{fig:camera_checs}), these units will provide uniform illumination of the camera via reflection in the secondary mirror. The illumination provided by the LED flashes is configurable, and will allow in situ calibration of the camera's photosensors \cite{Brown2016a}.
+
+\section{Signal Digitisation}
+
+This section will detail the steps of processing the analogue signal received from each photosensor pixel. The description given here is applicable to both \gls{chec-m} and \gls{chec-m}.
+
+\subsection{Sampling}
+
+\begin{figure}
+	\centering\includegraphics[width=\textwidth]{target5diagram} 
+	\caption[Functional block diagram of the TARGET~5 ASIC.]{Functional block diagram of the TARGET~5 ASIC, demonstrating the sampling, digitisation, and read out processes \cite{Albert2017}.}
+	\label{fig:target5diagram}
+\end{figure}
+
+Designed specifically for the readout of short Cherenkov signal observed with \gls{iact} cameras, the \gls{target} \gls{asic} provides high sampling rates of \SI{1}{GSa/s} ($10^9$ samples per second) per channel \cite{Funk2017}. The sampling of the \gls{asic} is performed by an array of ``sampling cells'' and ``storage cells''. Each cell physically corresponds to an individual switched capacitor. The sampling array consists of two blocks of 32 cells, corresponding to \SI{64}{ns} of readout in total. By operating these blocks in a ``ping pong'' mode, the signal from a photosensor pixel can be sampled by one block while the other block is buffered to the storage array. The storage array contains 16,384 cells, guaranteeing a buffer depth of \SI{\sim 16}{\micro s} \cite{Funk2017}. This process is performed in parallel for each of the \gls{asic} channels, and each channel has its own sampling array and storage array. A schematic of the arrays is shown in Figure~\ref{fig:target5diagram}.
+
+\subsection{Triggering} \label{section:triggering}
+
+The camera can be either externally triggered (e.g. by using a pulse generator), or internally triggered based on a signal generated by the trigger-responsible \gls{target} \gls{asic} (\gls{target5} or \gls{t5tea}). As the trigger relies on a two-way communication between the \gls{fee} and \gls{bee}, it is described after introducing them both. The internal trigger operates as follows \cite{Zorn2017}:
+\begin{enumerate}
+\item The camera pixels are split into square groups of 4 neighbouring pixels. These are hereafter referred to as a superpixel \final{check other usages of superpixel}. A \gls{chec} camera therefore has 512 superpixels.
+\item The \gls{target} \gls{asic} responsible for the trigger continuously generates an analogue sum of the photosensor signal on a per superpixel basis.
+\item If the analogue sum in a superpixel is greater than the threshold, then a digital signal is produced with a (configurable) coincidence time length. A signal is produced per superpixel over the threshold, and sent to the trigger \gls{fpga} on the backplane.
+\item If there is a coincidence in digital signal between any two neighbouring superpixels then a readout request is sent from the backplane trigger \gls{fpga} to all of the \gls{target} modules.
+\end{enumerate}
+
+\subsection{Digitisation and Readout}
+
+Inside the trigger request sent from the 
+
+If a trigger request is received from the backplane trigger \gls{fpga} (described later in Section~\ref{section:triggering}), 
 
 
 
