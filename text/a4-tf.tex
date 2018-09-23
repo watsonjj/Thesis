@@ -18,22 +18,40 @@
 
 \section{Introduction}
 
-limited data.....
+In the upgrade from \gls{target5} to \gls{targetc}, the ability to internally set the \gls{vped} to a known voltage was lost. The approach adopted to replace the Transfer Function generation was to input pulses of the correct shape into the module from an external pulse generator. However, this approach can only be done for one module at the time, outside of the camera enclosure. As a result, we must rely on the Transfer Function data already taken for the generation of Transfer Functions for the \gls{target} modules currently installed in the \gls{chec-s} prototype. However, there are different options for how to approach the second step in the \gls{ac} Transfer Function generation (Chapter~\ref{ch5-calibration}). This Appendix will explore the performance obtained with different expressions of the Transfer Function.
 
 \section{TF Approaches}
 
-\subsection{No TF - Pedestal Subtration Only}
+Four \gls{ac} Transfer Function generation approaches are considered:
+\begin{enumerate}
+\item \textit{Direct} - The values extracted from the waveforms are directly used, and a linear interpolation is performed to generate the lookup table.
+\item \textit{PCHIP} - The low amplitude values are ignored as the waveform fit may not have performed reliably at that level. A Piecewise Cubic Hermite Interpolating Polynomial (PCHIP) is used to generate the lookup table as opposed to a linear interpolation, resulting in a smooth function.
+\item \textit{Poly} - The Transfer Function of the \textit{Direct} approach is regressed with a high order polynomial. In this exercise a 14th order polynomial was used, however a much lower polynomial is sufficient if the saturated region is ignored. The difference between the \textit{Poly} and \textit{Direct} Transfer Function lookup tables for a single cell are shown in Figure~\ref{} \change{add figure}.
+\item \textit{None} - No Transfer Function is applied. Technically not a generation approach, but will give a baseline to compare against.
+\end{enumerate}
 
-\subsection{Raw TF Lookup with pedestal}
+\section{Charge Resolution}
 
-\subsection{PCHIP Interpolation}
+The same dataset for the lab measurements shown in Chapter~\ref{ch7-perfomance} is used, but using the different Transfer Function lookup tables for the calibration in each case. All of the flat fielding calibration and charge extraction is also re-performed for each Transfer Function. Figure~\ref{} \change{add figure} compares the \textit{Charge Resolution} result for each approach.
 
-\subsection{Polynomial Fit}
+\change{discuss results}
 
-\section{``Per Sampling Cell'' or ``Per Storage Cell''}
+Suggests additional electronic/baseline noise/uncertainty is introduced in the Transfer Function calibration.
 
-\section{Approach Comparison}
+\section{Sampling Cell versus Storage Cell}
 
-\subsection{SPE Distribution}
+One further comparison approach performed for the Transfer Function calibration was between storing a lookup table per sampling cell or per storage cell. The former would result in 64 Transfer Functions per channel, the latter in 4,096 Transfer Functions per channel (for \gls{chec-s}). The \textit{Charge Resolution} results of this comparison are shown in Figure~\ref{} \change{add figure}. In both cases, the \textit{Poly} approach for generating the lookup table was used.
 
-\subsection{Charge Resolution}
+Despite investigations performed by other \gls{chec} members concluding that an improvement is found by considering a Transfer Function per storage cell, I see no improvement in the \textit{Charge Resolution} results. The likely discrepancies between my conclusion and others are twofold:
+\begin{itemize}
+\item There are other, more dominating factors present in the \textit{Charge Resolution} of the entire camera. The other investigations solely consider the \gls{target} module.
+\item The other investigations assumed the input voltage quoted for the Transfer Function entries are correct, and compared the residuals to that value. This assumption may not be valid.
+\end{itemize}
+
+
+\change{discuss results}
+
+\section{Conclusion}
+
+\change{conclude on the tf approach used in this thesis}
+
