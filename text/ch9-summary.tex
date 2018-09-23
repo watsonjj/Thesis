@@ -1,6 +1,29 @@
 \chapter{\label{ch9-summary}Summary} 
 
-\minitoc
+The utilisation of the \gls{iact} technique for \gls{vhe} astronomy has been introduced, alongside the description of \gls{cta}'s intention to become the most sensitive \gls{iact} array to date. This ambitious goal will be attained with the construction of the largest ever \gls{iact} array, exploiting the latest developments in optics, photosensors, computational potential \change{better way to say this?}, and Cherenkov shower analysis techniques. Observations of the highest energy phenomena in the universe are facilitated by the \glspl{sst}, for which the \gls{gct} is one of three designs being developed.
+
+The photosensors, electronics, and digitisation procedures of the \gls{gct} camera, known as \gls{chec}, have been described, with a focus on the factors that influence the signal measured from the photosensors. It was identified that the factors most likely to impede the performance of the \gls{chec-m} prototype (which utilises \glspl{mapmt} as the photosensor) is the poor photoelectron resolution that is apparent in \gls{pmt} technology. This arises due to the fluctuations in the secondary multiplication factor at each dynode in the chain. Conversely, in the \gls{chec-s} prototype, which features excellent photoelectron resolution due to its \gls{sipmt} photosensor, the characteristic most likely to limit the performance is the high optical crosstalk of \SIrange{35}{40}{\percent}. The phenomena of optical crosstalk occurs when secondary photons (generated during the electron-hole avalanche) cause additional avalanches in neighbouring microcells. These pitfalls of each photosensor are characterised in terms of their \gls{enf}. The next production of \glspl{sipmt} for the \gls{chec} prototypes are expected to have an optical crosstalk of \SI{\sim 10}{\percent}, thereby overcoming this limitation in performance.
+
+A description of the \gls{cta} Consortium and Observatory was provided, along with the requirements defined by the observatory to ensure that the science goals of \gls{cta} are met. This thesis primarily focussed on the \textit{Charge Resolution} performance criteria, and its associated \gls{cta} requirement. The \textit{Charge Resolution} is a measure of how well the Cherenkov shower signal can be reconstructed, thereby quantifying the performance of the calibration, charge extraction, and the camera design into a single value per illumination level. Additionally, the data flow model within \gls{cta} is described. These are adhered to by the waveform processing procedures I have developed.
+
+Due to their importance in the waveform processing and Cherenkov shower reconstruction, the software packages relevant to \gls{chec} are outlined. This includes the \pkg{TargetCalib} library, used to perform the calibration required for waveform data obtained with the \gls{target} modules. It also includes \pkg{ctapipe}, a Python library developed by \gls{cta} consortium members to be utilised as the low-level data processing pipeline. This functionality encapsulates the transformation of calibrated waveform data obtained from the camera, into event lists containing the characteristics of the progenitor particle which created the Cherenkov shower detected by the array.
+
+A significant proportion of my contributions to the commissioning of \gls{chec} has been in the development of a calibration pipeline for the digitised waveform data. The first components included in this calibration are the storage-cell-dependant pedestal and Transfer Function corrections required for waveforms obtained from the \gls{target} module. The second components are the 
+
+
+ The calibration pipeline has been demonstrated to successfully 
+
+
+that successfully 
+
+
+
+
+ a proposal for which 
+
+ has been introduced, alongside 
+
+
 
 
 Observations of the highest energy phenomena are facilitated by the SSTs
