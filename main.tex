@@ -88,8 +88,8 @@
 %\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
 %\newcommand*\glsrpl[2][]{\glsdisp[#1]{#2}{\glsentryshortpl{#2} (\glsentrylongpl{#2})}}
 \input{text/01-acronym}
-\newcommand{\glsf}[1]{\glsunset{#1}\glsentryfull{#1}}
-\newcommand{\glsfpl}[1]{\glsunset{#1}\glsentryfullpl{#1}}
+% \newcommand{\glsf}[1]{\glsunset{#1}\glsentryfull{#1}}
+% \newcommand{\glsfpl}[1]{\glsunset{#1}\glsentryfullpl{#1}}
 \newcommand*{\glsb}[2][]{\ifglsused{#2}{\acs[#1]{#2}}{%
  \glsunset{#2}%
  \acl[#1]{#2} [\acs[#1]{#2}]}}
@@ -237,6 +237,7 @@ framexleftmargin=0.1em
 \begin{abstractseparate}
 	\input{text/02-abstract}
 \end{abstractseparate}
+\glsresetall
 
 
 \begin{romanpages}
@@ -257,12 +258,11 @@ framexleftmargin=0.1em
  	\input{text/03-acknowledgements}
 \end{acknowledgements}
 
-
 %%%%% ABSTRACT
 \begin{abstract}
 	\input{text/02-abstract}
 \end{abstract}
-
+\glsresetall
 
 %%%%% MINI TABLES OF CONTENTS
 \dominitoc
@@ -294,24 +294,24 @@ framexleftmargin=0.1em
 \flushbottom
 %\adjustmtc
 %\adjustmtc
-  \include{text/ch1-intro}
-  \include{text/ch2-mechanics}
-  \include{text/ch3-architecture}
-  \include{text/ch4-software}
-  \include{text/ch5-calibration}
-  \include{text/ch6-reduction}
-  \include{text/ch7-performance}
-  \include{text/ch8-onsky}
-  \include{text/ch9-summary}
+   \include{text/ch1-intro}
+   \include{text/ch2-mechanics}
+   \include{text/ch3-architecture}
+   \include{text/ch4-software}
+   \include{text/ch5-calibration}
+   \include{text/ch6-reduction}
+   \include{text/ch7-performance}
+   \include{text/ch8-onsky}
+   \include{text/ch9-summary}
 
 
 %%%%% APPENDICES
- \startappendices
- \include{text/a1-sipm}
- \include{text/a2-lab}
- \include{text/a3-spe}
- \include{text/a4-tf}
- \include{text/a5-extractors}
+  \startappendices
+  \include{text/a1-sipm}
+  \include{text/a2-lab}
+  \include{text/a3-spe}
+  \include{text/a4-tf}
+  \include{text/a5-extractors}
 
 %%%%% REFERENCES
 \setlength{\baselineskip}{0pt}

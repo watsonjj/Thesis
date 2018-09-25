@@ -4,11 +4,11 @@
 
 \section{Introduction}
 
-Due to the design of \gls{gct} as a dual-mirror Schwarzschild-Couder telescope, it is capable of a \SI{9}{\degree} \gls{fov} \change{intro: talk about benefit of high FoV} while simultaneously reducing the plate scale by a factor of ${\sim} 3$ compared to single-telescope designs. The resulting plate scale value for the \gls{gct} design is \SI{\sim 39.6}{mm/\degree} \cite{Rulten2016}. This large reduction in plate scale allows for a much more compact camera, for which novel opportunities in photosensor technology exist \cite{Vassiliev2007}. The appropriate photosensor angular pixel size for an \gls{iact}, in order to be less than the \gls{fwhm} of a typical \SI{1}{TeV} gamma-ray image, is \SI{\sim 0.2}{\degree}. Correspondingly, the \gls{gct} camera requires a pixel less than \SI{\sim 8}{mm}. The camera that has been developed for \gls{gct} is appropriately known as the \glsf{chec}.
+Due to the design of \gls{gct} as a dual-mirror Schwarzschild-Couder telescope, it is capable of a \SI{9}{\degree} \gls{fov} \change{intro: talk about benefit of high FoV} while simultaneously reducing the plate scale by a factor of ${\sim} 3$ compared to single-telescope designs. The resulting plate scale value for the \gls{gct} design is \SI{\sim 39.6}{mm/\degree}~\cite{Rulten2016}. This large reduction in plate scale allows for a much more compact camera, for which novel opportunities in photosensor technology exist \cite{Vassiliev2007}. The appropriate photosensor angular pixel size for an \mbox{\gls{iact}}, in order to be less than the \gls{fwhm} of a typical \SI{1}{TeV} gamma-ray image, is \SI{\sim 0.2}{\degree}. Correspondingly, the \gls{gct} camera requires a pixel less than \SI{\sim 8}{mm}. The camera that has been developed for \gls{gct} is appropriately known as the \gls{chec}.
 
-Two designs have been implemented for \gls{chec}, each featuring a different multi-pixel photon-counting sensor technology. A \glsf{mapmt} based camera known as \gls{chec-m} was the first to be commissioned, and received its inauguration on the \gls{gct} telescope structure at the Observatoire de Paris-Meudon in November 2015 \cite{Watson2017}. A second camera, known as \gls{chec-s}, is currently undergoing commissioning at the Max-Planck-Institut für Kernphysik in Heidelberg, Germany. This camera utilises \glsfpl{sipmt} as a photosensor. \gls{chec-s} also features upgrades the digitisation chain that were developed since the commissioning of \gls{chec-m}.
+Two designs have been implemented for \gls{chec}, each featuring a different multi-pixel photon-counting sensor technology. A \gls{mapmt} based camera known as \gls{chec-m} was the first to be commissioned, and received its inauguration on the \gls{gct} telescope structure at the Observatoire de Paris-Meudon in November 2015 \cite{Watson2017}. A second camera, known as \gls{chec-s}, is currently undergoing commissioning at the Max-Planck-Institut für Kernphysik in Heidelberg, Germany. This camera utilises \glspl{sipmt} as its photosensors. \gls{chec-s} also features upgrades to the digitisation chain that were developed since the commissioning of \gls{chec-m}.
 
-This chapter will describe the components of the \glsf{chec}, covering the photosensor, \gls{fee} and \gls{bee}. These descriptions will be focussed on the factors contributed by the components that have a significant influence on the low-level calibration and performance investigations covered in this thesis. Furthermore, the external components and laboratory set-up will be described. Finally, the data output of the camera is described, with specific focus on the characteristics of the waveform readout. The calibration and analysis of these waveforms obtained from the full camera electronics chain is the primary focus of this thesis.
+This chapter will describe the components of the \gls{chec}, covering the photosensor, \gls{fee}, and \gls{bee}. These descriptions will be focussed on the factors contributed by the components that have a significant influence on the low-level calibration and performance investigations covered in this thesis. Furthermore, the external components and laboratory set-up will be described. Finally, the data output of the camera is described, with specific focus on the characteristics of the waveform readout. The calibration and analysis of these waveforms obtained from the full camera electronics chain is the primary focus of this thesis.
 
 \section{Photosensors}
 
@@ -28,18 +28,19 @@ For a photosensor to be useful to \glspl{iact}, it must be:
 	\label{fig:pmt}
 \end{figure}
 
-Since the inception of the Imaging Atmospheric Cherenkov Technique, the photosensors used for \gls{iact} cameras have almost exclusively been \glsfpl{pmt} \cite{Weekes2003}. These detectors operate as photon counting devices, where the charge produced by a single photon is amplified into a large current signal that can be read out. The components of a \gls{pmt} are as follows (using Figure~\ref{fig:pmt} for reference):
+Since the inception of the Imaging Atmospheric Cherenkov Technique, the photosensors used for \gls{iact} cameras have almost exclusively been \glspl{pmt} \cite{Weekes2003}. These detectors operate as photon counting devices, where the charge produced by a single photon is amplified into a large current signal that can be read out. The components of a \gls{pmt} are as follows (using Figure~\ref{fig:pmt} for reference):
 \begin{description}
-\item [Photocathode] Produces electrons from incident photons via the photoelectric effect. These electrons are often referred to as ``photoelectrons''. Associated with a photocathode is its wavelength-dependant probability that photon will be converted into a photoelectron. This is known as its \gls{qe}, and is determined by the compound it is made of. The photocathodes in \glspl{pmt} are typically sensitive to visible light, with a \gls{qe} that peaks at \SI{\sim 30}{\percent} for \SI{\sim 400}{nm} (for the best photocathodes) \cite{Hamamatsu2016}.
+\item [Photocathode] Produces electrons from incident photons via the photoelectric effect. These electrons are often referred to as ``photoelectrons''. Associated with a photocathode is its wavelength-dependant probability that a photon will be converted into a photoelectron. This is known as its \gls{qe}, and is determined by the compound it is made of. The photocathodes in \glspl{pmt} are typically sensitive to visible light, with a \gls{qe} that peaks at \SI{\sim 30}{\percent} for \SI{\sim 400}{nm} (for the best photocathodes) \cite{Hamamatsu2016}.
 \item [Focusing Electrode] Ensures that photoelectrons produced at the edges of the photocathode are focussed onto the first dynode.
-\item [Electron Multiplier] The \gls{hv} across the \gls{pmt} accelerates the photoelectrons to the first dynode. Upon the impact, the dynode will release a further amount of electrons, the number of which is proportional to the kinetic energy of the incident electron. These secondary electrons are then accelerated to the next dynode, which has a higher voltage than the previous dynode. 
-where $A$ 
-\item [Anode] The total result of the dynode chain is a proportional amplification from the initial photocathode current $I_c$ to the output anode current $I_a$. The proportionality factor is known as the gain of the photomultiplier. The gain $G$ depends on the number of dynode stages $n$, and the value of high voltage applied $V$ \cite{Hamamatsu2016}:
+\item [Electron Multiplier] Multiplies the photoelectron into an avalanche of charge. The \gls{hv} across the \gls{pmt} accelerates the photoelectrons to the first dynode. Upon the impact, the dynode will release a further amount of electrons, the number of which is proportional to the kinetic energy of the incident electron. These secondary electrons are then accelerated to the next dynode, which has a higher voltage than the previous dynode.
+\item [Anode] Collects the avalanche of charge to produce a measurable current. 
+\end{description}
+
+The total result of the dynode chain is a proportional amplification from the initial photocathode current $I_c$ to the output anode current $I_a$. The proportionality factor is known as the gain of the photomultiplier. The gain $G$ depends on the number of dynode stages $n$, and the value of high voltage applied $V$ \cite{Hamamatsu2016}:
 \begin{equation} \label{eq:pmt_gain}
 G = \frac{I_a}{I_c} = k V^{\alpha n},
 \end{equation}
 where $k$ is a constant that depends on the photomultiplier design, and $\alpha$ is a coefficient determined by the dynode material and geometric structure (typically has values around 0.7 to 0.8).
-\end{description}
 
 \begin{figure}
 	\centering
@@ -50,7 +51,7 @@ where $k$ is a constant that depends on the photomultiplier design, and $\alpha$
 
 Due to their wide usage across many fields, \glspl{pmt} are available at a very reasonable cost. The timing response of \glspl{pmt} faithfully reproduce the incident light pulse, however the anode's pulse rise time property does modify the response slightly \cite{Hamamatsu2016}. Additionally, there is a delay in signal due to the electron transit time along the dynode chain. This transit time has an associated ``transit time spread'' due to the different paths the electrons may take in the dynode chain. These time response characteristics are dependant on the dynode structure and applied voltage. Examples of the typical timing response values are shown in Figure~\ref{fig:pmt_time}.
 
-Beyond their low \gls{qe}, a second disadvantage of a \gls{pmt} is its high voltage requirement \cite{Weekes2003}. Furthermore, since \glspl{pmt} generally have $\sim 10$ dynode stages, Equation~\ref{eq:pmt_gain} dictates that a small change in voltage will result in a large variation in gain. The high voltage supply therefore needs to be extremely stable \cite{Hamamatsu2016}. This is particularly unfavourable for the application of \glspl{pmt} in \glspl{iact}, due to the typical remoteness of the telescopes. A third disadvantage is the robustness of a \gls{pmt}, as they are very sensitive to light and can be permanently damaged if exposed to bright sources. This limits the amount of observation time that is safe for \glspl{iact}, and considerations such as the moon's location in the sky need to be considered \cite{Knoetig2013}.
+Beyond their low \gls{qe}, a second disadvantage of a \gls{pmt} is its high voltage (on the order of \SI{1000}{V}) requirement \cite{Weekes2003}. Furthermore, since \glspl{pmt} generally have ${\sim} 10$ dynode stages, Equation~\ref{eq:pmt_gain} dictates that a small change in voltage will result in a large variation in gain. The high voltage supply therefore needs to be extremely stable \cite{Hamamatsu2016}. This is particularly unfavourable for the application of \glspl{pmt} in \glspl{iact}, due to the typical remoteness of the telescopes. A third disadvantage is the robustness of a \gls{pmt}, as they are very sensitive to light and can be permanently damaged if exposed to bright sources. This limits the amount of observation time that is safe for \glspl{iact}, and considerations such as the moon's location in the sky need to be considered \cite{Knoetig2013}.
 
 \subsection{Multi-Anode Photomultiplier Tubes}
 
@@ -61,7 +62,7 @@ Beyond their low \gls{qe}, a second disadvantage of a \gls{pmt} is its high volt
 	\label{fig:mapmt}
 \end{figure}
 
-In order to be compatible with the reduced plate scale of the telescope, more compact options than \glspl{pmt} must be found. An extension to the \gls{pmt} technology is the \glsf{mapmt}. This photosensor consists of many \glspl{pmt} arranged in a compact grid to provide position-sensitive detection of light. A diagram of the internal dynode structure for \glspl{mapmt} is shown in Figure~\ref{fig:mapmt}. The chosen \gls{mapmt} model for \gls{chec-m} is the Hamamatsu H10966B . This flat panel type \gls{mapmt} features an $8 \times 8$ multianode, resulting in 64 pixels per \gls{mapmt}. The entire module's diameter is \SI{49}{mm}, while each pixel has a diameter of \SI{\sim 6}{mm}. It provides a \gls{qe} of \SI{\sim 30}{\percent} at \SI{400}{nm} wavelength, a typical gain of $3.3 \times 10^5$, and a typical anode rise time and transit time of \SI{0.4}{ns} and \SI{4}{ns}, respectively \cite{Hamamatsu2011}. 
+In order to be compatible with the reduced plate scale of the telescope, more compact options than \glspl{pmt} must be found. An extension to the \gls{pmt} technology is the \gls{mapmt}. This photosensor consists of many \glspl{pmt} arranged in a compact grid to provide position-sensitive detection of light. A diagram of the internal dynode structure for \glspl{mapmt} is shown in Figure~\ref{fig:mapmt}. The chosen \gls{mapmt} model for \gls{chec-m} is the Hamamatsu H10966B. This flat panel type \gls{mapmt} features an $8 \times 8$ multianode, resulting in 64 pixels per \gls{mapmt}. The entire module's diameter is \SI{49}{mm}, while each pixel has a diameter of \SI{\sim 6}{mm}. It provides a \gls{qe} of \SI{\sim 30}{\percent} at \SI{400}{nm} wavelength, a typical gain of $3.3 \times 10^5$, and a typical anode rise time and transit time of \SI{0.4}{ns} and \SI{4}{ns}, respectively \cite{Hamamatsu2011}. 
 
 \begin{figure}
 	\centering
@@ -81,7 +82,7 @@ As a short summary, an \glspl{sipmt} microcell consists of a single \gls{apd}, o
 The major factors that contribute to the appeal of modern iterations of \gls{sipmt} technology as a replacement for \glspl{pmt} are outlined by \textcite{Ghassemi2017}:
 \begin{itemize}
 \item The transition probability of a photoelectron from a silicon crystal’s valence band to its conduction band is higher than the emission probability achievable in an alkali-based photocathode. This factor results in a higher attainable \gls{qe}. 
-\item The semiconductor properties of silicon enable a high collection efficiency of photoelectron charge, resulting in a reduced spread in the amplification of a single photoelectron in comparison to \glspl{pmt} (in the absence of optical crosstalk considerations, see Section~\ref{section:enf})
+\item The semiconductor properties of silicon enable a high collection efficiency of photoelectron charge, resulting in a reduced spread in the amplification of a single photoelectron in comparison to \glspl{pmt} (in the absence of optical crosstalk considerations, see Section~\ref{section:enf}).
 \item The high electrical conductance of doped silicon enables the low-voltage (of the order of \SIrange{10}{100}{V}) operation of an \gls{sipmt}.
 \item The high fill factor of \gls{sipmt} pixels and the compactness of the tiles allow a reduced dead space.
 \item The mechanical reliability in terms of its ageing/warm-up considerations is much better than in \glspl{pmt}, as well as its performance in magnetic fields.
@@ -90,7 +91,7 @@ The major factors that contribute to the appeal of modern iterations of \gls{sip
 Additionally, as there is no photocathode to degrade, nor possibility chance for a damaging current to be reached (due to the quenching by the resistor), \glspl{sipmt} are very robust to excess illuminations of light. This provides \glspl{iact} the opportunity to continue observing under bright night sky conditions, such as intense moonlight \cite{Knoetig2013,Heller2017}.
 
 The first, and only to date, \gls{iact} telescope to adopt \glspl{sipmt} as the photosensor is \gls{fact}. Operational since 2011, and built on the refurbished
-HEGRA \gls{iact} on the Canary Island La Palma, the 1440 pixel \gls{sipmt} camera is installed in combination with a \SI{9.5}{m\squared} single mirror. As reported by \textcite{Biland2015}, \gls{fact} has proved \gls{sipmt} technology is a viable alternative to \glspl{pmt} for future \glspl{iact}. This conclusion was reached even with the first generation of commercially available \glspl{sipmt}. \glspl{sipmt} have gone through considerable improvements since the construction of \gls{fact}.
+HEGRA \gls{iact} on the Canary Island La Palma, the 1440 pixel \gls{sipmt} camera is installed in combination with a \SI{9.5}{m\squared} single mirror. As reported by \textcite{Biland2015}, \gls{fact} has proved that \gls{sipmt} technology is a viable alternative to \glspl{pmt} for future \glspl{iact}. This conclusion was reached even with the first generation of commercially available \glspl{sipmt}. \glspl{sipmt} have gone through considerable improvements since the construction of \gls{fact}.
 
 \begin{figure}
 	\centering
@@ -99,7 +100,7 @@ HEGRA \gls{iact} on the Canary Island La Palma, the 1440 pixel \gls{sipmt} camer
 	\label{fig:sipmt_checs}
 \end{figure}
 
-The \glspl{sipmt} currently used in the \gls{chec-s} prototype are the Hamamatsu S12642-1616PA-50 tiles. These tiles have 256 pixels of size \SI[parse-numbers = false]{3 \times 3}{mm\squared}. These are combined to provide 64 camera pixels of \SI[parse-numbers = false]{\sim 6 \times 6}{mm\squared}. The performance parameters of this \gls{sipmt} tile (which are introduced in Section~\ref{section:sipmt_parameters}), as measured by Hamamatsu, are displayed in Figure~\ref{fig:sipmt_checs}.
+The \glspl{sipmt} currently used in the \gls{chec-s} prototype are the Hamamatsu S12642-1616PA-50 tiles. These tiles have 256 pixels of size \SI[parse-numbers = false]{3 \times 3}{mm\squared}. These are combined to provide 64 camera pixels of \SI[parse-numbers = false]{{\sim} 6 \times 6}{mm\squared}. The performance parameters of this \gls{sipmt} tile (which are introduced in Section~\ref{section:sipmt_parameters}), as measured by Hamamatsu, are displayed in Figure~\ref{fig:sipmt_checs}.
 
 \subsection{Performance Parameters of SiPMs} \label{section:sipmt_parameters}
 
@@ -114,9 +115,9 @@ G = \frac{C \Delta V}{e},
 \begin{equation} \label{eq:sipmt_voltage}
 \Delta V = V_{bias} - V_{br},
 \end{equation}
-where $e$ is the electron charge, $V_{bias}$ is the bias voltage, and $V_{br}$ is the breakdown voltage. Consequently, the total charge $Q$ output from \gls{sipmt} pixel is proportional to the number of fired microcells $N_{fired}$:
+where $e$ is the electron charge, $V_{bias}$ is the bias voltage, and $V_{br}$ is the breakdown voltage. Consequently, the total charge $Q$, in units of coulombs, output from \gls{sipmt} pixel is proportional to the number of fired microcells $N_{fired}$:
 \begin{equation} \label{eq:sipmt_charge}
-Q = N_{fired} G q.
+Q = N_{fired} \times G \times e.
 \end{equation}
 This well-described quantisation of the charge is the reason for the high photon counting resolution of \glspl{sipmt}.
 
@@ -137,7 +138,7 @@ The \gls{pde} of an \gls{sipmt} is the measure of its wavelength-dependant sensi
 \end{itemize}
 Resulting in the equation:
 \begin{equation} \label{eq:sipmt_pde}
-PDE(\lambda, V) = \eta(\lambda) \cdot \epsilon(V) \cdot F.
+PDE(\lambda, V) = \eta(\lambda) \times \epsilon(V) \times F.
 \end{equation}
 The dependence of the \gls{pde} on its overvoltage is indicated in Equation~\ref{eq:sipmt_pde} and Figure~\ref{fig:sipm_pde}. As the overvoltage is increased, $\epsilon(V)$ approaches 1, and the \gls{pde} saturates.
 
@@ -154,9 +155,9 @@ As mentioned in the description of the behaviour of an \gls{sipmt} microcell, an
 	\label{fig:sipm_opct}
 \end{figure}
 
-During the avalanche process, it is possible for the accelerated charge carriers to produce secondary photons. These photons are table to travel significant distances through the silicon, and could create an electron-hole pair in adjacent microcells. The electron-hole pair for each cell will create an additional avalanche, and possibly create further secondary photons. In Figure~\ref{fig:sipm_opct} the various routes a secondary photon can travel to a neighbouring microcell are shown. Not only can secondary photons travel directly to the neighbouring cell, they can possibly be reflected on the boundaries of the silicon, returning to produce an electron-hole pair in the avalanche region \cite{Rech2008}.
+During the avalanche process, it is possible for the accelerated charge carriers to produce secondary photons. These photons are able to travel significant distances through the silicon, and could create an electron-hole pair in adjacent microcells. The electron-hole pair for each cell will create an additional avalanche, and possibly create further secondary photons. In Figure~\ref{fig:sipm_opct} the various routes a secondary photon can travel to a neighbouring microcell are shown. Not only can secondary photons travel directly to the neighbouring cell, they can possibly be reflected on the boundaries of the silicon, returning to produce an electron-hole pair in the avalanche region \cite{Rech2008}.
 
-This process happens instantaneously. Therefore, according to Equation~\ref{eq:sipmt_charge}, a single photoelectron/dark-count signal can result in a measured charge $N_{fired}$ times greater than the expected charge of $G q$. I.e. a single photon may generate a signal equivalent to 2 or 3 photons \cite{SensL2011}. The value associated with optical crosstalk is its probability that an avalanching microcell will cause an avalanche in a second cell. As with the other parameters discussed so far, the optical crosstalk increases with overvoltage.
+This process happens instantaneously. Therefore, according to Equation~\ref{eq:sipmt_charge}, a single photoelectron/dark-count signal can result in a measured charge $N_{fired}$ times greater than the expected charge of $G \times e$ coulombs. I.e. a single photon may generate a signal equivalent to two or three photons \cite{SensL2011}. The value associated with optical crosstalk is its probability that an avalanching microcell will cause an avalanche in a second cell. As with the other parameters discussed so far, the optical crosstalk increases with overvoltage.
 
 \subsubsection{Afterpulsing}
 
@@ -164,20 +165,20 @@ Another phenomena that can occur as a result of the avalanche is the afterpulsin
 
 \subsubsection{Temperature Dependence}
 
-Aside from the dark counts, none of the \gls{sipmt} parameters described in this section have a direct dependence on temperature. However, they do all have a dependence on overvoltage, and consequently, the breakdown voltage. The primary influence of an increase in temperature on an \gls{sipmt} is a linear increase in the breakdown voltage. The proportionality coefficient for the \glspl{sipmt} used by \gls{chec-s} is reasonably small, at \SI{60}{mV/C\degree}. Nevertheless, a large variation in temperature would result in a change in the \gls{sipmt} performance parameters.
+Aside from the dark counts, none of the \gls{sipmt} parameters described in this section have a direct dependence on temperature. However, they do all have a dependence on overvoltage, and consequently, the breakdown voltage. The primary influence of an increase in temperature on an \gls{sipmt} is a linear increase in the breakdown voltage. The proportionality coefficient for the \glspl{sipmt} used by \gls{chec-s} is reasonably small, at \SI{60}{mV/\celsius}. Nevertheless, a large variation in temperature would result in a change in the \gls{sipmt} performance parameters.
 
 To keep the temperature controlled and low (to minimise the \gls{dcr}), the \glspl{sipmt} in \gls{chec-s} are thermally bonded to a liquid cooled faceplate (Figure~\ref{fig:camera_checs}). Furthermore, by changing the bias voltage in response to a change in temperature, the same overvoltage can be maintained, therefore minimising dependence on temperature for the parameters. This process in known as ``bias compensation'', and is mentioned again in Section~\ref{section:photosensor_calib}.
 
 \subsection{Excess Noise Factor (ENF)} \label{section:enf}
 
-A common expression for the variation in photosensor response to a single photoelectron is its \glsf{enf}. This factor encompasses the multiplicative errors in the amplification process for both the \gls{mapmt} and \gls{sipmt}. 
+A common expression for the variation in photosensor response to a single photoelectron is its \gls{enf}. This factor encompasses the multiplicative errors in the amplification process for both the \gls{mapmt} and \gls{sipmt}. 
 
-The dominating contributions to the \gls{enf} in a \gls{pmt} are the fluctuations in the secondary multiplication factor at each dynode. This is a statistical fluctuation due to cascade multiplication. The multiplication factor can also differ across a dynode, therefore the trajectory of the electron can change the read out amplitude \cite{HAMAMATSU2007}. Conversely, the multiplication of charge in an \gls{sipmt} is very quantised, due to the microcells being operated in Geiger mode, and therefore functioning as binary device. This would suggest the \gls{enf} of an \gls{sipmt} is very close to 1. However, due to the statistical fluctuations caused by the optical crosstalk and afterpulsing of the device, the \gls{enf} is not perfect. Therefore, the \gls{enf} of an \gls{sipmt} has the potential of being worse than that of a \gls{pmt}, despite the extremely high photoelectron counting resolution \cite{Vinogradov2012}.
+The dominating contributions to the \gls{enf} in a \gls{pmt} are the fluctuations in the secondary multiplication factor at each dynode. This is a statistical fluctuation due to cascade multiplication. The multiplication factor can also differ across a dynode, therefore the trajectory of the electron can change the read out amplitude~\cite{HAMAMATSU2007}. Conversely, the multiplication of charge in an \gls{sipmt} is very quantised, due to the microcells being operated in Geiger mode, and therefore functioning as binary device. This would suggest the \gls{enf} of an \gls{sipmt} is very close to 1. However, due to the statistical fluctuations caused by the optical crosstalk and afterpulsing of the device, the \gls{enf} is not perfect. Therefore, the \gls{enf} of an \gls{sipmt} has the potential of being worse than that of a \gls{pmt}, despite the extremely high photoelectron counting resolution \cite{Vinogradov2012}.
 
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{enf_gain} 
-	\caption[Comparison of the single photoelectron multiplication response between CHEC-M and CHEC-S.]{Comparison of the single photoelectron multiplication response between CHEC-M and CHEC-S, demonstrating the difference in ENF between the two detector types. The characteristic parameters for the photosensors, used to create this plot, are obtained from the fits described in Appendix~\ref{a2-spe}.}
+	\caption[Comparison of the single photoelectron multiplication response between CHEC-M and CHEC-S.]{Comparison of the single photoelectron multiplication response between CHEC-M and CHEC-S, demonstrating the difference in ENF between the two detector types. The characteristic parameters for the photosensors, used to create this plot, are obtained from the fits described in Appendix~\ref{a3-spe}.}
 	\label{fig:enf_gain}
 \end{figure}
 
@@ -210,7 +211,7 @@ It is clear from Figure~\ref{fig:enf_gain} that the main area of improvement to 
   \caption[Characteristic performance of future CHEC-S SiPMs.]{Characteristic performance of two potential SiPM productions for the use in future CHEC-S prototypes.}
 \end{figure}
 
-Two \gls{sipmt} productions by Hamamatsu are being considered for the next \gls{chec-s} prototype. S14521-8648 exhibits a greatly reduced optical crosstalk, down to \SI{< 10}{\percent} (shown in Figure~\ref{fig:sipm_new_bare}). S14521-8649 is the same silicon design, but has a protective resin coating to reduce the change of damage to the pixels. The optical crosstalk of this second silicon is slightly higher (shown in Figure~\ref{fig:sipm_new_resin}) as the coating allows another surface for secondary photons to reflect into neighbouring microcells. If it is deemed that the protective coating in unnecessary, the former \gls{sipmt} will be chosen to maximise performance. We expect to be able to begin testing these new \gls{sipmt} productions in early 2019.
+Two \gls{sipmt} productions by Hamamatsu are being considered for the next \gls{chec-s} prototype. S14521-8648 exhibits a greatly reduced optical crosstalk, down to \SI{< 10}{\percent} (shown in Figure~\ref{fig:sipm_new_bare}). S14521-8649 is the same silicon design, but has a protective resin coating to reduce the change of damage to the pixels. The optical crosstalk of this second silicon is slightly higher (shown in Figure~\ref{fig:sipm_new_resin}) as the coating allows another surface for secondary photons to reflect into neighbouring microcells. If it is deemed that the protective coating is unnecessary, the former \gls{sipmt} will be chosen to maximise performance. We expect to be able to begin testing these new \gls{sipmt} productions in early 2019.
 
 \section{Camera Electronics}
 
@@ -248,7 +249,7 @@ The internal electronics of \gls{chec} can be categorised as either \gls{fee} or
 	\label{fig:sipm_module}
 \end{figure}
 
-The \glsf{fee} of the camera handle the recording of the signal from the photosensors into a digital data stream for storage, calibration, and subsequently the analysis. Images of the \gls{fee} modules for the two \gls{chec} prototypes are shown in Figures~\ref{fig:mapm_module}~and~\ref{fig:sipm_module}.
+The \gls{fee} of the camera handle the recording of the signal from the photosensors into a digital data stream for storage, calibration, and subsequently the analysis. Images of the \gls{fee} modules for the two \gls{chec} prototypes are shown in Figures~\ref{fig:mapm_module}~and~\ref{fig:sipm_module}.
 
 The first stage in extracting the signal from the photosensors is the amplification and shaping of the analogue signal. The primary reason this is performed is to ensure the signal pulses have the optimal shape for triggering. The optimal pulse is dictated from Monte Carlo simulations to be around \SIrange{5}{10}{ns} \gls{fwhm} and a \SIrange{10}{90}{\percent} rise time of \SIrange{2}{6}{ns} \cite{Zorn2017}. If the pulse shape is faster than this specification, the pulses from individual Cherenkov photons are unable to pile up to produce a trigger due to their time gradient (Section~\ref{} \otherch{ref time gradient}). Conversely, if the pulse is slower, \gls{nsb} photons are able to produce a trigger. The amplification and shaping is achieved with either the external preamplifier (\gls{chec-m}) or the amplifier and shaper circuits built into the \gls{targetc} module (\gls{chec-s}).
 
@@ -256,13 +257,13 @@ The second component of the \gls{fee} is the \gls{target} module. These modules 
 \begin{itemize}
 \item the sampling \gls{asic},
 \item the \glspl{adc} for digitising,
-\item the triggering \gls{asic}
+\item the triggering \gls{asic},
 \item the \gls{fpga} to initiate and handle the readout,
 \item and the internal \gls{dac} for setting the operational values for the components.
 \end{itemize}
 By keeping the \gls{target} modules limited to this small list of components, they are kept affordable and reliable. Two \gls{target} modules versions have been integrated into \gls{chec} prototype cameras so far. \gls{chec-m} utilised the \gls{target5} modules (Figure~\ref{fig:mapm_module}), named as such due the \gls{target5} \gls{asic} housed in the module. The \gls{target5} \gls{asic} is responsible for both the sampling and the triggering \cite{Albert2017}. Meanwhile, \gls{chec-s} uses the latest \gls{target} module design, often referred to as \gls{targetc}. This version of the module has split the sampling and triggering between two \glspl{asic} to reduce the interference between the two functionalities (thereby improving trigger performance \cite{Funk2017}). The sampling and trigger \glspl{asic} are known as \gls{targetc} (hence the module's name) and \gls{t5tea}, respectively.
 
-Each \gls{asic} has 16 input channels, associated with 16 photosensor pixels. Therefore, each \gls{target} module contains four of each \gls{asic} to accommodate all 64 pixels on the photosensors. Both cameras contain a total of 32 \gls{fee} modules arranged in a grid, producing the curved focal surface of the camera. This \SI{1}{m} radius of curvature is required by the Schwarzschild-Couder optics to ensure that the focus of the optics is constant over the field of view. The flexibility of the ribbon cables installed between the photosensor and \gls{target} module allow for this curved alignment, while keeping the module drawers in the camera enclosure simple. The combination of these 32 \gls{fee} results in a camera with 2,048 pixels. The focal surfaces of each camera are shown in Figures \change{add chec camera figures}.
+Each \gls{asic} has 16 input channels, associated with 16 photosensor pixels. Therefore, each \gls{target} module contains four of each \gls{asic} to accommodate all 64 pixels on the photosensors. Both cameras contain a total of 32 \gls{fee} modules arranged in a grid, producing the curved focal surface of the camera. This \SI{1}{m} radius of curvature is required by the Schwarzschild-Couder optics to ensure that the focus of the optics is constant over the field of view (i.e. prevent astigmatism) \cite{Vassiliev2007}. The flexibility of the ribbon cables installed between the photosensor and \gls{target} module allow for this curved alignment, while keeping the module drawers in the camera enclosure simple. The combination of these 32 \gls{fee} results in a camera with 2,048 pixels. The focal surfaces of each camera are shown in Figures \change{add chec camera figures}.
 
 Aside from the photosensor, the version of \gls{target} used in the camera is the only other major differing components between \gls{chec-m} and \gls{chec-s} related to the waveform readout. 
 
@@ -274,13 +275,13 @@ The \gls{bee} also consists of two components \cite{Zorn2017}:
 \item [DACQ Boards] Provides a communication link between the camera server PC and the \gls{fee} modules. This link is also used for the transfer of raw waveform data. Two boards are used, each connected to 16 \gls{fee} modules via \SI{1}{Gbps} Ethernet links. The connection between a single board and the PC is via two \SI{1}{Gbps} fibre-optic links. One fibre-optic link is for the downlink, the other for the uplink, ensuring communication with the camera can be maintained during data taking. Data is sent to and from the \gls{fee} modules via a custom format over \gls{udp}. To ensure the \SI{1}{Gbps} uplink is not saturated by the traffic from the 32 \SI{1}{Gbps} links to the \gls{fee}, controlled delays between packet sending are utilised.
 \end{description}
 
-\subsection{LED Flashers}
+\subsection{LED Flashers} \label{section:led_flashers}
 
 An additional component of the camera electronics relevant to this thesis are the LED flashers. Located in each corner of the camera focal surface (Figures~\ref{fig:camera_checm}~and~\ref{fig:camera_checs}), these units will provide uniform illumination of the camera via reflection in the secondary mirror. The illumination provided by the LED flashes is configurable, and will allow in situ calibration of the camera's photosensors \cite{Brown2016a}.
 
 \section{Signal Digitisation}
 
-This section will detail the steps of processing the analogue signal received from each photosensor pixel. The description given here is applicable to both \gls{chec-m} and \gls{chec-m}.
+This section will detail the steps of processing the analogue signal received from each photosensor pixel. The description given here is applicable to both \gls{chec-m} and \gls{chec-s}.
 
 \subsection{Sampling}
 
@@ -296,7 +297,7 @@ Designed specifically for the readout of short Cherenkov signal observed with \g
 
 The camera can be either externally triggered (e.g. by using a pulse generator), or internally triggered according to signal generated by the trigger-responsible \gls{target} \gls{asic} (\gls{target5} or \gls{t5tea}). The trigger relies on a two-way communication between the \gls{fee} and \gls{bee}. The internal trigger operates as follows \cite{Zorn2017}:
 \begin{enumerate}
-\item The camera pixels are split into square groups of 4 neighbouring pixels. These are hereafter referred to as a superpixel \final{check other usages of superpixel}. \gls{chec} therefore has 512 superpixels.
+\item The camera pixels are split into square groups of four neighbouring pixels. These are hereafter referred to as a superpixel\final{check other usages of superpixel}. \gls{chec} therefore has 512 superpixels.
 \item The \gls{target} \gls{asic} responsible for the trigger continuously generates an analogue sum of the photosensor signal on a per superpixel basis.
 \item If the analogue sum in a superpixel is greater than a (configurable) threshold, then a digital signal is produced with a (configurable) coincidence time length. A signal is produced per superpixel over the threshold, and sent to the trigger \gls{fpga} on the backplane.
 \item If there is a coincidence in digital signal between any two neighbouring superpixels then a readout request is sent from the backplane trigger \gls{fpga} to all of the \gls{target} modules.
