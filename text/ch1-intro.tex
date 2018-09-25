@@ -4,7 +4,29 @@
 
 \section{Atmospheric Cherenkov Showers}
 
-When a charged particle moves slowly through a dielectric medium, the electric field of the particle distorts the nearby atoms. Momentarily, these atoms are transformed into elementary dipoles where the charged particles that constitute the atom are arranged with respect to the electric field of the travelling particle. Due to the complete symmetry of this polarisation around the travelling particle, no net field is produced by the dielectric medium. However, if instead the velocity of the charged particle is faster than the speed light travels in that medium, an asymmetry is formed in the polarisation of the surrounding atoms, resulting in a net dipole field. As the particle continues through the medium, elements of the polarised medium will release a brief burst of electromagnetic radiation. Generally these electromagnetic waves interfere destructively, except inside in the forward direction along the particles trajectory in an opening angle $\theta$. Although the full characterisation of this relativistic effect is complex, a simple consideration of the geometry involved can be used to describe $\theta$. In a time $\delta t$ a particle travels a distance $\beta c \delta t$ where $\beta = \frac{v}{c}$, while the emitted light will travel a distance $\frac{c}{n} \delta t$. With reference to Figure~\ref{} \change{add figure}, this results in the relation:
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{generation_t5}
+    \caption{$v < \frac{c/n}$}
+    \label{fig:generation_t5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{generation_tc}
+    \caption{$v \ge \frac{c/n}$}
+    \label{fig:generation_tc}
+  \end{subfigure}
+  \caption[Polarisation produced in a dielectric medium due to the presence of a charged particle.]{Polarisation produced in a dielectric medium due to the presence of a charged particle, for the cases of a non-relativistic and relativistic particle.}
+\end{figure}
+
+
+\begin{figure}
+	\centering\includegraphics[width=\textwidth]{target5diagram} 
+	\caption[Functional block diagram of the TARGET~5 ASIC.]{Functional block diagram of the TARGET~5 ASIC, demonstrating the sampling, digitisation, and read out processes \cite{Albert2017}.}
+	\label{fig:target5diagram}
+\end{figure}
+
+When a charged particle moves slowly through a dielectric medium, the electric field of the particle distorts the nearby atoms. Momentarily, these atoms are transformed into elementary dipoles where the charged particles that constitute the atom are arranged with respect to the electric field of the travelling particle. Due to the complete symmetry of this polarisation around the travelling particle, no net field is produced by the dielectric medium. However, if instead the velocity of the charged particle is faster than the speed light travels in that medium, an asymmetry is formed in the polarisation of the surrounding atoms, resulting in a net dipole field. As the particle continues through the medium, elements of the polarised medium will release a brief burst of electromagnetic radiation. Generally these electromagnetic waves interfere destructively, except inside in the forward direction along the particles trajectory in an opening angle $\theta$. Although the full characterisation of this relativistic effect is complex, a simple consideration of the geometry involved, shown in Figure~\ref{}, can be used to describe $\theta$. In a time $\Delta t$ a particle travels a distance $\beta c \Delta t$ where $\beta = \frac{v}{c}$, while the emitted light will travel a distance $\frac{c}{n} \Delta t$ in a medium with refractive index $n$. This results in the relation:
 \begin{equation} \label{eq:cherenkov_angle}
 \cos \theta = \frac{c}{vn}.
 \end{equation}
