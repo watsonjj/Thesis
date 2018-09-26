@@ -81,17 +81,19 @@ The application of the \gls{iact} technique was first attempted in the 1960s, bu
   \centering
   \begin{subfigure}[b]{0.35\textwidth}
   \includegraphics[width=\textwidth]{hess}
-  \caption{\gls{hess}}
+  \caption{H.E.S.S.}
   \label{fig:hess}
   \end{subfigure}
+  ~
   \begin{subfigure}[b]{0.35\textwidth}
   \includegraphics[width=\textwidth]{magic}
-  \caption{\gls{magic}}
+  \caption{MAGIC}
   \label{fig:magic}
   \end{subfigure}
+  ~
   \begin{subfigure}[b]{0.45\textwidth}
   \includegraphics[width=\textwidth]{veritas}
-  \caption{\gls{veritas}}
+  \caption{VERITAS}
   \label{fig:veritas}
   \end{subfigure}
   \caption{Photos of modern \glspl{iact}.}
@@ -100,7 +102,7 @@ The application of the \gls{iact} technique was first attempted in the 1960s, bu
 
 \begin{figure}
 	\centering\includegraphics[width=\textwidth]{sensitivity} 
-	\caption[Differential sensitivity of CTA.]{Differential sensitivity of CTA predicted by Monte Carlo simulations, compared to the performance of other gamma-ray instruments. The differential sensitivity has been defined as the minimum flux needed by CTA to obtain a 5-standard-deviation detection of a point-like source.}
+	\caption[Differential sensitivity of CTA.]{Differential sensitivity of CTA predicted by Monte Carlo simulations, compared to the performance of other gamma-ray instruments \cite{cta-performance}. The differential sensitivity has been defined as the minimum flux needed by CTA to obtain a 5-standard-deviation detection of a point-like source.}
 	\label{fig:sensitivity}
 \end{figure}
 
@@ -115,12 +117,21 @@ Modern \glspl{iact} include \gls{magic}, \gls{veritas}, and the most recent, \gl
 
 \section{The Cherenkov Telescope Array}
 
-- Improvements on previous
-- Sensitivity
-- Energy res?
-- angular res?
-- Array layout
-- LSTs, MSTs, SSTs, and what there purpose is (large mirror area versus large collection area...) 
+\begin{figure}
+	\centering\includegraphics[width=\textwidth]{sensitivity_tel} 
+	\caption[Differential sensitivity of the different CTA telescope types.]{Contribution of each telescope type within \gls{cta} to the total differential sensitivity \cite{Marano2014}.}
+	\label{fig:sensitivity_tel}
+\end{figure}
+
+\gls{cta} will consist of 3 different sized telescopes:
+\begin{itemize}
+\item The \gls{lst}, with a mirror diameter of about \SI{23}{m} in order to collect as many photons as possible from the low energy showers (\SIrange{20}{150}{GeV}).
+\item The \gls{mst}, covering the mid-range \SIrange{0.1}{10}{TeV} with mirror diameters of \SI{12}{m}.
+\item The \gls{sst}, monitoring the high energies of \SIrange{1}{300}{TeV}, with mirror diameters of around \SI{4}{m}. Due to the rarity of higher energy showers, many \glspl{sst} need to be spread over an area of several square kilometres, to increase the chance of a detection \cite{Acharya2013}.
+\end{itemize}
+Figure~\ref{fig:sensitivity_tel} demonstrates the contribution of each telescope type to the sensitivity of \gls{cta}.
+
+Two \gls{cta} sites will exist. A northern hemisphere site for extragalactic observations will be built at La Palma, and is planned to contain 4 \glspl{lst} and 16 \glspl{mst}. As this site will focus on the energy range from \SI{20}{GeV} to \SI{20}{TeV}, no \glspl{sst} are included on the northern site. A southern hemisphere site will provide observations of the galactic plane, spanning the full energy range of \gls{cta}. Planned to be built nearby the Paranal Observatory in the Atacama Desert in Chile, the southern array is planned to feature 4 \glspl{lst}, 15 \glspl{mst}, and 70 \glspl{sst}, spread over \SI{4}{km \squared}.
 
 \section{Small Sized Telecopes}
 
