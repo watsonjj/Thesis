@@ -27,7 +27,7 @@
 
 When a charged particle moves slowly through a dielectric medium, the electric field of the particle distorts the nearby atoms. Momentarily, these atoms are transformed into elementary dipoles where the charged particles that constitute the atom are arranged with respect to the electric field of the travelling particle (Figure~\ref{fig:dipole_slow}). Due to the complete symmetry of this polarisation around the travelling particle, no net field is produced by the dielectric medium. However, if instead the velocity of the charged particle is faster than the speed light travels in that medium, an asymmetry along the particle trajectory is formed in the polarisation of the surrounding atoms (Figure~\ref{fig:dipole_fast}), resulting in a net dipole field. As the particle continues through the medium, elements of the polarised medium will release a brief burst of electromagnetic radiation. Generally these electromagnetic waves interfere destructively, except inside in the forward direction along the particles trajectory in an opening angle $\theta$. Although the full characterisation of this relativistic effect is complex, a simple consideration of the geometry involved, shown in Figure~\ref{fig:cherenkov_geom}, can be used to describe $\theta$ \cite{Jelley1958a}. In a time $\Delta t$ a particle travels a distance $\beta c \Delta t$ where $\beta = \frac{v}{c}$, while the emitted light will travel a distance $\frac{c}{n} \Delta t$ in a medium with refractive index $n$. This results in the relation:
 \begin{equation} \label{eq:cherenkov_angle}
-\cos \theta = \frac{c}{vn}.
+\cos \theta = \frac{vn}{c}.
 \end{equation}
 The blue light emitted in this constrained opening angle, via this phenomena, is known as Cherenkov radiation.
 
@@ -39,7 +39,7 @@ The blue light emitted in this constrained opening angle, via this phenomena, is
 	\label{fig:cascade}
 \end{figure}
 
-The Earth's atmosphere is effectively opaque to photon energies above \SI{10}{eV} \cite{Weekes2003}. To perform astronomy at higher energies, one must usually leave the Earth's atmosphere. However, at energies above \SI{\ge 10}{GeV}, a ``gamma-ray window'' exists where astronomy can be performed using the Cherenkov radiation produced by the cascade of particles resulting from the interaction between the gamma ray and the atmosphere.
+The Earth's atmosphere is effectively opaque to photon energies above \SI{10}{eV} \cite{Weekes2003}. To conduct astronomical observations at higher energies, one must usually leave the Earth's atmosphere. However, at energies above \SI{\ge 10}{GeV}, a ``gamma-ray window'' exists where the pursuit of gamma-ray observations can be performed using the Cherenkov radiation produced by the cascade of particles resulting from the interaction between the gamma ray and the atmosphere.
 
 Two electromagnetic interactions are responsible for the creation of this cascade:
 \begin{description}
@@ -48,7 +48,7 @@ Two electromagnetic interactions are responsible for the creation of this cascad
 \end{description}
 The interplay between these two processes, occurring after each transversal of a radiation length, produces the extensive cascade of energetic electromagnetic particles. This is illustrated in Figure~\ref{fig:cascade}. The charged particles produced by the pair production in this cascade are responsible for the generation of the Cherenkov light. This cascade is often known as a ``Cherenkov shower''.
 
-This cascade continues until the ionisation energy losses are equal to the radiation losses. This number of remaining particles after this point, known as the ``shower maximum'' begins to diminish. For a \SI{1}{TeV} shower this occurs at \SI{\sim 8.4}{km} altitude \cite{Weekes2003}. The produced Cherenkov light is collimated along the progenitor gamma ray trajectory, and produces a pool of blue light on the ground, with a radius of \SI{\sim 120}{m} \cite{Hillas1996a}. If the direction of the Cherenkov shower is extrapolated back to the cosmic sphere, the location of the source that produced the gamma ray can be inferred. Although the amount of energy that goes into Cherenkov photon production is a tiny fraction of the total energy, the atmosphere acts as a consistent calorimeter, therefore allowing an accurate reconstruction of the progenitors energy from the amount of Cherenkov photons produced. 
+This cascade continues until the ionisation energy losses are equal to the radiation losses. The number of remaining particles after this point, known as the ``shower maximum'', begins to diminish. For a \SI{1}{TeV} shower this occurs at \SI{\sim 8.4}{km} altitude~\cite{Weekes2003}. The produced Cherenkov light is collimated along the progenitor gamma ray trajectory, and produces a pool of blue light on the ground, with a radius of \SI{\sim 120}{m}~\cite{Hillas1996a}. If the direction of the Cherenkov shower is extrapolated back to the cosmic sphere, the location of the source that produced the gamma ray can be inferred. Although the amount of energy that goes into Cherenkov photon production is a tiny fraction of the total energy, the atmosphere acts as a consistent calorimeter, therefore allowing an accurate reconstruction of the progenitors energy from the amount of Cherenkov photons produced. 
 
 A further characteristic of the Cherenkov shower is the time profile. The entire shower typically lasts \SI{\sim 5}{ns}. Therefore, despite the abundance of showers in the sky, and the visible wavelength of the Cherenkov light, they are imperceivable by the human eye. Furthermore, due to the faster-than-light velocities of the particles inside the cascade, the last Cherenkov photons produced at the end of the shower reach the ground before the first Cherenkov photons produced at the start of the shower. With different sections of the showers arriving at different times, the Cherenkov shower measurements display a time gradient across the image. 
 
@@ -71,7 +71,7 @@ Furthermore, the large collection area provided by the light pool of the Cherenk
 
 Two major background components need to be accounted for in \glspl{iact}:
 \begin{description}
-\item [Cosmic Ray Background] Protons (and heavier hadronic nuclei) are also capable of producing Cherenkov showers that are not entirely dissimilar to electromagnetic showers. As these particles are charged, they have been deflected by interstellar magnetic fields on their journey from their source, and therefore are not useful for \glspl{iact}. Therefore these showers provide an isotropic background which is 1,000 times as numerous than the shower rate received from the discreet gamma-ray sources. However, a hadronic shower exhibits a morphology that is broader and less symmetric than that obtained from gamma-ray showers. Additionally, distinct features such as ``muon rings'', produced by highly penetrating muons reaching low altitudes such that the full Cherenkov cone is visible in a single telescope, accompany hadronic showers. Parametrisations of the Cherenkov shower image therefore enable the discrimination of the hadronic showers (see Chapter~\ref{ch6-reduction}. \change{images?}
+\item [Cosmic Ray Background] Protons (and heavier hadronic nuclei) are also capable of producing Cherenkov showers that are not entirely dissimilar to electromagnetic showers. As these particles are charged, they have been deflected by interstellar magnetic fields on their journey from their source, and therefore are not useful for \glspl{iact}. Therefore, these showers provide an isotropic background which is 1,000 times as numerous than the shower rate received from the discreet gamma-ray sources. However, a hadronic shower exhibits a morphology that is broader and less symmetric than that obtained from gamma-ray showers. Additionally, distinct features such as ``muon rings'', produced by highly penetrating muons reaching low altitudes such that the full Cherenkov cone is visible in a single telescope, accompany hadronic showers. Parametrisations of the Cherenkov shower image therefore enable the discrimination of the hadronic showers (see Chapter~\ref{ch6-reduction}. \change{images?}
 \item [Night Sky Background] Due to the optical sensitivity of the cameras used by \glspl{iact}, the measurements taken are susceptible to starlight, moonlight, and artificial light pollution. The \gls{nsb} spectrum for La Palma, compared to the expected Cherenkov spectrum at an altitude of \SI{2200}{m}, is displayed in Figure~\ref{fig:nsb}. This background is excluded in two ways. Firstly, smart trigger logic and strict thresholds (such as the one described in Chapter~\ref{ch2-mechanics}) eliminate the triggering on \gls{nsb} photons. Secondly, unbiased charge extraction technique (described in Chapter~\ref{ch6-reduction}) exclude this noise from the signal.
 \end{description}
 
@@ -149,104 +149,21 @@ Two \gls{cta} sites will exist. A northern hemisphere site for extragalactic obs
 
 Three designs for an \gls{sst} have been proposed:
 \begin{itemize}
-\item The \gls{sst1m} design, a single-mirror Davies-Cotton telescope developed in the colaboration between the Czech Republic, Ireland, Poland, Switzerland and Ukraine. The prototype structure was installed at the Institute of Nuclear Physics in Kraków, Poland in November 2013.
+\item The SST-1M design, a single-mirror Davies-Cotton telescope developed in the colaboration between the Czech Republic, Ireland, Poland, Switzerland and Ukraine. The prototype structure was installed at the Institute of Nuclear Physics in Kraków, Poland in November 2013.
 \item The \gls{astri} design features a dual-mirror Schwarzschild-Couder telescope structure. \gls{astri} is predominantly developed by Italy, however contributions were provided from Brazil and South Africa \cite{cta-sst}. The \gls{astri} prototype completed construction on Mt. Etna, Italy in 2014.
-\item The gls{gct} design also features a dual-mirror Schwarzschild-Couder telescope structure. \gls{gct} is being developed through collaboration between Australia, France, Germany, Japan, the Netherlands and the United Kingdom. The prototype telescope structure was inaugurated at the Observatoire de Paris-Meudon, France in November 2015. \gls{gct} is the telescope I have been associated with during my DPhil.
+\item The \gls{gct} design also features a dual-mirror Schwarzschild-Couder telescope structure. \gls{gct} is being developed through collaboration between Australia, France, Germany, Japan, the Netherlands and the United Kingdom. The prototype telescope structure was inaugurated at the Observatoire de Paris-Meudon, France in November 2015. \gls{gct} is the telescope I have been associated with during my DPhil.
 \end{itemize}
 Visuals of all three telescopes are shown in Figure~\ref{fig:ssts}.
 
-The Schwarzschild-Couder optical design was first proposed by German astrophysicist Karl Schwarzschild to eliminate optical aberrations across the \gls{fov}. This optical design has since gone through many interations, however it was never utilised for a reflector telescope due to the complexity and cost required to construct the mirrors \cite{Giro2017}. However, interest in the optical design was recently revitalised by \textcite{Vassiliev2007}, especially as it enabled the utilisation of novel compact photosensors. Due to the same adoption of Schwarzschild-Couder optics, the telescopes of \gls{astri} and \gls{gct} have been specifically designed to accomodate the cameras from both \glspl{sst}. This increases the possibilities for the final \gls{sst} design for \gls{cta}.
+The Schwarzschild-Couder optical design was first proposed by German astrophysicist Karl Schwarzschild to eliminate optical aberrations across the \gls{fov}. This optical design has since gone through many interations, however it was never utilised for a reflector telescope due to the complexity and cost required to construct the mirrors \cite{Giro2017}. However, interest in the optical design was recently revitalised by \textcite{Vassiliev2007}, especially as it enables the utilisation of novel compact photosensors. Due to the same adoption of Schwarzschild-Couder optics, the telescopes of \gls{astri} and \gls{gct} have been specifically designed to accomodate the cameras from both \glspl{sst}. This increases the possibilities for the final \gls{sst} design for \gls{cta}.
 
-% - Science with ssts
-% - Three designs
+\section{Science with the SSTs}
 
-% \section{Gamma-ray Cherenkov Telescope}
+As shown in Figures~\ref{fig:sensitivity}~and~\ref{fig:sensitivity_tel}, the \glspl{sst} are responsible for exploring beyond the current energy frontier in gamma-ray astronomy. Within 50 hours, the \glspl{sst} will be able provide the same sensitivity as five years of \gls{hawc} \change{describe hawc} \cite{Consortium2018}. This enables \gls{cta} to provide insights into the most energetic processes in the universe, and address prevalant topics of debate in \gls{vhe} astronomy and particle phyiscs.
 
-% - what makes us better - lightweight telescope, full waveform readout
-% - optics
-
-
-
-
-
-
-
-
-% \notes[inline,caption={}]{
-% 	\section{Plan}
-% 	\subsection{Topics}
-% 	\begin{itemize}
-% 		\item High Energy Astrophysics
-% 		\begin{itemize}
-% 			\item Fermi
-% 			\item Fermi Bubbles
-% 			\item HAWC
-% 		\end{itemize}
-% 		\item IACTs
-% 		\item CTA
-% 		\item CTA Science
-% 		\begin{itemize}
-% 			\item Science Cases
-% 			\item Use "Science with CTA" paper
-% 		\end{itemize}
-% 		\item SSTs
-% 		\item SST Science
-% 		\begin{itemize}
-% 			\item What do we contribute?
-% 			\item What can't be done without us?
-% 		\end{itemize}
-% 		\item GCT
-% 		\item CHEC
-% 		\begin{itemize}
-% 			\item What makes us better?
-% 			\item Advantages of Schwarzchild-Couder
-% 			\begin{itemize}
-% 				\item Increased FoV
-% 				\item Size
-% 				\item Cost
-% 			\end{itemize}
-% 			\item Advantages of full waveform readout
-% 			\item Other Advantages?
-% 			\begin{itemize}
-% 				\item Trigger
-% 				\item Energy/power/voltage Requirements
-% 				\item Commonalities (SCT)
-% 			\end{itemize}
-% 		\end{itemize}
-% 	\end{itemize}
-% 	\subsection{Questions}
-% 	\begin{itemize}
-% 		\item ?
-% 	\end{itemize}
-% }
-
-% \change[inline]{Shower properties, photons from bottom of shower are received before those at the top as the particle travels faster than light. Good figure in \cite{Cogan2006}}
-% \change[inline]{Gamma/Hadron/Lepton}
-
-% \change[inline]{Terminology note: charge not used in terms of columns, it refers to counts of photoelectrons, for which mV and ADC are a proxy of. Do a ctrl-f at end to check how charge is used}
-
-% \change[inline]{trigger efficiency???}
-
-% \change[inline]{introduce SC optics with reference to "modern iteration for utilisation in Cherenkov shower described by \cite{Vassiliev2007}" Giro2017}
-
-% low number of photons above 50 TeV, very low, frontier
-
-% \section{Atmospheric Cherenkov Showers}
-
-% \section{Imaging Atmospheric Cherenkov Technique}
-
-% \subsection{Cherenkov Shower Characteristics}
-
-% \subsection{Photon Arrival Time} \label{section:photon_arrival_time}
-
-% \change[inline]{Quoted from Holder2005: The longitudinal development of an air shower is reflected in the long axis of the elliptical image recorded in the camera. The photon arrival time profile along this axis is largely a result of geometrical path length differences, and hence the shower core distance. As the shower particles move faster than the speed of light in air, when the shower has a small core distance Cherenkov light emitted from lower in the atmosphere is received at the telescope first. At large core distances, this situation is reversed, as the Cherenkov light travel time from the shower to the telescope dominates. The effect of this is to produce a timing gradient along the long axis of the image, the size and sign of which depend upon the core distance. For gamma-ray showers from a point source at the centre of the field of view, the shower core distance is directly related to the angular distance in the camera of the image from the source position.
-% Figure}
-
-% \section{The Cherenkov Telescope Array}
-
-% CTA will be, for the first time in VHE gamma-ray astronomy, operated as an open observatory.
-
-% \section{Small Sized Telescopes}
-
-% \section{Science with the Small Sized Telescopes}
-
+The science cases of \gls{cta} that strongly depend on the capabilities provided by the \glspl{sst} are often interconnected, however an attempt to categorise them is provided below:
+\begin{description}
+\item [Supernova Remnants] It is known that the galactic population of \glspl{snr} play an important role in the accelaration of cosmic rays to high energies. The detection of \si{TeV} photons from \glspl{snr} (suggesting an efficient acceleration mechanism), and the description of the diffusive shock acceleration mechanism, both corraborate with the detection of high-energy cosmic rays in the Earth's atmosphere \cite{Cristofari2017}. However, these observations can also be explained by accelerated electrons as well as accelerated protons. Therefore, whether the production of gamma-rays in \gls{snr} is of leptonic or hadronic origin is still debated \cite{Acharya2013}. While studies of individual \glspl{snr} have improved our understanding of the acceleration mechanisms, a population wide study may help constrain the parameters involved \cite{Cristofari2017}. The probe into higher energies with the \glspl{sst} will provide further information about the spectral energy distribution of the currently known \glspl{snr}, and the enhanced sensitivity of \gls{cta} will increase the population of \glspl{snr} known to emit at these energies.
+\item [Origin of Cosmic Rays] One of the main questions within gamma-ray astronomy is regarding the dominant contributors to the locally measured flux of high-energy cosmic rays \cite{Bigongiari2016}. As just described, \glspl{snr} do appear to be a dominant source for these particles, but are they the only major contributor to the galactic cosmic rays? Expanding on the discovered \gls{vhe} galactic source population is the key to answering this question.
+\item [Pevatrons] A further capability of \gls{cta} (provided by the \glspl{sst}) is the finding of extreme accelerators that power particles up to the \si{PeV} scale. The preferential production of \SI{100}{TeV} photons by hadronic processes will be paramount in disentagling the ``problematic ambiguity between leptonic and hadronic origin'' of \gls{vhe} gamma rays \cite[][p. 132]{Consortium2018}.
+\end{description}

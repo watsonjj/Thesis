@@ -20,7 +20,7 @@ Typically, the following features from the \gls{spe} spectra can be extracted wi
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{spe_checm_checs} 
-	\caption[(Repeated) Comparison of SPE spectra between CHEC-M and CHEC-S.]{Repeat of Figure~\ref{fig:spe_checm_checs}. Comparison of SPE spectra between CHEC-M and CHEC-S for a single pixel, along with their corresponding fit function. In both cases, three illumination are simultaneously fit.} 
+	\caption[(Repeated) Comparison of SPE spectra between CHEC-M and CHEC-S.]{Repeat of Figure~\ref{fig:spe_checm_checs}. Comparison of SPE spectra between CHEC-M (MAPMT) and CHEC-S (SiPM) for a single pixel, along with their corresponding fit function. In both cases, three illuminations are simultaneously fit.} 
 	\label{fig:spe_checm_checs_repeat}
 \end{figure}
 
@@ -37,7 +37,7 @@ Typically, the following features from the \gls{spe} spectra can be extracted wi
 \label{table:spe_checm_checs_repeat}
 \end{table}
 
-As is illustrated in Figure~\ref{fig:spe_checm_checs_repeat}, the resolution of the \gls{spe} peaks obtained form an \gls{mapmt} is much lower than that obtained from an \gls{sipmt}, making it difficult to characterise the \gls{spe} spectrum by eye, or by simple fits using the aforementioned features. Additionally, many factors that contribute the \gls{spe} spectrum are hard to entangle. Therefore, a fit to the spectra using an analytical function which describes the \gls{spe} spectrum behaviour of the corresponding photosensor is often employed.
+As is illustrated in Figure~\ref{fig:spe_checm_checs_repeat}, the resolution of the \gls{spe} peaks obtained form an \gls{mapmt} is much lower than that obtained from an \gls{sipmt}, making it difficult to characterise the \gls{spe} spectrum by eye, or by simple fits using the aforementioned features. Additionally, many factors that contribute the \gls{spe} spectrum are hard to entangle. Therefore, an analytical description, that consolidates the contributing factors of the photosensor to generate the \gls{spe} spectrum observed, is used to fit the histogram.
 
 \section{Software}
 
@@ -59,7 +59,7 @@ In the case $k = 0$ (the pedestal peak), the probability to measure a charge $q$
 P(q) = e^{-\lambda} \frac{1}{\sqrt{2 \pi \sigma_0^2}} e^{-\frac{(q - \mu_0)^2}{2 \sigma_0^2}}.
 \end{equation}
 
-In the case $k > 0$, the mean and the standard deviation of the Gaussian increases with k. Additionally, the pedestal spread is also present in the $k > 0$ peaks. Therefore, the probability to measure a charge $q$ is expressed as a Gaussian with area $P(k)$. The standard deviation $\sigma(k)$ is expressed as the quadrature sum of the two contributions:
+In the case $k > 0$, the mean and the standard deviation of the Gaussian increases with $k$. Additionally, the pedestal spread is also present in the $k > 0$ peaks. Therefore, the probability to measure a charge $q$ is expressed as a Gaussian with area $P(k)$. The standard deviation $\sigma(k)$ is expressed as the quadrature sum of the two contributions:
 \begin{equation}
 \sigma(k) = \sqrt{\sigma_0^2 + k \sigma_1^2},
 \end{equation}
@@ -73,9 +73,9 @@ The sum over each distribution of $P(q)$, for each value of $k$ (I only go up to
 
 \section{Silicon Photomultipliers}
 
-The analytical description for an \gls{sipmt} is a bit more complicated. The formula we have found to work well is the one described by \cite{Gentile2010}. It expands on the formula I have described for \glspl{mapmt} to include the \gls{sipmt} optical crosstalk and afterpulsing.
+The analytical description for an \gls{sipmt} is a bit more complicated. The formula we have found to work well is the one described by \textcite{Gentile2010}. It expands on the formula I have described for \glspl{mapmt} to include the \gls{sipmt} optical crosstalk and afterpulsing.
 
-As with \glspl{mapmt}, the probability to get k initial photoelectrons (i.e. $k$ initially fired microcells) follows a Poisson distribution. However, to find the probability of getting a total number of fired microcells $n$, the optical crosstalk probability $\epsilon$, must be included:
+As with \glspl{mapmt}, the probability to get $k$ initial photoelectrons (i.e. $k$ initially fired microcells) follows a Poisson distribution. However, to find the probability of getting a total number of fired microcells $n$, the optical crosstalk probability~$\epsilon$, must be included:
 \begin{equation}
 P(n) = \sum_{k=1}^n P(k) (1 - \epsilon)^k \epsilon^{n-k} \binom{n-1}{k-1}.
 \end{equation}
