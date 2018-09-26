@@ -29,7 +29,7 @@ When a charged particle moves slowly through a dielectric medium, the electric f
 \begin{equation} \label{eq:cherenkov_angle}
 \cos \theta = \frac{c}{vn}.
 \end{equation}
-The radiation emitted in this constrained opening angle, via this phenomena, is known as Cherenkov radiation.
+The blue light emitted in this constrained opening angle, via this phenomena, is known as Cherenkov radiation.
 
 \section{Atmospheric Cherenkov Showers}
 
@@ -48,40 +48,70 @@ Two electromagnetic interactions are responsible for the creation of this cascad
 \end{description}
 The interplay between these two processes, occurring after each transversal of a radiation length, produces the extensive cascade of energetic electromagnetic particles. This is illustrated in Figure~\ref{fig:cascade}. The charged particles produced by the pair production in this cascade are responsible for the generation of the Cherenkov light. This cascade is often known as a ``Cherenkov shower''.
 
+This cascade continues until the ionisation energy losses are equal to the radiation losses. This number of remaining particles after this point, known as the ``shower maximum'' begins to diminish. For a \SI{1}{TeV} shower this occurs at \SI{\sim 8.4}{km} altitude \cite{Weekes2003}. The produced Cherenkov light is collimated along the progenitor gamma ray trajectory, and produces a pool of blue light on the ground, with a radius of \SI{\sim 120}{m} \cite{Hillas1996a}. If the direction of the Cherenkov shower is extrapolated back to the cosmic sphere, the location of the source that produced the gamma ray can be inferred. Although the amount of energy that goes into Cherenkov photon production is a tiny fraction of the total energy, the atmosphere acts as a consistent calorimeter, therefore allowing an accurate reconstruction of the progenitors energy from the amount of Cherenkov photons produced. 
 
-
-At energies above \SI{10}{eV}, the dominating interaction for photons is pair production. The resulting electron-positron 
-
-
-radiation processes are 
-
-
-it is possible to perform astronomy via the secondary 
-
-
-
-extensive cascade of energetic electromagnetic particles is produced by the interaction of the gamma ray with the atmosphere. The products of this cascade, electrons and positrons, are often superluminal, thereby emitting
-Cherenkov radiation. 
-
-the primary mode of interaction with the atmosphere for high energy photons of \SI{\ge 10}{GeV} is pair-production, resulting an electron-position pair which share the total energy and trajectory of the progenitor gamma ray (conserving energy and momentum). The proceeding interplay between pair-production and bremsstrahlung interactions of the secondary products and the atmospheric particles results in an extensive cascade of energetic electromagnetic particles \cite{Weekes2003}. As the 
-
-
-($\frac{\text{velocity}}{\text{speed of light}} > \frac{1}{refractive index}$), the  
-
-relativistic particles travel through 
-
-
-
-
-- travel of photons
+A further characteristic of the Cherenkov shower is the time profile. The entire shower typically lasts \SI{\sim 5}{ns}. Therefore, despite the abundance of showers in the sky, and the visible wavelength of the Cherenkov light, they are imperceivable by the human eye. Furthermore, due to the superluminal velocities of the particles inside the cascade, the last Cherenkov photons produced at the end of the shower reach the ground before the first Cherenkov photons produced at the start of the shower.
 
 \section{Imaging Atmospheric Cherenkov Telescopes}
 
-- technique, nsb, trigger curve
-- aim of optics, large fov
-- time gradient
-- history, previous ones
-- latest is cta
+A primary issue in \gls{vhe} astronomy is the low flux, requiring a collection area that is not feasible for space telescopes. If instead the Cherenkov showers are used to detect the gamma rays, large arrays of optical telescopes can be built to provide stereoscopic imaging of the Cherenkov showers. These telescopes are known as \glspl{iact}. The multiple stereoscopic views of individual showers provided by arrays of \glspl{iact} allow accurate reconstruction of the properties of the shower, such as direction and energy. The topic of reconstruction is discussed in Chapter~\ref{ch6-reduction}.
+
+As the \gls{iact} technique involves imaging the Cherenkov showers, which are much larger than typical astronomy targets, \glspl{iact} do not require the resolving power of typical optical telescopes. Instead the priorities of an \gls{iact} optical system are to maximise: 
+\begin{itemize}
+\item Mirror collection area, such that more photons can be collected. This enables fainter showers to be detected, thereby lowering the energy threshold.
+\item \gls{fov}, which improves the surveying capabilities and eases the study of extended sources.
+\end{itemize}
+Furthermore, the large collection area provided by the light pool of the Cherenkov shower enables a modest telescope to still make a large amount of gamma ray detections, enabling this technique to be viable despite the small flux.
+
+\begin{figure}
+	\centering\includegraphics[width=\textwidth]{nsb} 
+	\caption[Comparison of Cherenkov and NSB spectrum.]{Comparison of Cherenkov and NSB spectrum. The Cherenkov spectrum shown is expected at an altitude of \SI{2200}{m}. The NSB spectrum shown was measured at La Palma \cite{Bouvier2013}.}
+	\label{fig:nsb}
+\end{figure}
+
+Two major background components need to be accounted for in \glspl{iact}:
+\begin{description}
+\item [Cosmic Ray Background] Protons (and heavier hadronic nuclei) are also capable of producing Cherenkov showers that are not entirely dissimilar to electromagnetic showers. As these particles are charged, they have been deflected by interstellar magnetic fields on their journey from their source, and therefore are not useful for \glspl{iact}. Therefore these showers provide an isotropic background which is 1,000 times as numerous than the shower rate received from the discreet gamma-ray sources. However, a hadronic shower exhibits a morphology that is broader and less symmetric than that obtained from gamma-ray showers. Additionally, distinct features such as ``muon rings'', produced by highly penetrating muons reaching low altitudes such that the full Cherenkov cone is visible in a single telescope, accompany hadronic showers. Parametrisations of the Cherenkov shower image therefore enable the discrimination of the hadronic showers (see Chapter~\ref{ch6-reduction}. \change{images?}
+\item [Night Sky Background] Due to the optical sensitivity of the cameras used by \glspl{iact}, the measurements taken are susceptible to starlight, moonlight, and artificial light pollution. The \gls{nsb} spectrum for La Palma, compared to the expected Cherenkov spectrum at an altitude of \SI{2200}{m}, is displayed in Figure~\ref{fig:nsb}. This background is excluded in two ways. Firstly, smart trigger logic and strict thresholds (such as the one described in Chapter~\ref{ch2-mechanics}) eliminate the triggering on \gls{nsb} photons. Secondly, unbiased charge extraction technique (described in Chapter~\ref{ch6-reduction}) exclude this noise from the signal.
+\end{description}
+
+The application of the \gls{iact} technique was first attempted in the 1960s, but the first large optical reflector built with the purpose of gamma-ray astronomy was the Whipple 10 m telescope in southern Arizona, 1968. At first, gamma-ray astronomy was polluted with unsubstantial claims of transient signals from a variety of pulsars and binaries, but these signals had marginal statistical significance \cite[][p.~9]{Weekes2003}. It wasn't until 20 years later, after further development of the technique, that the Crab Nebula was detected by Whipple in 1989, thus reigniting interest in the development of gamma-ray astronomy.
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.35\textwidth}
+  \includegraphics[width=\textwidth]{hess}
+  \caption{\gls{hess}}
+  \label{fig:hess}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.35\textwidth}
+  \includegraphics[width=\textwidth]{magic}
+  \caption{\gls{magic}}
+  \label{fig:magic}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.45\textwidth}
+  \includegraphics[width=\textwidth]{veritas}
+  \caption{\gls{veritas}}
+  \label{fig:veritas}
+  \end{subfigure}
+  \caption{Photos of modern \glspl{iact}.}
+  \label{fig:iacts}
+\end{figure}
+
+\begin{figure}
+	\centering\includegraphics[width=\textwidth]{sensitivity} 
+	\caption[Differential sensitivity of CTA.]{Differential sensitivity of CTA predicted by Monte Carlo simulations, compared to the performance of other gamma-ray instruments. The differential sensitivity has been defined as the minimum flux needed by CTA to obtain a 5-standard-deviation detection of a point-like source.}
+	\label{fig:sensitivity}
+\end{figure}
+
+Modern \glspl{iact} include \gls{magic}, \gls{veritas}, and the most recent, \gls{hess} (Figure~\ref{fig:iacts}). All three of these telescope systems operate with the advantage of stereoscopic collaboration. In order to improve on the current \glspl{iact}, an array of ${\sim} 100$ telescopes was proposed, called the \gls{cta}. This array will have \cite{Acharya2013}:
+\begin{itemize}
+\item an improved sensitivity of 10 times over previous \glspl{iact} (Figure~\ref{fig:sensitivity}),
+\item an observable gamma-ray energy range of \SI{30}{GeV} to \SI{100}{TeV},
+\item a large (\SI{\sim 8}{\degree}) field of view for surveys,
+\item improved angular and energy resolution,
+\item and will be the first \gls{iact} to operate as an open observatory.
+\end{itemize}
 
 \section{The Cherenkov Telescope Array}
 
