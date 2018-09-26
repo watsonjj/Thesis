@@ -49,7 +49,7 @@ Contained within the lab data are the parameters required for the Monte Carlo va
     Gain Deviation       & [\si{\pe}] & 0.109 $\pm$ 0.009  & 0.078 $\pm$ 0.007 \\
     Optical Crosstalk    &            & 0.387 $\pm$ 0.007  & 0.350 $\pm$ 0.006 \\ \bottomrule
 \end{tabular}
-\caption{Parameter values resulting from the fit to the spectra in Figure~\ref{fig:spe_sim_lab}. The \si{1}{$\sigma$} parabolic errors obtained from the covariance matrix of the fit parameters are quoted.}
+\caption{Parameter values resulting from the fit to the spectra in Figure~\ref{fig:spe_sim_lab}. The \si{1}{$\sigma$} parabolic errors obtained from the covariance matrix of the fit parameters are also quoted.}
 \label{table:spe_sim_lab}
 \end{table}
 
@@ -124,7 +124,7 @@ It is therefore apparent in Figure~\ref{fig:cr_2_lab_vs_mc} that our simulation 
 \begin{description}
 \item [Transfer Functions] The simulations do not fully simulate the \gls{chec-s} electronics. They contain no resemblance of the digitising behaviour of \gls{target} \glspl{asic}, and therefore no variations in amplitude response exists from sample-to-sample. Inaccuracies in the Transfer Function calibration (Chapter~\ref{ch5-calibration}) could manifest themselves as differences between the \textit{Charge Resolutions} of lab and simulated data.
 \item [Timing] As mentioned in Section~\ref{section:timing_corrections}, the variations in signal arrival time between pixels could degrade the \textit{Charge Resolution}. This contribution is not included in the simulation.
-\item [Electrical Crosstalk] Inside the simulation, each pixel is considered independently. Due to electronic coupling, this is unfortunately not the case in reality. \change{Rich: better description (technical) of how the electronic crosstalk happens, e.g. of ground bounce}
+\item [Electrical Crosstalk] Inside the simulation, each pixel is considered independently. Due to electronic coupling, this is unfortunately not the case in reality. Interference between pixels, especially if a large amplitude is measured, can occur via faults in the electronic design, for example ``ground bounce''.
 \item [Optical Crosstalk] A simplified form of optical crosstalk is used in the simulation, via the input \gls{spe} spectra shape. This may not fully characterise the full behaviour of the optical crosstalk.
 \item [Reference Pulse Shape] Another major difference between simulation and reality is the behaviour of the pulse shape. In simulations, the pulse shape at all illuminations is constructed by the superposition of the individual photoelectron pulses. If that description was appropriate for the real camera, the pulse shape dependency with amplitude would not be seen in Section~\ref{section:pulse_shape_results}. As we use the \textit{Cross Correlation} charge extraction method, the measured charge is sensitive to changes in pulse shape. This could, in theory, result in discrepancies between the \textit{Charge Resolutions} of lab and simulated data. However, the investigations in Appendix~\ref{a5-extractors} seem to suggest this factor is not significant.
 \end{description}

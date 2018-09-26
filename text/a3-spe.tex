@@ -8,78 +8,76 @@ Due to the multiplicative process applied to a photoelectron in both \glspl{mapm
 
 If an \gls{mapmt} or \gls{sipmt} is illuminated to a very low light level (such that the photosensors perform as individual photon counters), and the resulting signal is accumulated inside a histogram, the distinct peaks corresponding to the detected number of photoelectrons are observed. The resolution of these peaks is determined by the \gls{enf}, as detailed in Section~\ref{section:enf}. This visualisation is known as the \gls{spe} spectrum, and it is a powerful tool utilised in the calibration of these photosensors.
 
-The characterisation of the 
+The typical characteristics of the \gls{spe} spectrum are Gaussian peaks corresponding to each photoelectron, the height of which follow a Poisson distribution corresponding to the average illumination level that was present when taking the data.
 
 Typically, the following features from the \gls{spe} spectra can be extracted with simple approaches:
 \begin{itemize}
-\item The position and width of the pedestal peak, indicating at the.
+\item The position and width of the pedestal peak, indicating the level of electronic noise.
+\item The position of the first photoelectron peak, suggesting the gain of the photosensor.
+\item The average illumination from the ratio of the pedestal to single photoelectron peak.
 \end{itemize}
 
-As is illustrated in Figure~\ref{} \change{add figure}, the resolution of the \gls{spe} peaks obtained form an \gls{mapmt} is much lower than that obtained from an \gls{sipmt}, making it difficult to characterise the \gls{spe} spectrum by eye. Additionally, many factors that contribute the \gls{spe} spectrum are hard to entangle.
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{spe_checm_checs} 
+	\caption[(Repeated) Comparison of SPE spectra between CHEC-M and CHEC-S.]{Repeat of Figure~\ref{fig:spe_checm_checs}. Comparison of SPE spectra between CHEC-M and CHEC-S for a single pixel, along with their corresponding fit function. In both cases, three illumination are simultaneously fit.} 
+	\label{fig:spe_checm_checs_repeat}
+\end{figure}
 
+\begin{table}[!ht]
+\centering
+\begin{tabular}{ll|ll} \toprule
+    Fit Parameter        &            & CHEC-M             & CHEC-S            \\ \midrule
+    Average Illumination & [\si{\pe}] & 0.366 $\pm$ 0.008  & 0.581 $\pm$ 0.009 \\
+    Pedestal Deviation   & [\si{\pe}] & 0.163 $\pm$ 0.001  & 0.285 $\pm$ 0.002 \\
+    Gain Deviation       & [\si{\pe}] & 0.626 $\pm$ 0.009  & 0.078 $\pm$ 0.007 \\
+    Optical Crosstalk    &            &                    & 0.350 $\pm$ 0.006 \\ \bottomrule
+\end{tabular}
+\caption{Parameter values resulting from the fit to the spectra in Figure~\ref{fig:spe_checm_checs_repeat}. The \si{1}{$\sigma$} parabolic errors obtained from the covariance matrix of the fit parameters are also quoted.}
+\label{table:spe_checm_checs_repeat}
+\end{table}
 
-An \gls{sipmt} has a much higher 
+As is illustrated in Figure~\ref{fig:spe_checm_checs_repeat}, the resolution of the \gls{spe} peaks obtained form an \gls{mapmt} is much lower than that obtained from an \gls{sipmt}, making it difficult to characterise the \gls{spe} spectrum by eye, or by simple fits using the aforementioned features. Additionally, many factors that contribute the \gls{spe} spectrum are hard to entangle. Therefore, a fit to the spectra using an analytical function which describes the \gls{spe} spectrum behaviour of the corresponding photosensor is often employed.
 
+\section{Software}
 
-they display quantised characteristics in the signal output from them. When the signal is input into a histogram, distinct peaks corresponding to the number of photoelectrons produced in the photosensor 
-
-\subsection{Software}
+The |extract_spe.py| script inside \pkg{CHECLabPy} allows the correct analytical function corresponding to the dataset to be chosen at runtime. It then utilises the |SpectrumFitter| class to flexibly fit $N$ datasets of different illuminations simultaneously. This simultaneous fit helps to disentangle certain parameters. In the case of the \glspl{sipmt} the optical crosstalk and average illumination are closely entangled, and a fit to a single illumination can have trouble providing accurate values. However, when increasing the average illumination, the optical crosstalk remains constant. The fit can therefore better constrain the difference each parameter contributes. Furthermore, the |extract_spe.py| script fits each pixel in parallel, considerably reducing the runtime.
 
 \section{Multi-Anode Photomultiplier Tubes}
 
+The behaviour of a \gls{pmt} (which extends to \glspl{mapmt}) is very well understood, and is simple to quantify. 
+
+At an average illumination $\lambda$, there exists a probability to get either 0, 1, 2, 3...$k$ photoelectrons, defined by the Poisson distribution:
+\begin{equation} \label{eq:mapm_spe_poisson}
+P(k) = \me^{-\lambda} \frac{\lambda^k}{k!}.
+\end{equation}
+
+The distribution of values from Equation~\ref{eq:mapm_spe_poisson} are delta functions at each photoelectron value. This corresponds to the \gls{spe} spectrum you would measure for a perfect photosensor, with no electronic noise or \gls{enf}. 
+
+In the case $k = 0$ (the pedestal peak), the probability to measure a charge $q$ (in \si{mV}, \si{mVns}, \si{ADC}, or \si{\pe}, depending on the calibration applied and the charge extraction approach used) is represented as a Gaussian with area $P(0)$, standard deviation $\sigma_0$ (representing the variation in electronic noise), and a mean $\mu_0$ (as the baseline of the waveforms may not be corrected):
+\begin{equation} \label{eq:mapm_spe_ped}
+P(q) = e^{-\lambda} \frac{1}{\sqrt{2 \pi \sigma_0^2}} e^{-\frac{(q - \mu_0)^2}{2 \sigma_0^2}}.
+\end{equation}
+
+In the case $k > 0$, the mean and the standard deviation of the Gaussian increases with k. Additionally, the pedestal spread is also present in the $k > 0$ peaks. Therefore, the probability to measure a charge $q$ is expressed as a Gaussian with area $P(k)$. The standard deviation $\sigma(k)$ is expressed as the quadrature sum of the two contributions:
+\begin{equation}
+\sigma(k) = \sqrt{\sigma_0^2 + k \sigma_1^2},
+\end{equation}
+where $\sigma_1$ is the standard deviation in the multiplication of a single photoelectron.
+The mean $\mu(k)$ is the mean of the first photoelectron peak $\mu_1$ multiplied by $k$. This results in the expression:
+\begin{equation}
+P(q, k) = P(k) \frac{1}{\sqrt{2 \pi \sigma(k)^2}} e^{-\frac{(q - \mu(k))^2}{2 \sigma(k)^2}}.
+\end{equation}
+
+The sum over each distribution of $P(q)$, for each value of $k$ (I only go up to $k=10$), gives the probability of getting each value of charge $q$. Combined with a normalisation factor, this equation can then be used to fit the spectrum of an \gls{mapmt}.
+
 \section{Silicon Photomultipliers}
 
-% \notes[inline,caption={}]{
-% 	\section{Plan}
-% 	\subsection{Topics}
-% 	\begin{itemize}
-% 		\item fit functions derivations
-%         \item make clear that separate function between mapms and sipms
-%         \item multifitting procedure
-%         \item ^ mention in software, checlabpy - also parallelisation
-%         \item require high gain/hv to see peaks
-% 	\end{itemize}
-% 	\subsection{Questions}
-% 	\begin{itemize}
-% 		\item ?
-% 	\end{itemize}
-% }
+The analytical description for an \gls{sipmt} is a bit more complicated. The formula we have found to work well is the one described by \cite{Gentile2010}. It expands on the formula I have described for \glspl{mapmt} to include the \gls{sipmt} optical crosstalk and afterpulsing.
 
-% \change[inline]{describe iminuit, migad, hesse, http://nbviewer.jupyter.org/github/iminuit/iminuit/blob/master/tutorial/tutorial.ipynb#}
+As with \glspl{mapmt}, the probability to get k initial photoelectrons (i.e. $k$ initially fired microcells) follows a Poisson distribution. However, to find the probability of getting a total number of fired microcells $n$, the optical crosstalk probability $\epsilon$, must be included:
+\begin{equation}
+P(n) = \sum_{k=1}^n P(k) (1 - \epsilon)^k \epsilon^{n-k} \binom{n-1}{k-1}.
+\end{equation}
 
-
-
-% \subsection{CHEC-M}
-
-% Photomultiplier tubes have been widely used in Gamma-ray Astronomy since the first \glspl{iact} \change{get source}, therefore the characterisation of these devices is very well understood. However, \glspl{mapmt} are a more recent evolution of the devices, and although they have the same underlying concept, they do suffer from some limitations, such as the inability to tweak the \gls{hv} on a pixel level, and the electrical crosstalk across the tightly packed pixels \change{check checm paper for other limitations}.
-
-% A common method to characterize \glspl{mapmt}, and the one we also adopted, is the use of the \gls{spe} spectrum. The primary result this spectrum provides is the per-pixel value to calibrate from the measured signal in mV (or mV*ns for integrated charge) to \gls{pe}. This conversion value is hereafter referred to as the \gls{spe} value. In order to investigate this parameter, the photosensor is illuminated with a very low light level (average illumination <1~p.e. per pixel). As the photosensor is essentially a photon counting device, the individual peaks of the photoelectrons that are produced by the photocathode can be identified in the histogram of charge amplitudes. The \gls{spe} value is therefore the average charge of the first photoelectron peak. However, the resolution of these peaks can be quite poor, especially for \glspl{mapmt}, therefore the resulting distribution is fit with a function that characterises the photosensor: \change[inline]{add equation for mapm spe fit, and reference its origin}
-
-% \change[inline]{SPE fit plots}
-
-% This SPE value is proportional to the gain of the photomultiplier, and therefore also proportional to the \gls{hv} applied across the photomultiplier. In order to extract a clear \gls{spe} spectrum, the voltage across the \glspl{mapmt} are set to the maximum value of 1100~V, thereby maximising the separation between the photoelectron and pedestal peaks.
-
-% In order to extrapolate the correct \gls{spe} value for other \gls{hv} settings, the following relation:
-
-% Can be used in combination with a logarithmic \change{double check, maybe linear regression in log space?} fit of a dataset where the amplitude is measured as a function of HV to obtain $\alpha$ per pixel. \change{include plot of relation}
-
-% \change{plots of the SPE values at different hv sets}
-
-% In order to apply this calibration, the \gls{spe} value (with units of $mV*ns*p.e.^{-1}$) per pixel is multiplied by the charge extracted per pixel. \change[inline]{show a waveform with this factor applied, maybe also the spectrum}
-
-% \subsection{CHEC-S}
-
-% In the transition to \glspl{sipmt}, the calibration procedure for the photosensors was revised to better utilise the upgraded functionality of \gls{chec-s}. 
-
-
-
-% \subsubsection{SPE Calibration}
-
-% The second step in the \gls{chec-s} photosensor calibration differs according to the purpose of the dataset being calibrated. In order to completely characterise the camera, and produce the Charge Resolution results, the per-pixel \gls{spe} value must be obtained, and used to produce the absolute charge in a waveform (the complete Charge Resolution procedure can be found in Chapter~\ref{ch8-pipeline}).
-
-% The function that characterises the \gls{spe} distribution of an \gls{sipmt} is not wildly different to that of an \gls{mapmt}, but does include the significant contribution of the optical crosstalk:
-% \change[inline]{write function}
-
-% The other significant difference in the \gls{spe} distribution of an \gls{sipmt} is the improved resolution of the peaks. Typically when an \gls{sipmt} is illuminated at \change{illumination}, peaks from \change{range of peaks} can be identified. Figure~\change{obtain spe figure of sipm on its own} shows the \gls{spe} spectrum for the model of \gls{sipmt} we have installed into the camera. However, due to the inclusion of the other electronics in the camera, this improved resolution is considerately suppressed, but is still significantly better than observed with \gls{chec-m}\change{reference chec-m figure}.
-
-% Figure~\change{insert figure} shows the \gls{spe} spectrum and fit for a pixel in our camera. The resulting parameters are \change[inline]{talk about the spe fit parameters, and show some histograms}
+The formula for the probability of obtaining a charge $q$ is also similar to the \gls{mapmt} case. However, two additional terms are included to account for two levels of afterpulsing, occurring at a reduced charge of $\delta_1$ and $\delta_2$ from the photoelectron peaks, each with a probability of that level of afterpulsing occurring. Due to the diminished afterpulsing probability in recent \gls{sipmt} productions (Section~\ref{section:sipmt_parameters}), we removed the second level of afterpulsing from the fit, as we already get a very small value from using the first afterpulse level in the fit.
