@@ -268,6 +268,14 @@
 }
 {\end{alwayssingle}}
 
+\newenvironment{declaration}%
+{   \begin{alwayssingle}\chapter*{Declaration}
+		\thispagestyle{empty}
+		\pagestyle{empty}
+		\setlength{\baselineskip}{\frontmatterbaselineskip}
+	}
+	{\end{alwayssingle}}
+
 
 %ABSTRACT
 %
