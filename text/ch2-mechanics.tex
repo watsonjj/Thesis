@@ -8,14 +8,14 @@ Due to the design of \gls{gct} as a dual-mirror Schwarzschild-Couder telescope, 
 
 Two designs have been implemented for \gls{chec}, each featuring a different multi-pixel photon-counting sensor technology. A \gls{mapmt} based camera known as \gls{chec-m} was the first to be commissioned, and received its inauguration on the \gls{gct} telescope structure at the Observatoire de Paris-Meudon in November 2015 \cite{Watson2017}. A second camera, known as \gls{chec-s}, is currently undergoing commissioning at the Max-Planck-Institut für Kernphysik in Heidelberg, Germany. This camera utilises \glspl{sipmt} as its photosensors. \gls{chec-s} also features upgrades to the digitisation chain that were developed since the commissioning of \gls{chec-m}.
 
-This chapter will describe the components of the \gls{chec}, covering the photosensor, \gls{fee}, and \gls{bee}. These descriptions will be focussed on the factors contributed by the components that have a significant influence on the low-level calibration and performance investigations covered in this thesis. Furthermore, the external components and laboratory set-up will be described. Finally, the data output of the camera is described, with specific focus on the characteristics of the waveform readout. The calibration and analysis of these waveforms obtained from the full camera electronics chain is the primary focus of this thesis.
+This chapter will describe the components of \gls{chec}, covering the photosensor, \gls{fee}, and \gls{bee}. These descriptions will be focussed on the factors contributed by the components that have a significant influence on the low-level calibration and performance investigations covered in this thesis. Furthermore, the external components and laboratory set-up will be described. Finally, the data output of the camera is described, with specific focus on the characteristics of the waveform readout. The calibration and analysis of these waveforms obtained from the full camera electronics chain is the primary focus of this thesis.
 
 \section{Photosensors}
 
 For a photosensor to be useful to \glspl{iact}, it must be:
 \begin{enumerate}
-\item Sensitive to Cherenkov (blue) light.
-\item Fast in its response to a signal, which is required to detect the prompt Cherenkov shower flashes.
+\item Sensitive to Cherenkov (UV-blue) light.
+\item Fast in its response to a signal, which is required to detect the prompt (a few nanosecond) Cherenkov shower flashes.
 \item Cheap, allowing large arrays of them to be combined to fill the full plate scale of the telescope and provide high spatial resolution of the shower.
 \end{enumerate}
 
@@ -67,7 +67,7 @@ In order to be compatible with the reduced plate scale of the telescope, more co
 \begin{figure}
 	\centering
     \includegraphics[width=0.6\textwidth]{mapmt_crosstalk} 
-	\caption[Multi-Anode Photomultiplier Tube crosstalk.]{Example of the crosstalk present in an MAPMT, measured by using a fibre~\cite{Hamamatsu2011}.}
+	\caption[Multi-Anode Photomultiplier Tube crosstalk.]{Example of the crosstalk present in an MAPMT, measured by using a fibre~\cite{Hamamatsu2011}. The values in each pixel are the relative signal percentage measured.}
 	\label{fig:mapmt_crosstalk}
 \end{figure}
 
@@ -77,7 +77,7 @@ An important concern when using an \gls{mapmt} is the crosstalk. This is the mea
 
 For a photosensor to be considered as a replacement for the tried-and-trusted \gls{pmt} technology within \gls{iact} astronomy, it must deliver a higher \gls{qe} for a comparable cost. \glspl{sipmt}, or its solid state single photon detector precursors, have been actively developed since the 1960s \cite{Renker2006}. They have recently matured into a feasible replacement for traditional \gls{pmt} technology, causing a transitioning trend in the majority of fields that previously relied on \glspl{pmt}. This trend has been aided by the recent reduction in \gls{sipmt} cost, offering a modern alternative to \glspl{mapmt} for a similar price. The physics behind \gls{sipmt} technology is more complicated than that of \glspl{pmt}, therefore a full description of their inner workings is reserved for Appendix~\ref{a1-sipm}.
 
-As a short summary, an \glspl{sipmt} microcell consists of a single \gls{apd}, operated in Geiger mode (i.e. with a reverse bias voltage past the breakdown voltage). The breakdown voltage is the voltage beyond which the gain of an \gls{apd} tends to infinity. Therefore, an incident photon (or thermal excitation, i.e. ``dark count'') which produces an electron-hole pair in the silicon will consequently cause an avalanche of excess charge carriers, turning the silicon conductive and producing a macroscopic current. As the charge produced in this avalanche is essentially limited by the quenching resistor, the same charge is read out irrespective of the number of incident photons. The \gls{apd} operated in Geiger mode is therefore referred to as a binary device. By arranging an array of up to 10,000 of these microcells per \si{mm\squared} to form an \gls{sipmt} pixel, a high resolution photon counting sensor can be produced with a large dynamic range.
+As a short summary, an \glspl{sipmt} microcell consists of a single \gls{apd}, operated in Geiger mode (i.e.\@ with a reverse bias voltage past the breakdown voltage). The breakdown voltage is the voltage beyond which the gain of an \gls{apd} tends to infinity. Therefore, an incident photon (or thermal excitation, i.e.\@ ``dark count'') which produces an electron-hole pair in the silicon will consequently cause an avalanche of excess charge carriers, turning the silicon conductive and producing a macroscopic current. As the charge produced in this avalanche is essentially limited by the quenching resistor, the same charge is read out irrespective of the number of incident photons. The \gls{apd} operated in Geiger mode is therefore referred to as a binary device. By arranging an array of up to 10,000 of these microcells per \si{mm\squared} to form an \gls{sipmt} pixel, a high resolution photon counting sensor can be produced with a large dynamic range.
 
 The major factors that contribute to the appeal of modern iterations of \gls{sipmt} technology as a replacement for \glspl{pmt} are outlined by \textcite{Ghassemi2017}:
 \begin{itemize}
@@ -211,7 +211,7 @@ It is clear from Figure~\ref{fig:enf_gain} that the main area of improvement to 
   \caption[Characteristic performance of future CHEC-S SiPMs.]{Characteristic performance of two potential SiPM productions for the use in future CHEC-S prototypes.}
 \end{figure}
 
-Two \gls{sipmt} productions by Hamamatsu are being considered for the next \gls{chec-s} prototype. S14521-8648 exhibits a greatly reduced optical crosstalk, down to \SI{< 10}{\percent} (shown in Figure~\ref{fig:sipm_new_bare}). S14521-8649 is the same silicon design, but has a protective resin coating to reduce the change of damage to the pixels. The optical crosstalk of this second silicon is slightly higher (shown in Figure~\ref{fig:sipm_new_resin}) as the coating allows another surface for secondary photons to reflect into neighbouring microcells. If it is deemed that the protective coating is unnecessary, the former \gls{sipmt} will be chosen to maximise performance. We expect to be able to begin testing these new \gls{sipmt} productions in early 2019.
+Two \gls{sipmt} productions by Hamamatsu are being considered for the next \gls{chec-s} prototype. S14521-8648 exhibits a greatly reduced optical crosstalk, down to \SI{< 10}{\percent} (shown in Figure~\ref{fig:sipm_new_bare}). S14521-8649 is the same silicon design, but has a protective resin coating to reduce the chance of damage to the pixels. The optical crosstalk of this second silicon is slightly higher (shown in Figure~\ref{fig:sipm_new_resin}) as the coating allows another surface for secondary photons to reflect into neighbouring microcells. If it is deemed that the protective coating is unnecessary, the former \gls{sipmt} will be chosen to maximise performance. We expect to be able to begin testing these new \gls{sipmt} productions in early 2019.
 
 \section{Camera Electronics}
 
@@ -263,7 +263,7 @@ The second component of the \gls{fee} is the \gls{target} module. These modules 
 \end{itemize}
 By keeping the \gls{target} modules limited to this small list of components, they are kept affordable and reliable. Two \gls{target} modules versions have been integrated into \gls{chec} prototype cameras so far. \gls{chec-m} utilised the \gls{target5} modules (Figure~\ref{fig:mapm_module}), named as such due the \gls{target5} \gls{asic} housed in the module. The \gls{target5} \gls{asic} is responsible for both the sampling and the triggering \cite{Albert2017}. Meanwhile, \gls{chec-s} uses the latest \gls{target} module design, often referred to as \gls{targetc}. This version of the module has split the sampling and triggering between two \glspl{asic} to reduce the interference between the two functionalities (thereby improving trigger performance \cite{Funk2017}). The sampling and trigger \glspl{asic} are known as \gls{targetc} (hence the module's name) and \gls{t5tea}, respectively.
 
-Each \gls{asic} has 16 input channels, associated with 16 photosensor pixels. Therefore, each \gls{target} module contains four of each \gls{asic} to accommodate all 64 pixels on the photosensors. Both cameras contain a total of 32 \gls{fee} modules arranged in a grid, producing the curved focal surface of the camera. This \SI{1}{m} radius of curvature is required by the Schwarzschild-Couder optics to ensure that the focus of the optics is constant over the field of view (i.e. prevent astigmatism) \cite{Vassiliev2007}. The flexibility of the ribbon cables installed between the photosensor and \gls{target} module allow for this curved alignment, while keeping the module drawers in the camera enclosure simple. The combination of these 32 \gls{fee} results in a camera with 2,048 pixels.
+Each \gls{asic} has 16 input channels, associated with 16 photosensor pixels. Therefore, each \gls{target} module contains four of each \gls{asic} to accommodate all 64 pixels on the photosensors. Both cameras contain a total of 32 \gls{fee} modules arranged in a grid, producing the curved focal surface of the camera. This \SI{1}{m} radius of curvature is required by the Schwarzschild-Couder optics to ensure that the focus of the optics is constant over the field of view (i.e.\@ prevent astigmatism) \cite{Vassiliev2007}. The flexibility of the ribbon cables installed between the photosensor and \gls{target} module allow for this curved alignment, while keeping the module drawers in the camera enclosure simple. The combination of these 32 \gls{fee} results in a camera with 2,048 pixels.
 
 Aside from the photosensor, the version of \gls{target} used in the camera is the only other major differing components between \gls{chec-m} and \gls{chec-s} related to the waveform readout. 
 
@@ -295,16 +295,14 @@ Designed specifically for the readout of short Cherenkov signal observed with \g
 
 \subsection{Triggering} \label{section:triggering}
 
-The camera can be either externally triggered (e.g. by using a pulse generator), or internally triggered according to signal generated by the trigger-responsible \gls{target} \gls{asic} (\gls{target5} or \gls{t5tea}). The trigger relies on a two-way communication between the \gls{fee} and \gls{bee}. The internal trigger operates as follows \cite{Zorn2017}:
+The camera can be either externally triggered (e.g.\@ by using a pulse generator), or internally triggered according to signal generated by the trigger-responsible \gls{target} \gls{asic} (\gls{target5} or \gls{t5tea}). The trigger relies on a two-way communication between the \gls{fee} and \gls{bee}. The internal trigger operates as follows \cite{Zorn2017}:
 \begin{enumerate}
-\item The camera pixels are split into square groups of four neighbouring pixels. These are hereafter referred to as a \gls{superpixel}\final{check other usages of superpixel}. \gls{chec} therefore has 512 superpixels.
+\item The camera pixels are split into square groups of four neighbouring pixels. These are hereafter referred to as a \gls{superpixel}. \gls{chec} therefore has 512 superpixels.
 \item The \gls{target} \gls{asic} responsible for the trigger continuously generates an analogue sum of the photosensor signal on a per superpixel basis.
 \item If the analogue sum in a superpixel is greater than a (configurable) threshold, then a digital signal is produced with a (configurable) coincidence time length. A signal is produced per superpixel over the threshold, and sent to the trigger \gls{fpga} on the backplane.
 \item If there is a coincidence in digital signal between any two neighbouring superpixels then a readout request is sent from the backplane trigger \gls{fpga} to all of the \gls{target} modules.
 \end{enumerate}
 As this trigger logic requires a simultaneous trigger signal between two neighbouring superpixels, the probability that the camera is triggered from an \gls{nsb} photon is significantly reduced. In situations where high \gls{nsb} is present, the threshold may need to be increased, reducing the Cherenkov shower detection rate. The trigger and digitisation rate that \gls{chec} is capable of is \SI{600}{Hz}, which matches the expected Cherenkov shower rate for gamma rays above \SI{1}{TeV} \cite{Zorn2017}.
-
-resulting in an event rate above 1 TeV that implies a maximum mean trigger and readout rate per SST of 600 Hz.
 
 \subsection{Digitisation and Readout}
 

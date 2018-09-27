@@ -75,7 +75,7 @@ The sum over each distribution of $P(q)$, for each value of $k$ (I only go up to
 
 The analytical description for an \gls{sipmt} is a bit more complicated. The formula we have found to work well is the one described by \textcite{Gentile2010}. It expands on the formula I have described for \glspl{mapmt} to include the \gls{sipmt} optical crosstalk and afterpulsing.
 
-As with \glspl{mapmt}, the probability to get $k$ initial photoelectrons (i.e. $k$ initially fired microcells) follows a Poisson distribution. However, to find the probability of getting a total number of fired microcells $n$, the optical crosstalk probability~$\epsilon$, must be included:
+As with \glspl{mapmt}, the probability to get $k$ initial photoelectrons (i.e.\@ $k$ initially fired microcells) follows a Poisson distribution. However, to find the probability of getting a total number of fired microcells $n$, the optical crosstalk probability~$\epsilon$, must be included:
 \begin{equation}
 P(n) = \sum_{k=1}^n P(k) (1 - \epsilon)^k \epsilon^{n-k} \binom{n-1}{k-1}.
 \end{equation}

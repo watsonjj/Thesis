@@ -32,7 +32,7 @@ Four \gls{ac} Transfer Function generation approaches are considered:
 	\label{fig:cr_6_tf_comparison}
 \end{figure}
 
-The same dataset for the lab measurements shown in Chapter~\ref{ch7-perfomance} is used, but the different Transfer Function lookup tables are applied for the waveform calibration in each case. The filter-wheel calibration, flat-field calibration and charge extraction is also re-performed for each Transfer Function. Figure~\ref{fig:cr_6_tf_comparison} compares the \textit{Charge Resolution} result for each approach, allowing the following to be inferred:
+The same dataset for the lab measurements shown in Chapter~\ref{ch7-performance} is used, but the different Transfer Function lookup tables are applied for the waveform calibration in each case. The filter-wheel calibration, flat-field calibration and charge extraction is also re-performed for each Transfer Function. Figure~\ref{fig:cr_6_tf_comparison} compares the \textit{Charge Resolution} result for each approach, allowing the following to be inferred:
 \begin{itemize}
 	\item The PCHIP interpolation results in only a minor improvement over the linear interpolation used for the \textit{Direct} approach.
 	\item The use of a polynomial regression to express the Transfer appears to be the most successful Transfer Function approach.
@@ -44,7 +44,14 @@ An ideal Transfer Function calibration would result in the low amplitude perform
 
 \section{Sampling Cell versus Storage Cell}
 
-One further comparison approach performed for the Transfer Function calibration was between storing a lookup table per sampling cell or per storage cell. The former would result in 64 Transfer Functions per channel, the latter in 4,096 Transfer Functions per channel (for \gls{chec-s}). The \textit{Charge Resolution} results of this comparison are shown in Figure~\ref{} \change{add figure}. In both cases, the \textit{Poly} approach for generating the lookup table was used.
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{cr_6_tf_comparison_cells} 
+	\caption[Comparison of the \textit{Charge Resolution} from the ``per sampling cell'' versus ``per storage cell''.]{Comparison of the \textit{Charge Resolution} resulting from a Transfer Function calibration in which each sampling cell has its own lookup table, versus one where each storage cell has a lookup table.} 
+	\label{fig:cr_6_tf_comparison_cells}
+\end{figure}
+
+One further comparison approach performed for the Transfer Function calibration was between storing a lookup table per sampling cell or per storage cell. The former would result in 64 Transfer Functions per channel, the latter in 4,096 Transfer Functions per channel (for \gls{chec-s}). The \textit{Charge Resolution} results of this comparison are shown in Figure~\ref{fig:cr_6_tf_comparison_cells}. In both cases, the \textit{Poly} approach for generating the lookup table was used.
 
 Despite investigations performed by other \gls{chec} members concluding that an improvement is found by considering a Transfer Function per storage cell, I observe no improvement in the \textit{Charge Resolution} results. This discrepancy between my conclusion and the conclusion obtained by others is likely due to the other more dominating contributions to the \textit{Charge Resolution}. Assuming a cell-level Transfer Function calibration is kept, this investigation should be repeated in future iterations of the \gls{chec} prototype, as the reduction in the other contributions may make the relative difference between ``per storage cell'' and ``per sampling cell'' more significant. If no significant distinction is found, the ``per sampling cell'' should be used due to the less number of lookup tables required.
 

@@ -34,11 +34,9 @@ Contained within the lab data are the parameters required for the Monte Carlo va
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{spe_sim_lab} 
-	\caption[Comparison of the SPE spectra between lab measurements and simulations.]{Comparison of the SPE spectra for a single pixel between lab measurements and simulations after an initial attempt towards a more accurate Monte Carlo model. The SPE spectra were identically constructed in both cases, using the \textit{Cross Correlation} charge extraction method. Each spectra histogram was then fit using Equation~\ref{}. Three illuminations were simultaneously fit, however just a single illumination is displayed here. Both spectra are normalised in the x direction by their respective single-photoelectron value, and in the y direction such that their integral is 1.}
+	\caption[Comparison of the SPE spectra between lab measurements and simulations.]{Comparison of the SPE spectra for a single pixel between lab measurements and simulations after an initial attempt towards a more accurate Monte Carlo model. The SPE spectra were identically constructed in both cases, using the \textit{Cross Correlation} charge extraction method. Each spectra histogram was then fit using the procedure described in Appendix~\ref{a3-spe}. Three illuminations were simultaneously fit, however just a single illumination is displayed here. Both spectra are normalised in the x direction by their respective single-photoelectron value, and in the y direction such that their integral is 1.}
 	\label{fig:spe_sim_lab}
 \end{figure}
-
-\final{reference spe fitting equation}
 
 \begin{table}[!ht]
 \centering
@@ -254,7 +252,7 @@ The results of these \textit{Charge Resolution} investigations seem to suggest t
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{pulse_shape_lab} 
-	\caption[Pulse shape versus average expected charge for CHEC-S.]{The average pulse shape across CHEC-S as a function of average expected charge (i.e. illumination). The Y errors are the standard deviation of the pulse shape parameters across the camera. The ``dead'' pixels are excluded from the calculation.}
+	\caption[Pulse shape versus average expected charge for CHEC-S.]{The average pulse shape across CHEC-S as a function of average expected charge (i.e.\@ illumination). The Y errors are the standard deviation of the pulse shape parameters across the camera. The ``dead'' pixels are excluded from the calculation.}
 	\label{fig:pulse_shape_lab}
 \end{figure}
 
@@ -297,7 +295,7 @@ A further conclusion that may be drawn from Figure~\ref{fig:checs_time_resolutio
 
 Earlier studies of mine, that were concerned with the performance of \gls{chec-m}, have previously been included in a publication on \gls{chec-m} by \textcite{Zorn2017}. However, the calibration procedures have improved since that publication (hereafter referred to as the ``CHEC-M paper''), and an investigation into the \textit{Charge Resolution} was not previously performed. A brief update regarding the performance of \gls{chec-m} is therefore included here, using the same techniques developed for \gls{chec-s}, while relying on the same dataset used to produce the figures in the CHEC-M paper.
 
-Firstly, an updated version of the dynamic range plot (Figure~15 in the \mbox{CHEC-M} paper) is shown in Figure~\ref{fig:checm_mve_scatter}. By utilising similar techniques described in Section~\ref{section:lab-calib}, the understanding of the filter wheel's behaviour (as it existed at the time this data was taken) was improved. This is reflected in the new positions of the points on the X axis, and the larger error bars which more appropriately represent the uncertainty in the calibration.
+Firstly, an updated version of the dynamic range plot (Figure~15 in the \mbox{CHEC-M} paper) is shown in Figure~\ref{fig:checm_mve_scatter}. By utilising similar techniques described in Appendix~\ref{a2-lab}, the understanding of the filter wheel's behaviour (as it existed at the time this data was taken) was improved. This is reflected in the new positions of the points on the X axis, and the larger error bars which more appropriately represent the uncertainty in the calibration.
 
 \begin{figure}
 	\centering
