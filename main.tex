@@ -115,6 +115,15 @@
 %\newcommandx{\notes}[2][1=]{\todo[linecolor=gray,backgroundcolor=gray!25,bordercolor=gray,#1]{#2}}
 %\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
 
+\usepackage{epigraph}
+% \epigraphsize{\small}% Default
+\setlength\epigraphwidth{8cm}
+\setlength\epigraphrule{0pt}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\epigraph}{\@epitext{#1}}{\itshape\@epitext{#1}}{}{}
+\makeatother
+
 \usepackage{booktabs}
 
 \usepackage{rotating}
@@ -258,6 +267,8 @@ framexleftmargin=0.1em
 \begin{acknowledgements}
  	\input{text/03-acknowledgements}
 \end{acknowledgements}
+
+
 
 %%%%% ABSTRACT
 \begin{abstract}

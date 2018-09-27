@@ -21,6 +21,8 @@ These libraries are presently stored on the \gls{cta}-SVN version control server
 
 \noindent In order to operate the \gls{target} modules, the \pkg{TargetDriver} library is required. This \cpp~library configures the TARGET modules, and listens for the \gls{udp} packets containing the waveform data.
 
+\vfill
+
 \subsection{\pkg{TargetIO}}
 \vspace{-0.7em}
 \noindent \hspace{\parindent} {\tiny URL: svn.in2p3.fr/cta/COM/CCC/TargetIO/trunk \par}
@@ -30,7 +32,7 @@ These libraries are presently stored on the \gls{cta}-SVN version control server
   \centering
   \includegraphics[width=\textwidth]{tio}
   \captionsetup{singlelinecheck=off}
-  \caption[Data-flow overview for waveform samples within the TARGET libraries]{Overview of the data-flow for waveform samples within the TARGET libraries. Although only the samples are shown here, all other waveform data is also sent along this stream, including ASIC and Channel number, indicating the start of a new waveform. 
+  \caption[Data-flow overview for waveform samples within the TARGET libraries.]{Overview of the data-flow for waveform samples within the TARGET libraries. Although only the samples are shown here, all other waveform data is also sent along this stream, including ASIC and Channel number, indicating the start of a new waveform. 
   }
   \label{fig:tio}
 \end{figure}
@@ -48,6 +50,8 @@ The custom binary table format is complicated to read directly with typical \gls
 \end{enumerate}
 
 To ensure the full efficiency of the \cpp~library is exploited via the Python wrapper, I contributed the |WaveformArrayReader| \cpp~class, which, when passed a contiguous block of memory (such as a \lstset{language=Python}|numpy.ndarray|), promptly fills the array with the entire camera's waveform data for that event. For example, to read an \textit{R1} \gls{tio} file from Python using \pkg{TargetIO} directly:
+
+\vfill
 
 \begin{lstlisting}[language=Python]
 import numpy as np

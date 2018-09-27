@@ -6,7 +6,7 @@
 
 \section{Introduction}
 
-In order to obtain meaningful and reliable results from the camera, a number of calibrations must be applied to the waveforms read. A primary objective of my DPhil was to investigate the most optimal and efficient approaches for these calibrations (in accordance with the \gls{cta} requirements described in Chapter~\ref{ch3-architecture}), and to determine if additional calibrations are required.
+In order to obtain meaningful and reliable results from the camera, a number of calibrations must be applied to the waveform readout. A primary objective of my DPhil was to investigate the most optimal and efficient approaches for these calibrations (in accordance with the \gls{cta} requirements described in Chapter~\ref{ch3-architecture}), and to determine if additional calibrations are required.
 
 When I joined the \gls{chec} development, the calibration discussion was still in its infancy. Some approaches had been tested in a laboratory environment \cite{Bechtol2012}, but there had been little discussion on how exactly the calibrations could be applied efficiently in an analysis pipeline, where one might not be able to use the same detailed calibration due to limited resources (such as memory and processing time). A major contribution of my DPhil was to prototype the calibration procedures, develop an approach for a calibration pipeline, write the software to perform such a pipeline, and finally assess its performance. This was an iterative process, the development of which is still ongoing. However, a procedure now exists that allows us to obtain meaningful results from the waveform data, a capability that is of paramount importance in the commissioning of the camera.
 
@@ -26,14 +26,14 @@ As the calibrations in this section are very low-level, and related to \gls{chec
 \begin{minipage}[t]{.49\textwidth}
   \centering
   \includegraphics[width=0.92\textwidth]{rawwf_10} 
-  \captionof{figure}[Raw waveform]{TARGET-C waveform as read out from CHEC-S, showing the electronic pedestal in the absence of any other input, before any calibration is applied.}
+  \captionof{figure}[Raw waveform.]{TARGET-C waveform as read out from CHEC-S, showing the electronic pedestal in the absence of any other input, before any calibration is applied.}
   \label{fig:rawwf}
 \end{minipage}%
 \hfill
 \begin{minipage}[t]{.49\textwidth}
   \centering
   \includegraphics[width=\textwidth]{pulse_raw_vs_pedestal}
-  \captionof{figure}[Comparison of pedestal-subtracted waveform with raw waveform]{CHEC-S waveform  containing a \SI{5}{\pe} pulse, before and after pedestal subtraction.}
+  \captionof{figure}[Comparison of pedestal-subtracted waveform with raw waveform.]{CHEC-S waveform  containing a \SI{5}{\pe} pulse, before and after pedestal subtraction.}
   \label{fig:pulse_raw_vs_pedestal}
 \end{minipage}
 \end{figure}
@@ -72,7 +72,11 @@ There are $2^{14} = 16,384$ storage cells per channel (for \gls{chec-m}, $2^{12}
 
 \subsubsection{Generation}
 
-In order to perform the pedestal subtraction, one must first generate a lookup table of pedestal values. This can be easily obtained with a calibration run where the voltages across the photosensor are disabled, and forcing the camera to trigger (with either an external pulse generator, or internally via software) to obtain a large amount of waveform data. Typically around 30,000 events provide enough samples for every storage cell, in every waveform position, to have at least 10 entries. The samples are then collected as a running average with the dimensions $[Module, Channel, Starting Block, Blockphase+Sample\_i]$, where the $Starting Block$ is the storage block that the first sample in the waveform belongs to, $Blockphase$ is the cell index within the storage block that the waveform begins on, and $Sample\_i$ is the index of each sample in the waveform. %This is illustrated in Figure~\change{include figure, and edit to use bp 8 and 12}, where for these two readout windows shown, the pedestal running average |Pedestal[TM][CHANNEL][9][8:103]| and |Pedestal[TM][CHANNEL][8][12:107]| will be contributed to, respectively.
+In order to perform the pedestal subtraction, one must first generate a lookup table of pedestal values. This can be easily obtained with a calibration run where the voltages across the photosensor are disabled, and forcing the camera to trigger (with either an external pulse generator, or internally via software) to obtain a large amount of waveform data. Typically around 30,000 events provide enough samples for every storage cell, in every waveform position, to have at least 10 entries. The samples are then collected as a running average with the dimensions: 
+\begin{equation}
+	[Module, Channel, Starting Block, Blockphase+Sample\_i],
+\end{equation}
+where the $Starting Block$ is the storage block that the first sample in the waveform belongs to, $Blockphase$ is the cell index within the storage block that the waveform begins on, and $Sample\_i$ is the index of each sample in the waveform. %This is illustrated in Figure~\change{include figure, and edit to use bp 8 and 12}, where for these two readout windows shown, the pedestal running average |Pedestal[TM][CHANNEL][9][8:103]| and |Pedestal[TM][CHANNEL][8][12:107]| will be contributed to, respectively.
 
 The TargetCalib library handles the pedestal lookup table generation, and stores it into a \gls{fits} file. A new pedestal file is typically generated at the start of each new dataset, as the dependencies on temperature and evolution with time are still being investigated.
 
@@ -133,9 +137,17 @@ There are two forms of Transfer Function that have been considered for \gls{chec
 
 During the commissioning of \gls{chec-m}, a \gls{dc} Transfer Function was used with no \gls{ac} corrections. To generate this Transfer Function, the internal input pedestal voltage (\gls{vped}) setting is used to apply a \gls{dc} voltage offset to the sampling \gls{asic}. This pedestal voltage is provided by a commercially obtained \gls{dac}, installed on the \gls{target5} module. This \gls{dac} has been characterised by the supplier, so the voltage amplitude obtained for each setting is known.
 
-By repeating the process for Vped values from \SI{500}{mV} to \SI{1700}{mV}, in steps of \SI{25}{mV}, the full dynamic range of the module is explored, covering the range \SI{-250}{ADC} to \SI{3700}{ADC} (Figure~\ref{fig:generation_t5}). The running averages of the ADC samples are grouped and monitored according to $[Module, Channel, Sampling~Cell, Input~Amplitude]$, utilising every sample in the waveform. Around 1,000 events are required to provide sufficient statistics.
+By repeating the process for Vped values from \SI{500}{mV} to \SI{1700}{mV}, in steps of \SI{25}{mV}, the full dynamic range of the module is explored, covering the range \SI{-250}{ADC} to \SI{3700}{ADC} (Figure~\ref{fig:generation_t5}). The running averages of the ADC samples are grouped and monitored according to:
+\begin{equation}
+	[Module, Channel, Sampling~Cell, Input~Amplitude],
+\end{equation}
+utilising every sample in the waveform. Around 1,000 events are required to provide sufficient statistics.
 
-The second step in the generation of the \gls{dc} Transfer Function is to linearly interpolate the running averages at the ADC points defined by the user. This provides a lookup table of \si{mV} values with dimensions $[Module, Channel, Sampling~Cell, ADC~Value]$ that can be used to provide a calibrated value for a measured ADC value. The lookup table for a single channel is illustrated in Figure~\ref{fig:lookup_t5}. This table is saved to a \gls{fits} file, ready for application. A fresh \gls{dc} Transfer Function lookup table was typically created once a day during the \gls{chec-m} commissioning.
+The second step in the generation of the \gls{dc} Transfer Function is to linearly interpolate the running averages at the ADC points defined by the user. This provides a lookup table of \si{mV} values with dimensions:
+\begin{equation}
+	[Module, Channel, Sampling~Cell, ADC~Value],
+\end{equation}
+that can be used to provide a calibrated value for a measured ADC value. The lookup table for a single channel is illustrated in Figure~\ref{fig:lookup_t5}. This table is saved to a \gls{fits} file, ready for application. A fresh \gls{dc} Transfer Function lookup table was typically created once a day during the \gls{chec-m} commissioning.
 
 \subsubsection{Generation (\gls{ac} Transfer Function)}
 
@@ -148,7 +160,11 @@ The second step in the generation of the \gls{dc} Transfer Function is to linear
 
 When the upgrade from the \gls{target5} module to \gls{targetc} was made, the commercially provided \gls{dac} for the setting of \gls{vped} was removed, and instead \gls{t5tea} generates a \gls{vped} internally itself. Contrary to the commercial \gls{dac}, the \gls{vped} provided by \gls{t5tea} is uncalibrated. Furthermore, the voltage applied is individual per channel, complicating the procedure to calibrate in. As a result, the approach of using the internal \gls{vped} setting to generate a \gls{dc} Transfer Function was abandoned. Instead, the decision was made to transition to an \gls{ac} Transfer Function that uses the expected pulse shape as an input. This approach therefore corrects for the \gls{ac} effect with the appropriate frequency. However, in order to externally input pulses from a pulse generator the module must be removed from the camera. Therefore, the \gls{ac} Transfer Function is only generated once in the present calibration pipeline.
 	
-The full dynamic range is once again probed, by injecting pulses of varying amplitude. In order to extract the values that correspond to negative amplitudes in this method, the amplitude of the input undershoot is also monitored. Only the samples that correspond to the maximum of the input pulse (and minimum of the undershoot) has a ``true'' amplitude of the input amplitude. Therefore, to extract the correct samples, each waveform is fitted with two Landau functions, a fair approximation to the pulse shape (Figure~\ref{fig:tf_pulse_fit}). Consequently, only two samples are extracted per waveform, requiring a much larger population of events (\utilde200,000) in order to generate a reliable running average grouped according to $[Module, Channel, Storage Cell, Input Amplitude]$. It is important to note that a Transfer Function per storage cell was adopted for \gls{targetc}, as it was found to significantly improve the residuals (see Appendix~\ref{a4-tf} for further discussion).
+The full dynamic range is once again probed, by injecting pulses of varying amplitude. In order to extract the values that correspond to negative amplitudes in this method, the amplitude of the input undershoot is also monitored. Only the samples that correspond to the maximum of the input pulse (and minimum of the undershoot) has a ``true'' amplitude of the input amplitude. Therefore, to extract the correct samples, each waveform is fitted with two Landau functions, a fair approximation to the pulse shape (Figure~\ref{fig:tf_pulse_fit}). Consequently, only two samples are extracted per waveform, requiring a much larger population of events (\utilde200,000) in order to generate a reliable running average grouped according to: 
+\begin{equation}
+	[Module, Channel, Storage Cell, Input Amplitude].
+\end{equation}
+It is important to note that a Transfer Function per storage cell was adopted for \gls{targetc}, as it was found to significantly improve the residuals (see Appendix~\ref{a4-tf} for further discussion).
 
 The second step in the generation of the \gls{ac} Transfer Function is identical to that in the \gls{dc} case. The resulting lookup table for a single channel can be seen in Figure~\ref{fig:lookup_tc}.
 
