@@ -1,0 +1,340 @@
+\chapter{\label{ch5-calibration}Calibration} 
+
+\minitoc
+
+\lstset{language=Python}
+
+\section{Introduction}
+
+In order to obtain meaningful and reliable results from the camera, a number of calibrations must be applied to the waveform readout. A primary objective of my DPhil was to investigate the most optimal and efficient approaches for these calibrations (in accordance with the \gls{cta} requirements described in Chapter~\ref{ch3-architecture}), and to determine if additional calibrations are required.
+
+When I joined the \gls{chec} development, the calibration discussion was still in its infancy. Some approaches had been tested in a laboratory environment \cite{Bechtol2012}, but there had been little discussion on how exactly the calibrations could be applied efficiently in an analysis pipeline, where one might not be able to use the same detailed calibration due to limited resources (such as memory and processing time). A major contribution of my DPhil was to prototype the calibration procedures, develop an approach for a calibration pipeline, write the software to perform such a pipeline, and finally assess its performance. This was an iterative process, the development of which is still ongoing. However, a procedure now exists that allows us to obtain meaningful results from the waveform data, a capability that is of paramount importance in the commissioning of the camera.
+
+In this chapter I will outline each of the calibration steps that are presently adopted for \gls{chec}. They are introduced in the general order that they are applied, and split into the categories of \gls{target} \gls{asic}, photosensor, and ``other'' calibrations.
+
+\section{TARGET Calibration}
+
+The calibrations described in this section relate to the \gls{target} module. As detailed in Chapter~\ref{ch2-mechanics}, the \gls{target} \gls{asic} is responsible for the sampling, digitisation and readout of the waveform data. As a result, there are two calibrations that are solely related to the \gls{target} \gls{asic}: electronic pedestal subtraction and the linearity correction via the transfer function. 
+
+The functional block diagram of the \gls{target} \gls{asic} in Figure~\ref{fig:target5diagram} outlines the electronics that require calibration, and can be used as a reference in the following descriptions.
+
+As the calibrations in this section are very low-level, and related to \gls{chec}'s specific \gls{fee}, they are handled by the TargetCalib library (Chapter~\ref{ch4-software}).
+
+\subsection{Electronic Pedestal Subtraction}
+
+\begin{figure}
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=0.92\textwidth]{rawwf_10} 
+  \captionof{figure}[Raw waveform.]{TARGET-C waveform as read out from CHEC-S, showing the electronic pedestal in the absence of any other input, before any calibration is applied.}
+  \label{fig:rawwf}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{.49\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{pulse_raw_vs_pedestal}
+  \captionof{figure}[Comparison of pedestal-subtracted waveform with raw waveform.]{CHEC-S waveform containing a \SI{5}{\pe} pulse, before and after pedestal subtraction. Each line is associated with the correspondingly coloured $Y$ axis.}
+  \label{fig:pulse_raw_vs_pedestal}
+\end{minipage}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{r0_cherenkov_image_mirrored_cropped}
+    \caption{Raw image.}
+    \label{fig:r0_cherenkov_image_mirrored_cropped}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{r1_cherenkov_image_mirrored_cropped}
+    \caption{Pedestal-subtracted image.}
+    \label{fig:r1_cherenkov_image_mirrored_cropped}
+  \end{subfigure}
+  \caption[Effect of pedestal subtraction of Cherenkov shower image.]{A single image of a Cherenkov shower taken with CHEC-M. The first figure (a) is without pedestal subtraction, and the second (b) is with the electronic pedestal subtracted from the samples. The same samples were integrated for the two figures using the \textit{Neighbour Peak Finding} technique (introduced in Chapter~\ref{ch6-reduction}) on the calibrated waveforms.}
+\end{figure}
+
+The most important, but also the simplest, waveform data calibration to apply is the subtraction of the electronic pedestal. Each cell in the storage array of the \gls{asic} is a unique capacitor. For a specific \gls{vped} (reference voltage, see glossary), each capacitor (storage cell) has its own resulting electronic pedestal value. As each sample of the waveform corresponds to a single storage cell, each sample therefore has a unique pedestal value to be subtracted. This is apparent in Figures~\ref{fig:rawwf}~and~\ref{fig:pulse_raw_vs_pedestal} where the variation from sample-to-sample is very large in the raw waveform, and the low-amplitude pulses are almost indistinguishable. The fluctuations in the raw waveforms between pixels are also significant, to the point where low-amplitude Cherenkov showers are undetectable in the camera (Figure~\ref{fig:r0_cherenkov_image_mirrored_cropped}). However, the dominating variations are between \glspl{asic}. As a result, the outlines of the \glspl{asic} are the dominating feature in camera images containing raw samples, such as Figure~\ref{fig:r0_cherenkov_image_mirrored_cropped}. With a pedestal-subtraction calibration alone, the waveforms are transformed into a state in which a moderate amount of Cherenkov shower assessment can be performed, as demonstrated in Figure~\ref{fig:r1_cherenkov_image_mirrored_cropped}.
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{cellwf_15} 
+	\caption[Storage-cell-amplitude dependence on position in the waveform.]{Average amplitude of the electronic pedestal for a single storage cell in a TARGET-C ASIC, at different positions in the waveform. Error bars indicate the standard deviation of the amplitudes. The grey dashed lines indicate the position of the block edges in the waveform for this cell. The average of the values inside each block segment equals the pedestal value stored in the lookup table for that cell, in each of those block positions.} 
+	\label{fig:cellwf}
+\end{figure}
+
+There are $2^{14} = 16,384$ storage cells per channel (for \gls{chec-m}, $2^{12} = 4096$ for \gls{chec-s}), therefore one could naively conclude that there are $32 (Modules) \times 64 (Channels) \times 16,384 (Cells)$ pedestal values which must be determined and recorded. However, an additional characteristic of the \gls{target} \gls{asic} is that the pedestal amplitude depends on the position in the waveform. This is due to the fact that the storage cell blocks are not entirely decoupled from each other; the discharge of one block affects adjacent blocks. This effect is apparent in Figure~\ref{fig:cellwf}, where the pedestal amplitude of a single cell changes depending on the position of its parent block in the waveform. Consequently, an extra dimension of ``position in waveform'' must be considered in the waveform lookup table.
+
+\subsubsection{Generation}
+
+In order to perform the pedestal subtraction, one must first generate a lookup table of pedestal values. This can be easily obtained with a calibration run where the voltages across the photosensor are set to zero, and the camera to trigger (with either an external pulse generator, or internally via software) to obtain a large amount of waveform data. Typically around 30,000 events provide enough samples for every storage cell, in every waveform position, to have at least 10 entries. The samples are then collected as a running average with the dimensions: 
+\begin{equation}
+	[Module, Channel, Starting Block, Blockphase+Sample\_i],
+\end{equation}
+where the $Starting Block$ is the storage block that the first sample in the waveform belongs to, $Blockphase$ is the cell index within the storage block that the waveform begins on, and $Sample\_i$ is the index of each sample in the waveform. %This is illustrated in Figure~\change{include figure, and edit to use bp 8 and 12}, where for these two readout windows shown, the pedestal running average |Pedestal[TM][CHANNEL][9][8:103]| and |Pedestal[TM][CHANNEL][8][12:107]| will be contributed to, respectively.
+
+The TargetCalib library handles the pedestal lookup table generation, and stores it into a \gls{fits} file. A new pedestal file is typically generated at the start of each new dataset, as the dependencies on temperature and evolution with time are still being investigated.
+
+\subsubsection{Application}
+
+To apply the pedestal, the entry within the lookup table that corresponds to each sample is subtracted from the waveform. The result of the subtraction can be seen in Figures~\ref{fig:pulse_raw_vs_pedestal}~and~\ref{fig:r1_cherenkov_image_mirrored_cropped}. 
+
+\subsubsection{Performance}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{pedestal_hist} 
+	\caption[Spread of electronic-pedestal values before and after the pedestal subtraction.]{Spread of electronic-pedestal values before and after the pedestal subtraction for a single TARGET-C channel. The waveforms used to create the pedestal lookup table are from a different dataset to those used in these histograms. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.} 
+	\label{fig:pedestalresiduals}
+\end{figure}
+
+The primary quantification of this calibration's performance is the standard deviation of electronic-pedestal samples that have had separately-created pedestal values subtracted from them. Figure~\ref{fig:pedestalresiduals} demonstrates the performance of the pedestal subtraction for a \gls{targetc} channel, achieving a residual variation of \SI{1.59}{ADC} (approximately \SI{0.286}{\pe}).
+
+\subsection{Transfer Function}
+
+The other calibration related to the sampling and digitisation inside the \gls{target} \gls{asic} is caused by the non-linearities in the storing and reading of the analogue signal, to and from the storage cells (i.e.\@ the charge and discharge of the switched capacitors). With reference to Figure~\ref{fig:target5diagram}, this means the non-linearity occurs in the steps in storing the charge into the sampling array, transferring from the sampling to the storage array, and transferring between the storage array and the Wilkinson \glspl{adc}. The non-linearity of these components is propagated to the sample readout - a sample with twice the amplitude input into \gls{target} will have less than twice the amplitude when readout.
+
+To correct for this non-linearity, a look-up table is generated to convert from the sample amplitude that is read out from the \gls{asic} (in \si{ADC}) to the sample amplitude that is input into the \gls{asic} (in \si{mV}). This look-up table is known as the Transfer Function. As one might expect, each sampling cell has its own linear response to account for, and therefore a look-up table is typically required at least per channel and per sampling cell. Measurements conducted by other \gls{chec} members noticed an improvement in the calibration when considering a Transfer Function per storage cell. However, my own investigation using the \textit{Charge Resolution}, shown in Appendix~\ref{a4-tf}, was unable to confirm this.
+
+There are two forms of Transfer Function that have been considered for \gls{chec}, distinguished by the type of input used to generate them. A \gls{dc} Transfer Function is created by applying a constant \gls{dc} input of known voltage to the module, and iterating over the full dynamic range by varying the voltage. An \gls{ac} Transfer Function is generated by inputting a pulse of a known amplitude with a shape similar to that expected from the photosensor, and iterating as with the \gls{dc} approach. During previous investigations of the \gls{target} module, where sinusoidal signals were input into the module, a dependence on the signal frequency and input amplitude was observed that acts to further reduce the output amplitude \cite{Bechtol2012,Albert2017}. The source of this dependence was deemed to be due to the amplifiers, which cannot slew fast enough to keep up with the input signal if the frequency and amplitude are large. Due to the use of a pulse to generate the \gls{ac} Transfer Functions, the result inherently includes the correction required for the frequency that the pulses correspond to. 
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{generation_t5}
+    \caption{DC Transfer Function input, measured with TARGET-5.}
+    \label{fig:generation_t5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{generation_tc}
+    \caption{AC Transfer Function input, measured with TARGET-C.}
+    \label{fig:generation_tc}
+  \end{subfigure}
+  \caption[Transfer Function generation waveforms.]{Multiple average waveforms, increasing in amplitude. Each average contains 1000 waveforms from the same single channel. These waveforms cover the full dynamic range of the TARGET ASIC, and are used as inputs to generate the DC and AC Transfer Functions, respectively. The saturation behaviour of the TARGET-C ASIC can be seen in the high amplitude waveforms in (b).}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{lookup_t5}
+    \caption{DC Transfer Function lookup table, measured with TARGET-5. Contains 64 Transfer Functions, one for each Sampling Cell.}
+    \label{fig:lookup_t5}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{lookup_tc}
+    \caption{AC Transfer Function lookup table, measured with TARGET-C. Contains 4,096 Transfer Functions, one for each Storage Cell.}
+    \label{fig:lookup_tc}
+  \end{subfigure}
+  \caption[Transfer Function lookup tables.]{The Transfer Function lookup tables for a single channel.}
+\end{figure}
+
+\subsubsection{Generation (\gls{dc} Transfer Function)}
+
+During the commissioning of \gls{chec-m}, a \gls{dc} Transfer Function was used with no \gls{ac} corrections. To generate this Transfer Function, the internal input pedestal voltage (\gls{vped}) setting is used to apply a \gls{dc} voltage offset to the sampling \gls{asic}. This pedestal voltage is provided by a commercially obtained \gls{dac}, installed on the \gls{target5} module. This \gls{dac} has been characterised by the supplier, so the voltage amplitude obtained for each setting is known.
+
+By repeating the process for Vped values from \SI{500}{mV} to \SI{1700}{mV}, in steps of \SI{25}{mV}, the full dynamic range of the module is explored, covering the range \SI{-250}{ADC} to \SI{3700}{ADC} (Figure~\ref{fig:generation_t5}). The running averages of the ADC samples are grouped and monitored according to:
+\begin{equation}
+	[Module, Channel, Sampling~Cell, Input~Amplitude],
+\end{equation}
+utilising every sample in the waveform. Around 1,000 events are required to provide sufficient statistics.
+
+The second step in the generation of the \gls{dc} Transfer Function is to linearly interpolate the running averages at the ADC points defined by the user. This provides a lookup table of \si{mV} values with dimensions:
+\begin{equation}
+	[Module, Channel, Sampling~Cell, ADC~Value],
+\end{equation}
+that can be used to provide a calibrated value for a measured ADC value. The lookup table for a single channel is illustrated in Figure~\ref{fig:lookup_t5}. This table is saved to a \gls{fits} file, ready for application. A fresh \gls{dc} Transfer Function lookup table was typically created once a day during the \gls{chec-m} commissioning.
+
+\subsubsection{Generation (\gls{ac} Transfer Function)}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{tf_pulse_fit} 
+	\caption[Fit of the waveform in order to extract samples to generate the \gls{ac} Transfer Function.]{An example of the amplitude extraction used for generating the \gls{ac} Transfer Function. The waveform is fit with two Landau functions (red curve). The samples of the waveform that occur at the time of the minimum and maximum of the fit (red arrows) are used as the inputs to the \gls{ac} Transfer Function.} 
+	\label{fig:tf_pulse_fit}
+\end{figure}
+
+When the upgrade from the \gls{target5} module to \gls{targetc} was made, the commercially provided \gls{dac} for the setting of \gls{vped} was removed, and instead \gls{t5tea} generates a \gls{vped} internally itself. Contrary to the commercial \gls{dac}, the \gls{vped} provided by \gls{t5tea} is uncalibrated. Furthermore, the voltage applied is individual per channel, complicating the calibration procedure. As a result, the approach of using the internal \gls{vped} setting to generate a \gls{dc} Transfer Function was abandoned. Instead, the decision was made to transition to an \gls{ac} Transfer Function that uses the expected pulse shape as an input. This approach therefore corrects for the \gls{ac} effect with the appropriate frequency. However, in order to externally inject pulses from a pulse generator the module must be removed from the camera. Therefore, the \gls{ac} Transfer Function is only generated once in the present calibration pipeline.
+	
+The full dynamic range is once again probed, by injecting pulses of varying amplitude (Figure~\ref{fig:generation_tc}). In order to extract the values that correspond to negative amplitudes in this method, the amplitude of the input undershoot is also monitored. Only the samples that correspond to the maximum of the input pulse (and minimum of the undershoot) have a ``true'' amplitude of the input amplitude. Therefore, to extract the correct samples, each waveform is fitted with two Landau functions, a fair approximation to the pulse shape (Figure~\ref{fig:tf_pulse_fit}). Consequently, only two samples are extracted per waveform, requiring a much larger population of events (\utilde200,000) in order to generate a reliable running average grouped according to: 
+\begin{equation}
+	[Module, Channel, Storage Cell, Input Amplitude].
+\end{equation}
+It is important to note that a Transfer Function per storage cell was adopted for \gls{targetc}, as it was found to significantly improve the residuals (see Appendix~\ref{a4-tf} for further discussion). The development and operation of this generation procedure was performed by the \gls{chec} members at the Erlangen Centre for Astroparticle Physics.
+
+The second step in the generation of the \gls{ac} Transfer Function is identical to that in the \gls{dc} case. The resulting lookup table for a single channel can be seen in Figure~\ref{fig:lookup_tc}.
+
+\subsubsection{Application}
+
+Irrespective of the Transfer Function type, the lookup tables are stored in a format which enables them to be applied identically. When calibrating an ADC sample, the relevant lookup table is obtained according to the channel and cell of the sample, and is linearly interpolated to provide the calibrated \si{mV} value for the specified ADC value.
+
+\subsubsection{Performance}
+
+Due to its complexity and variety of approaches, the Transfer Function is still one of the most actively discussed aspects of the \gls{chec} calibration. Some possibilities for improvement include:
+\begin{itemize}
+	\item An improved sample extraction method for the \gls{ac} Transfer Function Waveform,
+	\item The possibility for a \gls{dc} approach for \gls{targetc},
+	\item Returning to the approach described in earlier \gls{target} studies where the pedestal is included inside the Transfer Function \cite{Albert2017},
+	\item Alternatives to linear interpolation, such as Piecewise Cubic Hermite Interpolating Polynomial (PCHIP),
+	\item Exchanging the lookup table for a parametrised regression characterisation of the Transfer Function (such as a high-order polynomial),
+	\item Deciding between ``per storage cell'' or ``per sampling cell'',
+	\item Inclusion of temperature corrections.
+\end{itemize}
+
+Assessing the performance of the Transfer Functions is a more complicated task than for the pedestals. We are no longer comparing to a null signal, and instead comparing to an input amplitude which contains its own uncertainty, and could potentially be incorrect. So while the performance results may indicate that the residuals of the Transfer Function are small, this does not necessarily mean the calibration is accurate. Therefore, the most decisive performance indicator should be one that provides an independent measurement on the ``correct'' amplitude. The most obvious scheme fitting this requirement is the \textit{Charge Resolution}, described in Chapter~\ref{ch3-architecture}, the results of which are explored in Appendix~\ref{a4-tf}.
+
+\section{Photosensor Calibration} \label{section:photosensor_calib}
+
+The other primary component in the detector chain that requires calibration is the photosensor itself. As photosensors are a much more common instrument used in a variety of experiments, the calibration procedures required are already well known in the academic community. It is therefore mostly a simple case of adapting existing approaches to fit our requirements.
+
+The typical procedure in Cherenkov camera waveform analysis includes extracting the signal/charge from the waveform of each pixel. This procedure, and the different methods to achieve it, is described in Chapter~\ref{ch6-reduction}. The value extracted is typically in digitisation counts (ADC) or units of voltage, multiplied by time if the charge extraction approach is an integral over the waveform. For example, the units of the extracted charge from \gls{chec-s} using the \textit{Cross-Correlation} method (see Section~\ref{section:crosscorrelation}) is \si{mV ns}. Once extracted, this charge must be corrected for the relative efficiency of its pixel compared to the mean of the camera in order to achieve a uniform response (``flat-fielding''), and then converted into a counting unit that is common among the telescopes in the array (such as photons or photoelectrons), thereby simplifying the processing of array data \cite{Aharonian2004}. This procedure is characterised in the equation: 
+\begin{equation} \label{eq:photosensor_calibration}
+I_i = \frac{{A_Q}_i - {A_0}_i}{\gamma_{Q}} \times {\gamma_{FF}}_i,
+\end{equation}
+where 
+\begin{itemize}
+\item ${A_Q}_i$ is the charge extracted in units of \si{mV ns} for pixel $i$, proportional to the number of photoelectrons,
+\item ${A_0}_i$ is the baseline in the absence of a signal for pixel $i$. It should be obtained using the same charge extraction approach used for the signal,
+\item $\gamma_{Q}$ is the nominal conversion value from \si{mV ns} to photoelectrons/photons for the entire camera,
+\item ${\gamma_{FF}}_i$ is the flat-field coefficient for the pixel $i$,
+\item and $I_i$ is the resulting calibrated signal in photoelectrons/photons.
+\end{itemize}
+
+In the final calibration design of \gls{cta}, ${A_0}_i$ is intended to be supplied by the telescope alongside the waveforms at regular intervals. The regular updating of this value ensures that any changes to the baseline due to electronic noise, \gls{nsb} rate, or temperature variations (which can also increase \gls{dcr}, see Section~\ref{section:sipmt_parameters}) are accounted for. However, this parameter was set to zero for the content of this thesis, and was not investigated. Instead, a less effective but simpler baseline subtraction was performed by monitoring the running average of the first 16 samples of the past 50 waveforms for each pixel. This running average was subtracted from each waveform before charge extraction. The remainder of this section will describe how to obtain the other calibration values, $\gamma_{Q}$ and ${\gamma_{FF}}_i$, and the other procedures related to the photosensor calibration.
+
+\subsection{Gain Matching}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{before_after_gm} 
+	\caption[Gain-Matching Residuals]{Comparison between the spread in the average signal amplitude across all pixels before and after gain matching with \gls{chec-s}, for a dataset with approximately \SI{50}{\pe} average illumination. In the ``before'' case, the \gls{dac} value in every superpixel was set to 100. Every pixel in the camera was included in the histogram. The standard deviation $\sigma$ of each distribution are also shown.} 
+	\label{fig:before_after_gm}
+\end{figure}
+
+The flat-field coefficients, ${\gamma_{FF}}_i$, provide an offline compensation for the photosensor parameters which alter the signal response in the waveform. While this is typically only the gain in the case of \glspl{mapmt}, these parameters are more numerous for \glspl{sipmt}, and are described in Section~\ref{section:sipmt_parameters}. However, these parameters also have a dependence on the voltages across the photosensor, which is a controllable value. The dependence of the \gls{chec-s} \gls{sipmt} parameters on voltage is shown in Figure~\ref{fig:sipmt_checs}. With the \gls{chec-m} \glspl{mapmt}, it is only possible to change the voltage value for an entire module, whereas with the \gls{chec-s} \glspl{sipmt} the voltages can be configured per superpixel (group of four pixels). Therefore, voltage values can be selected before data-taking which result in a more uniform signal response between photosensor pixels. This is referred as ``Gain Matching'', however the name is slightly misleading, as it is the signal that is being matched, not the gain. It is performed by specifying the amplitude (in \si{mV}) that every pixel should be matched to, and then performing the following iterative procedure:
+\begin{enumerate}
+	\item The camera is uniformly illuminated with a light level that approximately provides a \SI{50}{\pe} signal.
+	\item The waveforms are readout, calibrated, and averaged per superpixel/module (excluding any dead pixels) over 1000 separate illuminations.
+    \item The peak amplitudes of the average waveforms are extracted.
+    \item Each module/superpixel is categorised as being above or below the requested amplitude.
+    \item Depending on their category, the voltage setting is increased or reduced in steps of 5 \gls{dac} units, such that the measured amplitude approaches the requested amplitude. If the amplitude has been overstepped in the previous measurement, a smaller step value is used. The minimum \gls{dac} step value available is 1, which corresponds to $\frac{10}{256}$~V. If the amplitude does not respond to changes in voltage, the pixel is classified as ``dead'', and excluded from the average waveforms.
+    \item The new voltage settings are applied and the process is repeated.
+\end{enumerate}
+
+In the future, this iterative technique will be replaced with a set of lookup tables for different requested amplitudes. These lookup tables will contain the final voltage settings resulting from this iterative technique. Additionally, in the future the requested signal will not be specified in terms of peak amplitude, but in terms of the \textit{Cross Correlation} charge extraction approach. The spread in signal response for \gls{chec-s} as a result of the gain matching is shown in Figure~\ref{fig:before_after_gm}. A spread in signal of approximately \SI{3}{\pe}, corresponding to \SI{6}{\percent}, between pixels can be achieved by tweaking the bias voltage per superpixel. This remaining variation is from the inherent spread of the pixels within each superpixel.
+
+The additional benefit of the gain matching is that it provides a convenient place in the data-taking chain to apply the bias compensation for temperature dependences (introduced in Section~\ref{section:sipmt_parameters}). This is achieved using the monitored temperature value per module (included in the data stream from the \gls{fee} modules) and a lookup table of the appropriate corrections to the voltages, such that a constant signal response is kept across the camera. This particular in-situ calibration has not yet been implemented, but is intended for the future.
+
+\subsection{SPE Fitting}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{spe_checm_checs} 
+	\caption[Comparison of SPE spectra between CHEC-M and CHEC-S.]{Comparison of SPE spectra between CHEC-M and CHEC-S for a single pixel, along with their corresponding fit function. Values in legend correspond to the average illumination in photoelectrons obtained from the fit.} 
+	\label{fig:spe_checm_checs}
+\end{figure}
+
+Due to the photon-counting nature of \glspl{mapmt} and \glspl{sipmt}, when the signal extracted from a pixel, illuminated with a low light-level (\utilde\SI{1}{\pe}), is accumulated into a histogram, the resulting spectra (Figure~\ref{fig:spe_checm_checs}) show peaks at regular intervals corresponding to the baseline (zeroth peak), \SI{1}{\pe} (first peak), \SI{2}{\pe} (second peak), etc. As explained in Section~\ref{section:sipmt_parameters}, the single photoelectron resolution of \glspl{sipmt} is very high, much higher than is observed with \glspl{mapmt}. This accounts for the difference between the two photosensors in Figure~\ref{fig:spe_checm_checs}. These spectra are referred to as ``\gls{spe} Spectra''. The physical processes that result in these spectra are well understood for \glspl{mapmt} and \glspl{sipmt}, and therefore analytical formulae exist which describe the spectra. When these formulae are fitted to the histogram, they can be used to extract certain parameters of the photosensor, including the average incident illumination $\lambda$, in units of photoelectrons. As $\lambda$ provides an absolute illumination value, it allows for the full calibration of average expected charge for each filter-wheel position, for each pixel (conducted in Appendix~\ref{a2-lab}). This is the first step required in obtaining the flat-field coefficients. For more details on this fitting procedure, and the formulae used to describe the \gls{spe} spectra, refer to Appendix~\ref{a3-spe}.
+
+\subsection{Flat-Field Coefficients}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{flat_fielding} 
+	\caption[Flat-field calibration]{The average measured charge per illumination for a single pixel. The Y error bars are the standard deviations of the charges for each illumination for a single pixel. The X error bars are the uncertainties on the average expected charge calibration (Section~\ref{section:fwerr}). The orange points were used in a linear regression through the origin to determine the flat-field coefficients for each pixel. The resulting gradient for the pixel ($\gamma_{M_i}$) is annotated.} 
+	\label{fig:flat_fielding}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=0.8\textwidth]{ff_values_cropped} 
+	\caption[Flat-field Coefficients]{Camera image of the flat-field coefficient value, ${\gamma_{FF}}_i$, per pixel for CHEC-S. Pixels that were designated ``dead'' or misbehaving are outlined in red, and exist beyond the colour-scale range.}
+	\label{fig:ff_values}
+\end{figure}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=\textwidth]{before_after_ff_50pe} 
+	\caption[Flat-field residuals.]{Comparison between the spread in the average signal amplitude across all pixels before (blue) and after (orange) the flat-fielding calibration. The charges were extracted from a dataset where a theoretical pixel located at the centre of the camera would be expected to have a charge of $Q_\text{Exp} \approx \SI{50}{\pe}$. The black histogram contains the charges after the difference in the illumination profile (Section~\ref{section:illumination_profile}) between the pixels was considered, i.e.\@ they contain the charge that would be measured if every pixel was located at the camera centre. Every pixel in the camera, excluding the ``dead'' pixels, was included in the histograms. The mean $\mu$ and the standard deviation $\sigma$ of each distribution are also shown.}
+	\label{fig:before_after_ff_50pe}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{before_after_ff_25pe}
+    \caption{Lower average expected charge}
+    \label{fig:before_after_ff_25pe}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.49\textwidth}
+    \includegraphics[width=\textwidth]{before_after_ff_100pe}
+    \caption{Higher average expected charge}
+    \label{fig:before_after_ff_100pe}
+  \end{subfigure}
+  \caption[Flat-field residuals at other illuminations.]{Same as Figure~\ref{fig:before_after_ff_50pe}, but with a lower (a) and higher (b) average expected charge ($Q_\text{Exp}$).}
+\end{figure}
+
+Once the ``average expected charge'' dependence on filter-wheel position/transmission is characterised (Appendix~\ref{a2-lab}), we can calculate the coefficients, $\gamma_{M_i}$, required to convert the average measured charge (in \si{mV ns}) into the charge we expect (in photoelectrons/photons). The application of these coefficients to the extracted/measured charge has two effects:
+\begin{itemize}
+\item The signal response between pixels is homogenised - the same average amount of charge will be extracted for any pixel illuminated with an average of $N$ photons.
+\item The signal response is converted into the common telescope-array units of photoelectrons or photons.
+\end{itemize}
+Therefore:
+\begin{equation} \label{eq:ff}
+\gamma_{M_i} = \frac{\gamma_Q}{{\gamma_{FF}}_i}.
+\end{equation}
+
+To obtain $\gamma_{M_i}$ per pixel $i$ in the lab, datasets with around \SI{50}{\pe} average expected charge per pixel were produced. For each pixel, the average measured charge (in \si{mV ns}) was linearly regressed, while forcing the fit through the origin. This regression is shown for a single pixel in Figure~\ref{fig:flat_fielding}. The resulting gradient of the regression is equal to $\gamma_{M_i}$, which was combined with Equations~\ref{eq:photosensor_calibration}~and~\ref{eq:ff} for the calibration of measured charge into photoelectrons. The nominal conversion value from \si{mV ns} to photoelectrons for \gls{chec-s} was calculated to be $\gamma_Q = \SI[separate-uncertainty = true]{35.6 \pm 3.0}{mVns/\pe}$, and the spread of $\gamma_{FF_i}$ across the camera is shown in Figure~\ref{fig:ff_values}. The value for $\gamma_Q$ can be converted into its single \si{mV} sample (i.e.\@ peak-height) equivalent using the reference pulse from the \textit{Cross Correlation} extraction method (Chapter~\ref{ch6-reduction}), resulting in a conversion value of \SI[separate-uncertainty = true]{4.37 \pm 0.37}{mV/\pe}.
+
+The resulting residual spread in signal response between pixels at an average expected charge of \SI[separate-uncertainty = true]{47.67 \pm 3.79}{\pe} is shown in Figure~\ref{fig:before_after_ff_50pe}. The final variation in signal response between pixels at this illumination was measured to be \SI{0.5}{\percent}. Figures~\ref{fig:before_after_ff_25pe}~and~\ref{fig:before_after_ff_100pe} show the improvement of the average charge spread between pixels for a higher and a lower illumination.
+
+As the flat-field coefficients have been calculated in a manner in which they are unfolded from the illumination profile (by calculating the average expected charge individually for each pixel), they are applicable to any environment the camera is used in. Any deviations that are measured in the signal between pixels are then due to the illumination profile present in the environment, and not due to the characteristics of the photosensor. Once the camera is on the telescope, the flat-field coefficients are intended to be routinely updated using the reflection of the LED flashers (Section~\ref{section:led_flashers}) in the secondary mirror. Performing this calibration will require an updated illumination profile.
+
+\subsubsection{Consideration of Errors and Uncertainty}
+
+The standard error on the estimate of the gradient per pixel, $\sigma_{\gamma_{M_i}}$, that arises from a standard linear regression can be calculated with the relation derived by \textcite{Taylor1997}:
+\begin{equation} \label{eq:merr}
+\sigma_{\gamma_{M_i}} = \sigma_r \sqrt{\frac{N}{N \sum Q_{\text{Exp}_i}^2 - (\sum Q_{\text{Exp}_i})^2}}, \quad i = 0, 1, 2, ..., N,
+\end{equation}
+\begin{equation} \label{eq:sigmar}
+\sigma_r = \sqrt{\frac{\sum (A_{Q_i} - A_{Q_f})^2}{N - 1}},
+\end{equation}
+where $N$ is the total number of regressed points $i$, $\sigma_r$ is the mean square error of the regression, the dependent variable $A_{Q_i}$ is the average measured charge at the average expected charge $Q_{\text{Exp}_i}$, and $A_{Q_f}$ is the value that results from the regression at that same value of $Q_\text{Exp}$. The denominator in Equation~\ref{eq:sigmar} is $N-1$ as we constrained the regression through the origin, therefore there was only one free parameter.
+
+The errors on $\gamma_{M_i}$ are used as weights when calculating the average to obtain $\gamma_Q$. Therefore, the uncertainty on $\gamma_Q$ is quoted from the weighted standard deviation across the values of $\gamma_{M_i}$ for each pixel.
+
+\subsection{Dead Pixels}
+
+Figure~\ref{fig:ff_values} shows that some of the photosensor pixels contained either no signal or a peculiar signal, resulting in an extreme flat-field coefficient. This was likely due to damage to the pixel during handling, or to water ingress. However, the four pixels constitute only \SI{0.2}{\percent} of the camera, therefore the camera is still well within the \requirementref{B-TEL-1295 Pixel Availability} \gls{cta} requirement (Section~\ref{section:pixel_availability}). These pixels were excluded from any calculations involving multiple pixels, including the expected-charge calibration and the charge-resolution across the camera. 
+
+\section{Saturation Recovery} \label{section:saturation}
+
+As evident in Figure~\ref{fig:flat_fielding}, high illumination measurements (greater than \utilde\SI{200}{\pe}) are affected by saturation of the detector. The saturation shown is due to the \gls{target} \gls{asic}, which saturates before the photosensor. However, while the height of the digitised pulse increased no further, the excess charge caused the pulse to extend further (Figure~\ref{fig:generation_tc}). It may be possible to perform a correction for the saturation by utilising this waveform behaviour. A simple, initial investigation into saturation recovery is shown in Figure~\ref{fig:saturation_recovery}, where the waveform was integrated over a time from just before the pulse maximum to the end of the waveform. This resulted in an extracted charge that continued to increase with illumination, with the exception of the region immediately after saturation. More investigation is required for this calibration.
+
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=\textwidth]{saturation_recovery} 
+	\caption[Saturation Recovery.]{Initial investigation into recovering charge from a saturated waveform for the same pixel as shown in Figure~\ref{fig:flat_fielding}. The saturation coefficient is the integral from just before the pulse maximum, to the end of the waveform readout.}
+	\label{fig:saturation_recovery}
+\end{figure}
+
+\section{Timing Corrections} \label{section:timing_corrections}
+
+\begin{figure}
+	\centering
+    \includegraphics[width=0.8\textwidth]{time_correction} 
+	\caption[Pulse timing correction for each pixel.]{A camera image of \gls{chec-s} showing the timing correction for each pixel. The ``dead'' pixels are outlined in red, and have a zero timing correction.}
+	\label{fig:time_correction}
+\end{figure}
+
+Due to the routing of the electronics in the front-end, the electrical signal path is slightly different for each channel, causing a small difference in apparent arrival time of the pulse in the waveform. The relative arrival time per pixel for \gls{chec-s} is shown in Figure~\ref{fig:time_correction}. This is measured by extracting the average arrival time per pixel over 1000 events at an average illumination of \SI{\sim 100}{\pe}, and subtracting each pixels value by the average across the camera. It is clear that in every module, there is one particular \gls{asic} slot, corresponding to a 16-pixel corner of the module, that has a longer electrical signal path. 
+
+Not only does the timing correction need to be taken into consideration when investigating the timing performance, it also can have a significant impact on the charge extraction performance. This is because the charge extraction approaches typically rely on other pixels (neighbouring or entire camera, see Chapter~\ref{ch6-reduction}) sharing a compatible pulse time. A charge extraction routine that incorrectly extracts the charge by \SI{1}{ns} can have a negative impact on the \textit{Charge Resolution}. Discussions are ongoing on how to best include the timing corrections in the charge extraction.
+
+\section{Future}
+
+During the long development of \gls{chec}, the calibration procedure has evolved significantly. Multiple iterations of the procedures have occurred to:
+\begin{itemize}
+	\item Accommodate the changes required in the upgrades of hardware (such as from \gls{target5} to \gls{targetc}).
+	\item Simplify the calibration to save on computing resources.
+	\item Account for additional factors, thereby improving the calibration (such as the \gls{ac} contribution to the Transfer Functions).
+\end{itemize}
+Therefore, while each iteration improves in one aspect, it may be at the expense of the others. As a result, the \gls{target} calibration procedure described in this chapter appears quite complicated compared to the approaches detailed by \textcite{Bechtol2012} and \textcite{Albert2017}. The next step in the calibration development for \gls{chec} is therefore to review the procedure used, with the aim of producing an approach that is simpler, includes aspects such as temperature dependence, and meets the requirements and processing rates required by \gls{cta}.

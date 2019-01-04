@@ -1,0 +1,149 @@
+%from documentation
+%\newacronym[⟨key-val list⟩]{⟨label ⟩}{⟨abbrv ⟩}{⟨long⟩}
+%above is short version of this
+% \newglossaryentry{⟨label ⟩}{type=\acronymtype,
+% name={⟨abbrv ⟩},
+% description={⟨long⟩},
+% text={⟨abbrv ⟩},
+% first={⟨long⟩ (⟨abbrv ⟩)},
+% plural={⟨abbrv ⟩\glspluralsuffix},
+% firstplural={⟨long⟩\glspluralsuffix\space (⟨abbrv ⟩\glspluralsuffix)},
+% ⟨key-val list⟩}
+
+
+\newglossaryentry{fwhm}{name={FWHM}, description={The full width of a pulse (or distribution) at half of its maximum.}}
+
+\newacronym{vhe}{VHE}{Very High Energy}
+\newacronym{psf}{PSF}{Point Spread Function}
+\newacronym[prefix={an~}]{nsb}{NSB}{Night-Sky Background}
+\newacronym{dcr}{DCR}{Dark-Count Rate}
+%\newacronym{pe}{p.e.}{Photo-Electrons}
+\newacronym{adc}{ADC}{Analogue-to-Digital Converter}
+\newacronym{dac}{DAC}{Digital-to-Analogue Converter}
+\newacronym{pde}{PDE}{Photon Detection Efficiency}
+\newacronym{qe}{QE}{Quantum Efficiency}
+\newacronym{spe}{SPE}{Single PhotoElectron}
+\newacronym{eso}{ESO}{European Southern Observatory}
+\newacronym{iact}{IACT}{Imaging Atmospheric Cherenkov Telescope}
+\newacronym[prefixfirst={the~}]{cta}{CTA}{Cherenkov Telescope Array}
+\newacronym{lst}{LST}{Large-Sized Telescope}
+\newacronym{mst}{MST}{Medium-Sized Telescope}
+\newacronym{sst}{SST}{Small-Sized Telescope}
+\newacronym{sct}{SCT}{Schwarzschild-Couder Telescope}
+\newacronym[prefix={the~},prefixfirst={the~}]{gct}{GCT}{Gamma-ray Cherenkov Telescope}
+\newacronym{chec}{CHEC}{Compact High Energy Camera}
+\newacronym{pmt}{PMT}{Photomultiplier Tube}
+\newacronym{mapmt}{MAPMT}{Multi-Anode Photomultiplier Tube}
+\newacronym{sipmt}{SiPM}{Silicon Photomultiplier}
+\newacronym{fpga}{FPGA}{Field-Programmable Gate Array}
+%\newacronym{adc2pe}{adc2pe}{conversion of \gls{adc} counts to \gls{pe}}
+\newacronym{mc}{MC}{Monte-Carlo}
+\newacronym{hv}{HV}{High Voltage}
+\newacronym{impact}{ImPACT}{Image Pixel-wise fit for Atmospheric Cherenkov Telescopes}
+\newacronym{fee}{FEE}{Front-End Electronics}
+\newacronym{bee}{BEE}{Back-End Electronics}
+\newacronym{dc}{DC}{Direct Current}
+\newacronym{ac}{AC}{Alternating Current}
+\newacronym{rmse}{RMSE}{Root-Mean-Square Error}
+\newacronym{rms}{RMS}{Root-Mean-Square}
+\newacronym{oes}{OES}{Observation Execution System}
+\newacronym{dpps}{DPPS}{Data Processing and Preservation System}
+\newacronym{suss}{SUSS}{Science User Support System}
+\newacronym{irf}{IRF}{Instrument Response Function}
+\newacronym{enf}{ENF}{Excess Noise Factor}
+\newacronym{agn}{AGN}{Active Galactic Nuclei}
+\newacronym{fov}{FoV}{Field of View}
+\newacronym{apd}{APD}{Avalanche PhotoDiode}
+\newacronym{gapd}{G-APD}{Geiger-mode Avalanche PhotoDiode}
+\newacronym{dacq}{DACQ}{Data-Acquisition}
+\newacronym{snr}{SNR}{Supernova Remnant}
+
+\newglossaryentry{target}{type=\acronymtype, 
+	name={TARGET}, 
+	description={TeV Array Readout with GSa/s sampling and Event Trigger}, 
+	first={TARGET (TeV Array Readout with GSa/s sampling and Event Trigger)}
+}
+\newglossaryentry{target5}{name={TARGET-5}, description={Version 5 of the TARGET ASIC.}}
+\newglossaryentry{targetc}{name={TARGET-C}, description={Version C of the TARGET ASIC.}}
+\newglossaryentry{t5tea}{name={T5TEA}, description={ASIC chip used alongside TARGET-C for the trigger handling.}}
+\newglossaryentry{superpixel}{name={Superpixel}, description={Group of four neighbouring pixels used for triggering (see Section~\ref{section:triggering}).}}
+
+
+
+\newglossaryentry{asic}{type=\acronymtype, 
+	name={ASIC}, 
+	description={Application-Specific-Integrated Circuit}, 
+    first={\glsentrytext{asic} (\glsentrydesc{asic})},
+  	plural={\glsentrytext{asic}s},
+	descriptionplural={\glsentrydesc{asic}s},
+  	firstplural={\glsentryplural{asic} (\glsentrydescplural{asic})}
+}
+\newglossaryentry{vped}{name={Vped}, description={Reference pedestal voltage input into the TARGET ASIC to provide a modest amount of common-mode noise rejection.}}
+\newglossaryentry{fits}{type=\acronymtype, 
+	name={FITS}, 
+	description={Flexible Image Transport System}, 
+	first={FITS (Flexible Image Transport System)}
+}
+\newglossaryentry{swig}{type=\acronymtype, 
+	name={SWIG}, 
+	description={Simplified Wrapper and Interface Generator}, 
+	first={SWIG (Simplified Wrapper and Interface Generator)}
+}
+\newglossaryentry{tio}{name={TIO}, description={Custom FITS file format defined by TargetIO used for storing waveform data from TARGET-based cameras.}}
+\newglossaryentry{astri}{type=\acronymtype, 
+	name={ASTRI}, 
+	description={Astrofisica con Specchi a Tecnologia Replicante Italiana}, 
+	first={ASTRI (Astrofisica con Specchi a Tecnologia Replicante Italiana)}
+}
+\newglossaryentry{citiroc}{type=\acronymtype, 
+	name={CITIROC}, 
+	description={Cherenkov Imaging Telescope Integrated Read Out Chip}, 
+	first={CITIROC (Cherenkov Imaging Telescope Integrated Read Out Chip)}
+}
+\newglossaryentry{aerie}{type=\acronymtype, 
+	name={AERIE}, 
+	description={Analysis and Event Reconstruction Integrated Environment}, 
+	first={AERIE (Analysis and Event Reconstruction Integrated Environment)}
+}
+\newglossaryentry{corsika}{type=\acronymtype, 
+	name={CORSIKA}, 
+	description={COsmic Ray SImulations for KAscade}, 
+	first={CORSIKA (COsmic Ray SImulations for KAscade)}
+}
+\newglossaryentry{kascade}{type=\acronymtype, 
+	name={KASCADE}, 
+	description={KArlsruhe Shower Core and Array DEtector}, 
+	first={KASCADE (KArlsruhe Shower Core and Array DEtector)}
+}
+\newglossaryentry{hess}{type=\acronymtype, 
+	name={H.E.S.S.}, 
+	description={High Energy Stereoscopic System}, 
+	first={H.E.S.S. (High Energy Stereoscopic System)}
+}
+\newglossaryentry{magic}{type=\acronymtype, 
+	name={MAGIC}, 
+	description={Major Atmospheric Gamma Imaging Cherenkov Telescopes}, 
+	first={MAGIC (Major Atmospheric Gamma Imaging Cherenkov Telescopes)}
+}
+\newglossaryentry{veritas}{type=\acronymtype, 
+	name={VERITAS}, 
+	description={Very Energetic Radiation Imaging Telescope Array System}, 
+	first={VERITAS (Very Energetic Radiation Imaging Telescope Array System)}
+}
+\newglossaryentry{hawc}{type=\acronymtype, 
+	name={HAWC}, 
+	description={High-Altitude Water Cherenkov}, 
+	first={HAWC (High-Altitude Water Cherenkov)}
+}
+\newglossaryentry{udp}{type=\acronymtype, 
+	name={UDP}, 
+	description={User Datagram Protocol}, 
+	first={UDP (User Datagram Protocol)}
+}
+\newglossaryentry{chec-m}{name={CHEC-M}, description={CHEC utilising MAPMTs as the photosensor.}}
+\newglossaryentry{chec-s}{name={CHEC-S}, description={CHEC utilising SiPMs as the photosensor.}}
+\newglossaryentry{fact}{type=\acronymtype, 
+	name={FACT}, 
+	description={First G-APD Cherenkov Telescope}, 
+	first={FACT (First G-APD Cherenkov Telescope)}
+}

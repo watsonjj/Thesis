@@ -20,7 +20,7 @@ Typically, the following features from the \gls{spe} spectra can be extracted wi
 \begin{figure}
 	\centering
     \includegraphics[width=\textwidth]{spe_checm_checs} 
-	\caption[(Repeated) Comparison of SPE spectra between CHEC-M and CHEC-S.]{Repeat of Figure~\ref{fig:spe_checm_checs}. Comparison of SPE spectra between CHEC-M (MAPMT) and CHEC-S (SiPM) for a single pixel, along with their corresponding fit function. In both cases, three illuminations are simultaneously fit.} 
+	\caption[(Repeated) Comparison of SPE spectra between CHEC-M and CHEC-S.]{Repeat of Figure~\ref{fig:spe_checm_checs}. Comparison of SPE spectra between CHEC-M (MAPMT) and CHEC-S (SiPM) for a single pixel, along with their corresponding fit function. In both cases, three illuminations are simultaneously fit. Values in legend correspond to the average illumination in photoelectrons obtained from the fit.} 
 	\label{fig:spe_checm_checs_repeat}
 \end{figure}
 
@@ -37,29 +37,29 @@ Typically, the following features from the \gls{spe} spectra can be extracted wi
 \label{table:spe_checm_checs_repeat}
 \end{table}
 
-As is illustrated in Figure~\ref{fig:spe_checm_checs_repeat}, the resolution of the \gls{spe} peaks obtained form an \gls{mapmt} is much lower than that obtained from an \gls{sipmt}, making it difficult to characterise the \gls{spe} spectrum by eye, or by simple fits using the aforementioned features. Additionally, many factors that contribute the \gls{spe} spectrum are hard to entangle. Therefore, an analytical description, that consolidates the contributing factors of the photosensor to generate the \gls{spe} spectrum observed, is used to fit the histogram.
+As is illustrated in Figure~\ref{fig:spe_checm_checs_repeat}, the resolution of the \gls{spe} peaks obtained from an \gls{mapmt} is much lower than that obtained from an \gls{sipmt}, making it difficult to characterise the \gls{spe} spectrum by eye, or by simple fits using the aforementioned features. Additionally, many factors that contribute to the \gls{spe} spectrum are hard to disentangle. Therefore, an analytical description that consolidates the contributing factors of the photosensor to generate the \gls{spe} spectrum observed is used to fit the histogram.
 
 \section{Software}
 
-The |extract_spe.py| script inside \pkg{CHECLabPy} allows the correct analytical function corresponding to the dataset to be chosen at runtime. It then utilises the |SpectrumFitter| class to flexibly fit $N$ datasets of different illuminations simultaneously. This simultaneous fit helps to disentangle certain parameters. In the case of the \glspl{sipmt} the optical crosstalk and average illumination are closely entangled, and a fit to a single illumination can have trouble providing accurate values. However, when increasing the average illumination, the optical crosstalk remains constant. The fit can therefore better constrain the difference each parameter contributes. Furthermore, the |extract_spe.py| script fits each pixel in parallel, considerably reducing the runtime.
+The |extract_spe.py| script inside \pkg{CHECLabPy} allows the correct analytical function corresponding to the dataset to be chosen at runtime. It then utilises the |SpectrumFitter| class to flexibly fit $N$ datasets of different illuminations simultaneously. This simultaneous fit helps to disentangle certain parameters. In the case of the \glspl{sipmt}, the optical crosstalk and average illumination are closely entangled, and a fit to a single illumination can have trouble providing accurate values. However, when increasing the average illumination, the optical crosstalk remains constant. The simultaneous fit can therefore better constrain the difference each parameter contributes. Furthermore, the |extract_spe.py| script fits each pixel in parallel, considerably reducing the runtime.
 
 \section{Multi-Anode Photomultiplier Tubes}
 
 The behaviour of a \gls{pmt} (which extends to \glspl{mapmt}) is very well understood, and is simple to quantify. 
 
-At an average illumination $\lambda$, there exists a probability to get either 0, 1, 2, 3...$k$ photoelectrons, defined by the Poisson distribution:
+At an average illumination $\lambda$, there exists a probability to get 0, 1, 2, 3...$k$ photoelectrons, defined by the Poisson distribution:
 \begin{equation} \label{eq:mapm_spe_poisson}
 P(k) = \me^{-\lambda} \frac{\lambda^k}{k!}.
 \end{equation}
 
-The distribution of values from Equation~\ref{eq:mapm_spe_poisson} are delta functions at each photoelectron value. This corresponds to the \gls{spe} spectrum you would measure for a perfect photosensor, with no electronic noise or \gls{enf}. 
+The distribution of values from Equation~\ref{eq:mapm_spe_poisson} are delta functions at each photoelectron value. This corresponds to the \gls{spe} spectrum one would measure for a perfect photosensor, with no electronic noise or \gls{enf}. 
 
 In the case $k = 0$ (the pedestal peak), the probability to measure a charge $q$ (in \si{mV}, \si{mVns}, \si{ADC}, or \si{\pe}, depending on the calibration applied and the charge extraction approach used) is represented as a Gaussian with area $P(0)$, standard deviation $\sigma_0$ (representing the variation in electronic noise), and a mean $\mu_0$ (as the baseline of the waveforms may not be corrected):
 \begin{equation} \label{eq:mapm_spe_ped}
 P(q) = e^{-\lambda} \frac{1}{\sqrt{2 \pi \sigma_0^2}} e^{-\frac{(q - \mu_0)^2}{2 \sigma_0^2}}.
 \end{equation}
 
-In the case $k > 0$, the mean and the standard deviation of the Gaussian increases with $k$. Additionally, the pedestal spread is also present in the $k > 0$ peaks. Therefore, the probability to measure a charge $q$ is expressed as a Gaussian with area $P(k)$. The standard deviation $\sigma(k)$ is expressed as the quadrature sum of the two contributions:
+In the case $k > 0$, the mean and the standard deviation of the Gaussian increases with $k$. Additionally, the pedestal spread is also present in the $k > 0$ peaks. Therefore, the probability to measure a charge $q$ is expressed as a Gaussian with area $P(k)$. The standard deviation $\sigma(k)$ is expressed as the quadratic sum of the two contributions:
 \begin{equation}
 \sigma(k) = \sqrt{\sigma_0^2 + k \sigma_1^2},
 \end{equation}

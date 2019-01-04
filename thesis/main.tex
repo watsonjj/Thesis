@@ -1,0 +1,338 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% OXFORD THESIS TEMPLATE
+
+% Use this template to produce a standard thesis that meets the Oxford University requirements for DPhil submission
+%
+% Originally by Keith A. Gillow (gillow@maths.ox.ac.uk), 1997
+% Modified by Sam Evans (sam@samuelevansresearch.org), 2007
+% Modified by John McManigle (john@oxfordechoes.com), 2015
+% Modified by Jason Watson (jason.watson@physics.ox.ac.uk), 2018
+%
+% This version Copyright (c) 2015-2017 John McManigle
+%
+% Broad permissions are granted to use, modify, and distribute this software
+% as specified in the MIT License included in this distribution's LICENSE file.
+%
+
+%%%%% PAGE LAYOUT
+% This one will format for two-sided binding (ie left and right pages have mirror margins; blank pages inserted where needed):
+%\documentclass[a4paper,twoside]{ociamthesis}
+% This one will format for one-sided binding (ie left margin > right margin; no extra blank pages):
+\documentclass[a4paper]{ociamthesis}
+% This one will format for PDF output (ie equal margins, no extra blank pages):
+%\documentclass[a4paper,nobind]{ociamthesis} 
+
+
+%%%%% PGF
+\usepackage{pgf}
+%\pgfplotsset{compat=1.12}
+\DeclareUnicodeCharacter{2212}{-}
+
+
+%%%%% DRAFT FOOTER
+%\fancyfoot[C]{\emph{DRAFT Printed on \today}}  
+
+
+%%%%% DRAFT CORRECTIONS
+% This highlights (in blue) corrections marked with (for words) \mccorrect{blah} or (for whole
+% paragraphs) \begin{mccorrection} . . . \end{mccorrection}.  This can be useful for sending a PDF of
+% your corrected thesis to your examiners for review.  Turn it off, and the blue disappears.
+%\correctionstrue
+
+
+%%%%% BIBLIOGRAPHY SETUP
+% Note that your bibliography will require some tweaking depending on your department, preferred format, etc.
+% The options included below are just very basic "sciencey" and "humanitiesey" options to get started.
+% If you've not used LaTeX before, I recommend reading a little about biblatex/biber and getting started with it.
+% If you're already a LaTeX pro and are used to natbib or something, modify as necessary.
+% Either way, you'll have to choose and configure an appropriate bibliography format...
+
+% The science-type option: numerical in-text citation with references in order of appearance.
+\usepackage[style=numeric-comp, sorting=none, backend=biber]{biblatex}
+\newcommand*{\bibtitle}{References}
+
+% This makes the bibliography left-aligned (not 'justified') and slightly smaller font.
+\renewcommand*{\bibfont}{\raggedright\small}
+
+% Change this to the name of your .bib file (usually exported from a citation manager like Zotero or EndNote).
+\addbibresource{bibtex/articles.bib}
+\addbibresource{bibtex/internal.bib}
+\addbibresource{bibtex/webpages.bib}
+
+
+% Uncomment this if you want equation numbers per section (2.3.12), instead of per chapter (2.18):
+%\numberwithin{equation}{subsection}
+
+
+%%%%% THESIS / TITLE PAGE INFORMATION
+\title{Calibration and Analysis of the GCT Camera for the Cherenkov Telescope Array}
+\author{Jason J. Watson}
+\college{Brasenose College}
+\degree{Doctor of Philosophy}
+\degreedate{Trinity 2018}
+
+
+%%%%% PERSONAL MACROS
+% Commands
+\newcommand{\quotes}[1]{``#1''}
+
+% New list method
+\newlength{\bulletwidth}\settowidth{\bulletwidth}{$\bullet$}
+\newcommand{\mitem}{\setlength{\leftskip}{\leftmargin}\hspace*{-\labelsep}\hspace*{-\bulletwidth}$\bullet$\hspace*{\labelsep}}
+\newcommand{\mend}{\setlength{\leftskip}{0cm}}
+\newcommand{\utilde}{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}
+
+% Abbreviations:s
+\usepackage[toc,acronym,shortcuts,nopostdot]{glossaries-prefix}
+%\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
+%\newcommand*\glsr[2][]{\glsdisp[#1]{#2}{\glsentryshort{#2} (\glsentrylong{#2})}}
+%\newcommand*\glsrpl[2][]{\glsdisp[#1]{#2}{\glsentryshortpl{#2} (\glsentrylongpl{#2})}}
+\input{text/01-acronym}
+% \newcommand{\glsf}[1]{\glsunset{#1}\glsentryfull{#1}}
+% \newcommand{\glsfpl}[1]{\glsunset{#1}\glsentryfullpl{#1}}
+\newcommand*{\glsb}[2][]{\ifglsused{#2}{\acs[#1]{#2}}{%
+ \glsunset{#2}%
+ \acl[#1]{#2} [\acs[#1]{#2}]}}
+
+% Nomenclature:
+%\newglossaryentry{angelsperarea}{
+%	name = $a$ ,
+%	description = The number of angels per unit area,
+%}
+\makeglossaries
+
+% To make text superscripts shortcuts
+\renewcommand{\th}{\textsuperscript{th}} % ex: I won 4\th place
+\newcommand{\nd}{\textsuperscript{nd}}
+\renewcommand{\st}{\textsuperscript{st}}
+\newcommand{\rd}{\textsuperscript{rd}}
+
+\usepackage{xargs}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+%\newcommandx{\change}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+%\newcommandx{\otherch}[2][1=]{\todo[linecolor=purple,backgroundcolor=purple!25,bordercolor=purple,#1]{#2}}
+%\newcommandx{\final}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+%\newcommandx{\notes}[2][1=]{\todo[linecolor=gray,backgroundcolor=gray!25,bordercolor=gray,#1]{#2}}
+%\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\usepackage{epigraph}
+% \epigraphsize{\small}% Default
+\setlength\epigraphwidth{8cm}
+\setlength\epigraphrule{0pt}
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\epigraph}{\@epitext{#1}}{\itshape\@epitext{#1}}{}{}
+\makeatother
+
+\usepackage{booktabs}
+
+\usepackage{rotating}
+
+\usepackage{listings}
+\lstset{
+	frameround=fttt,
+	language=C++,
+	breaklines=true,
+	keywordstyle=\color{gray}\bfseries, 
+	basicstyle=\ttfamily\color{gray},
+	numberstyle=\color{black}
+}
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=8pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,           % adds a frame around the code
+tabsize=2,          % sets default tabsize to 2 spaces
+captionpos=b,           % sets the caption-position to bottom
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)},          % if you want to add a comment within your code
+xleftmargin=1.5em,
+framexleftmargin=0.1em
+}
+\newcommand{\pkg}[1]{\texttt{#1}}
+\newcommand{\cpp}{{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}}
+\lstMakeShortInline[columns=fixed]|
+
+\newcommand*\average[1]{\bar{#1}}
+%\newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
+\newcommand{\me}{\mathrm{e}}
+
+\usepackage{textgreek}
+\usepackage{siunitx}
+\DeclareSIUnit{\pe}{{p.e.}}
+\sisetup{range-phrase=-, range-units=single}
+
+\usepackage{float}
+\usepackage[most]{tcolorbox}
+%\tcbset{enhanced,colback=white,colframe=gray!75!black,fonttitle=\bfseries}
+\newtcolorbox{requirement}[2][]{
+    %float=htb,
+    colback=white, 
+    colframe=gray!75!black,
+    every float=\centering,
+    lower separated=false,
+    fonttitle=\bfseries, 
+    title={#2},
+    #1
+}
+\newcommand{\requirementref}[1]{\textbf{#1}}
+
+\usepackage{graphicx,wrapfig,lipsum}
+\usepackage{subcaption}
+
+\newcommand{\hangpara}{
+ \setlength{\parindent}{0cm} % don't indent new paragraphs
+ \hangindent=0.8cm % indent all subsequent lines
+}
+
+\graphicspath{
+	{figures/}
+	{figures/ch1/}
+	{figures/ch2/}
+	{figures/ch3/}
+	{figures/ch4/}
+	{figures/ch5/}
+	{figures/ch6/}
+	{figures/ch7/}
+	{figures/ch8/}
+	{figures/ch9/}
+	{figures/a1/}
+	{figures/a2/}
+    {figures/a3/}
+    {figures/a4/}
+    {figures/a5/}
+}
+
+%\usepackage{lineno}
+%\linenumbers
+%\raggedbottom % Don't stretch line spacing to fill page
+
+\begin{document}
+
+
+%%%%% LINE SPACING
+% OFFICIAL
+\setlength{\textbaselineskip}{22pt plus2pt}
+% DRAFT
+%\setlength{\textbaselineskip}{18pt plus2pt minus1pt}
+
+
+%%%%% LINE SPACING (roman-numbered pages)
+\setlength{\frontmatterbaselineskip}{17pt plus1pt minus1pt}
+
+% Leave this line alone; it gets things started for the real document.
+\setlength{\baselineskip}{\textbaselineskip}
+
+
+%%%%% SECTION NUMBERING DEPTH
+% You have two choices.  First, how far down are sections numbered?  (Below that, they're named but
+% don't get numbers.)  Second, what level of section appears in the table of contents?  These don't have
+% to match: you can have numbered sections that don't show up in the ToC, or unnumbered sections that
+% do.  Throughout, 0 = chapter; 1 = section; 2 = subsection; 3 = subsubsection, 4 = paragraph...
+% The level that gets a number:
+\setcounter{secnumdepth}{2}
+% The level that shows up in the ToC:
+\setcounter{tocdepth}{2}
+
+
+%%%%% ABSTRACT SEPARATE
+\begin{abstractseparate}
+	\input{text/02-abstract}
+\end{abstractseparate}
+\glsresetall
+
+
+\begin{romanpages}
+
+
+%%%%% TITLEPAGE
+\maketitle
+
+%%%%% DEDICATION -- If you'd like one, un-comment the following.
+%\begin{dedication}
+%This thesis is dedicated to\\
+%someone\\
+%for some special reason\\
+%\end{dedication}
+
+%%%%% ACKNOWLEDGEMENTS
+\begin{acknowledgements}
+ 	\input{text/03-acknowledgements}
+\end{acknowledgements}
+
+
+\begin{declaration}
+	\input{text/04-declaration}
+\end{declaration}
+
+
+%%%%% ABSTRACT
+\begin{abstract}
+	\input{text/02-abstract}
+\end{abstract}
+\glsresetall
+
+%%%%% MINI TABLES OF CONTENTS
+\dominitoc
+
+
+% This aligns the bottom of the text of each page.  It generally makes things look better.
+\flushbottom
+
+
+%%%%% TABLE OF CONTENTS
+\tableofcontents
+
+
+%%%%% LIST OF FIGURES
+\listoffigures \mtcaddchapter
+
+
+%%%%% LIST OF ABBREVIATIONS
+\newpage
+\printglossary[nonumberlist,type=\acronymtype,title=Abbreviations] \mtcaddchapter
+\newpage
+\printglossary[nonumberlist,type=main,title=Glossary] \mtcaddchapter
+
+
+\end{romanpages}
+
+
+%%%%% CHAPTERS
+\flushbottom
+%\adjustmtc
+%\adjustmtc
+\include{text/ch1-intro}
+\include{text/ch2-mechanics}
+\include{text/ch3-architecture}
+\include{text/ch4-software}
+\include{text/ch5-calibration}
+\include{text/ch6-reduction}
+\include{text/ch7-performance}
+\include{text/ch8-onsky}
+\include{text/ch9-summary}
+
+
+% %%%%% APPENDICES
+\startappendices
+\include{text/a1-sipm}
+\include{text/a2-lab}
+\include{text/a3-spe}
+\include{text/a4-tf}
+\include{text/a5-extractors}
+
+%%%%% REFERENCES
+\setlength{\baselineskip}{0pt}
+{\renewcommand*\MakeUppercase[1]{#1}
+\printbibliography[heading=bibintoc,title={\bibtitle}]}
+
+
+\end{document}
