@@ -6,7 +6,7 @@
 
 In Chapter~\ref{ch6-reduction}, the different algorithms for extracting charge from a waveform are extensively discussed, as well as the important considerations one must be vigilant of when producing a charge-extraction algorithm. The purpose of this appendix is to demonstrate the performance of the \textit{Cross Correlation} charge-extraction method, in contrast to the simpler \textit{Window Integration} approach. I performed this investigation in the context of the \gls{chec-s} prototype.
 
-\section{Integration Window}
+\section{Window Integration}
 
 \begin{figure}
   \includegraphics[width=\textwidth]{charge_extraction_window_wf}
@@ -54,7 +54,17 @@ where $\mu_\text{on}$ is the average signal extracted from the ``on'' region, an
 
 In Figure~\ref{fig:snr_noc} the conflict between a large window size to contain the full signal, and a small window to minimise noise is evident, resulting in a limited region in which a high signal-to-noise can be achieved. In conclusion, an integration window width of 5 samples and a shift of 2 samples appeared to be optimal for a noise of \SI{125}{MHz}, for both small and large amplitudes (Figures~\ref{fig:amp1nsb125} and \ref{fig:amp50nsb125} respectively). This integration window is demonstrated in Figure~\ref{fig:charge_extraction_window_wf}. As the \textit{Charge Resolution} requirements are defined at an \gls{nsb} of \SI{125}{MHz}, these window parameters are adopted for the following investigations.
 
-\subsection{Comparison with \textit{Cross Correlation}}
+\section{Impact of Pulse Shape} \label{section:pulse_shape_impact}
+
+\begin{figure}
+	\includegraphics[width=0.9\textwidth]{cc_pulse_shape}
+	\caption[Relative charge extracted for different pulse shapes.]{The charge extracted from a normalised average waveform for each illumination. The pulse shape at each illumination is characterised in Figure~\ref{fig:pulse_shape_lab}. The points and error bars correspond to the mean and standard deviation across all the pixels in the camera (excluding dead pixels), respectively. This exercise was performed for both the \textit{Cross Correlation} and \textit{Window Integration} charge extraction methods.}
+	\label{fig:pulse_shape_extraction}
+\end{figure}
+
+In Section~\ref{section:labvsmc} I highlight the reliance of the \textit{Cross Correlation} charge extraction approach on the reference pulse used. A mismatch between the shape of the waveform and reference pulse could result in a poor extraction of charge. This especially becomes concerning when the shape of the pulse is demonstrated to change with amplitude, as in Figure~\ref{fig:pulse_shape_lab}. The combination of the changing pulse shape and the use of the \textit{Cross Correlation} technique could therefore be responsible for the discrepancy observed in the \textit{Charge Resolution} comparison between simulation and reality (Figure~\ref{fig:cr_2_lab_vs_mc}). Conversely, one would expect a lower dependence on pulse shape for the \textit{Window Integration} approach, as it assumes no pulse shape. Figure~\ref{fig:pulse_shape_extraction} displays the relative charge extracted for a range of amplitudes (therefore exploring a range of pulse shapes) for both the \textit{Cross Correlation} and \textit{Window Integration} charge extraction approaches. I observe a maximum change of \SI{15}{\percent} in the charge that is extracted between different pulse shapes (in the non-saturated region). However, the charge extracted between the two extraction techniques appears to be consistent, suggesting that the variations in charge extracted is not due to a dependence on an assumed pulse shape. I therefore conclude that the reference pulse shape used for the \textit{Cross Correlation} technique is acceptable for the range of pulse shape variations observed with \gls{chec-s}. It is unlikely that the interplay between the changing pulse shape and the \textit{Cross Correlation} technique is the reason for the discrepancy between the \textit{Charge Resolutions}, and a similar discrepancy would be seen with the \textit{Window Integration} technique. To fully explore this, the \textit{Charge Resolutions} obtained for the two extraction techniques must be compared.
+
+\section{Charge Resolution}
 
 As described previously in the thesis, the most appropriate performance criterion for a charge extraction technique used for a \gls{cta} camera is the \textit{Charge Resolution}. Outlined in Section~\ref{section:crprocedure} are the names I have defined to distinguish between different \textit{Charge Resolution} procedures, each using different datasets and/or procedures. In order to evaluate the performance of the \textit{Cross Correlation} technique with respect to a simple integration window, their resulting \textit{Charge Resolutions} were compared in investigations that explore the relevant parameter space.
 
@@ -72,7 +82,7 @@ The first comparison is shown in Figure~\ref{fig:cr_8_ce_comparison_lab}. It exp
   \label{fig:cr_8_ce_comparison_opct40}
 \end{figure}
 
-In a comparison of the two extraction approaches when used in a simulation using the \gls{chec-s} model, shown in Figure~\ref{fig:cr_8_ce_comparison_opct40}, it is evident that the \textit{Cross Correlation} approach performs worse than the \textit{Window Integration}, especially at higher \gls{nsb}.
+In a comparison of the two extraction approaches when used in a simulation using the \gls{chec-s} model, shown in Figure~\ref{fig:cr_8_ce_comparison_opct40}, it is evident that the \textit{Cross Correlation} approach performs worse than the \textit{Window Integration}, especially at higher \gls{nsb}. It is also evident that the \textit{Window Integration} displays a similar discrepancy between simulation and reality, enforcing the conclusions made in Section~\ref{section:pulse_shape_impact}.  
 
 \begin{figure}
   \includegraphics[width=0.9\textwidth]{cr_8_ce_comparison_opct20}
@@ -90,7 +100,7 @@ Figure~\ref{fig:cr_8_ce_comparison_opct20} shows a similar comparison to the pre
 
 Finally, in Figure~\ref{fig:cr_8_ce_comparison_high_noise} a simulation of \gls{chec-s} is used, but with a factor of 10 higher electronic noise. As a result, the \textit{Cross Correlation} technique significantly improves the performance with respect to the \textit{Window Integrator}.
 
-\subsection{Conclusion}
+\section{Conclusion}
 
 The comparisons of \textit{Charge Resolution} have confirmed our understanding of the \textit{Cross Correlation} method:
 \begin{itemize}
