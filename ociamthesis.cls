@@ -110,8 +110,8 @@
    \newpage
    \if@twocolumn\hbox{}\newpage
    \fi
-   \fancyhead[LO]{\emph{\leftmark}} 
-   \fancyhead[RE]{\emph{\rightmark}} 
+   \fancyhead[LO]{\emph{\rightmark}} 
+   \fancyhead[RE]{\emph{\leftmark}} 
    \fi\fi}
 
 
