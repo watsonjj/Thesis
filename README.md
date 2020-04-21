@@ -1,6 +1,6 @@
 <img src="https://upload.wikimedia.org/wikipedia/en/2/2f/University_of_Oxford.svg" width="700">
 
-# thesis
+# DPhil Thesis
 
 Thesis for DPhil at the University of Oxford, "Calibration and Analysis of the GCT Camera for the Cherenkov Telescope Array"
 
